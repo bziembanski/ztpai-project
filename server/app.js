@@ -11,7 +11,7 @@ app.use((req, res, next) => {
 
 app.get('/', (req, res) => {
     res.json({message: 'Hello world!'});
-    console.log("response send");
+    console.log("index");
 });
 
 app.get('/users', db.getUsers);

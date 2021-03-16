@@ -15,7 +15,7 @@ import Slide from '@material-ui/core/Slide';
 const useStyles = makeStyles((theme) => ({
     menuLink:{
         textDecoration:'none',
-        color: theme.palette.text.primary,
+        color: '#fafafa',
         margin: theme.spacing(3)
     }
 }));
@@ -47,6 +47,10 @@ function Header(props){
         {
             menuTitle: 'Zaloguj się',
             pageUrl: "/login"
+        },
+        {
+            menuTitle: 'Brak strony',
+            pageUrl: "/brak"
         }
     ];
 
@@ -54,15 +58,17 @@ function Header(props){
         <HideOnScroll>
             <AppBar>
                 <Toolbar>
-                    {menuItems.map((item) => {
-                        return(
-                            <NavLink className={classes.menuLink} key={item.menuTitle} to={item.pageUrl}> 
-                                <Typography variant="h5">
-                                    {item.menuTitle}
-                                </Typography>
-                            </NavLink>
-                        )
-                    })}
+                    {
+                        menuItems.map((item) => {
+                            return(
+                                <NavLink className={classes.menuLink} key={item.menuTitle} to={item.pageUrl}>
+                                    <Typography variant="h5">
+                                        {item.menuTitle}
+                                    </Typography>
+                                </NavLink>
+                            )
+                        })
+                    }
                 </Toolbar>
             </AppBar>
         </HideOnScroll>

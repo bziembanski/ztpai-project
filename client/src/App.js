@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import {
     BrowserRouter as Router,
     Switch,
-    Route
+    Route,
+    Redirect
 } from "react-router-dom";
 import LoginPage from './views/LoginPage/LoginPage';
 import HomePage from './views/HomePage/HomePage';
@@ -36,6 +37,9 @@ function App() {
                 </Route>
                 <Route path="/">
                     <HomePage />
+                </Route>
+                <Route path="*">
+                    <LoginPage/>
                 </Route>
             </Switch>
         </Router>

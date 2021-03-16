@@ -27,9 +27,9 @@ function LoginPage(props){
         >
             <Grid 
                 item
-                xs={12} 
+                xs={11}
                 sm={8} 
-                md={5}
+                md={6}
                 className={classes.formGrid}  
             >
                 <Paper 
@@ -37,12 +37,29 @@ function LoginPage(props){
                     square 
                     className={classes.fullHeight} >
                     <Box height={'100%'} p={3}>
-                        <form
-                            className={classes.fullHeight}
+                        <Grid
+                            container
+                            component="form"
                             autoComplete="on"
+                            spacing={2}
+                            fullWidth
                         >
-                            <TextField type="text" label="Username" variant="outlined" />
-                        </form>
+                            <Grid
+                                item
+                                xs={12}
+                                sm={6}
+                            >
+                                <TextField type="text" label="Imię" fullWidth />
+                            </Grid>
+
+                            <Grid
+                                item
+                                xs={12}
+                                sm={6}
+                            >
+                                <TextField type="text" label="Nazwisko" fullWidth/>
+                            </Grid>
+                        </Grid>
                     </Box>
                     
                 </Paper>

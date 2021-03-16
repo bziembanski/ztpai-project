@@ -21,6 +21,7 @@ const getUsers = (req, res) => {
             res.status(200).json(results.rows);
         }
     );
+    console.log("getUsers")
 }
 
 module.exports = {
