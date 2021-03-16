@@ -2,20 +2,16 @@ import {useState} from 'react';
 import {
     AppBar,
     Toolbar,
-    Typography,
-    Container,
     useMediaQuery,
-    MenuList,
-    MenuItem,
-    IconButton,
-    Drawer
 } from '@material-ui/core';
-import MenuIcon from "@material-ui/icons/Menu";
 import {NavLink} from "react-router-dom";
 import {withRouter} from 'react-router-dom';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
+
+import DesktopNavItems from "../NavItems/DesktopNavItems";
+import MobileNavItems from "../NavItems/MobileNavItems";
 
 const useStyles = makeStyles((theme) => ({
     menuLink: {
@@ -25,7 +21,8 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: theme.spacing(3),
         [theme.breakpoints.down('sm')]: {
             margin: theme.spacing(0),
-        }
+        },
+        color:"inherit"
     },
     logo: {
         background: "white"
@@ -33,16 +30,26 @@ const useStyles = makeStyles((theme) => ({
     menuButtonWrapper: {
         flexGrow: 1,
     },
+    cancelButtonWrapper:{
+        display:"flex",
+        flexDirection:"row",
+        justifyContent:"flex-end",
+    },
     menuWrapper: {
         display: "flex",
         flexDirection: 'row',
         flexGrow: 1
     },
     drawerPaper: {
-        width: '70vw'
+        width: 300
     },
     fullList: {
         width:"auto"
+    },
+    iconButton:{
+        '& svg': {
+            fontSize: 48
+        }
     }
 }));
 
@@ -67,7 +74,7 @@ function Header() {
     const [open, setOpen] = useState(false);
 
     const toggleDrawer = (open) => (event) => {
-        if (event.type === 'keydown' &&(event.key === 'Tab' || event.key === 'Shift')) {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
         }
         setOpen(open);
@@ -97,60 +104,19 @@ function Header() {
         <HideOnScroll>
             <AppBar color="inherit">
                 <Toolbar>
-                    {isMobile ? (
-                        <Container disableGutters={true} maxWidth="xl" className={classes.menuButtonWrapper}>
-                            <IconButton
-                                edge="start"
-                                className={classes.menuButton}
-                                color="secondary"
-                                aria-label="menu"
-                                onClick={toggleDrawer(true)}
-                            >
-                                <MenuIcon/>
-                            </IconButton>
-                            <Drawer
-                                anchor="left"
+                    { isMobile
+                        ?
+                            <MobileNavItems
+                                classes={classes}
+                                menuItems={menuItems}
+                                toggleDrawer={toggleDrawer}
                                 open={open}
-                                onClose={toggleDrawer(false)}
-                                classes={{paper: classes.drawerPaper}}
-                            >
-                                <div
-                                    className={classes.fullList}
-                                    role="presentation"
-                                    onClick={toggleDrawer(false)}
-                                    onKeyDown={toggleDrawer(false)}
-                                >
-                                    <MenuList>
-                                        {menuItems.map(item => {
-                                            return (
-                                                <NavLink className={classes.menuLink} to={item.pageUrl} key={item.menuTitle}>
-                                                    <MenuItem>
-                                                        <Typography color="secondary" variant="h6">
-                                                            {item.menuTitle}
-                                                        </Typography>
-                                                    </MenuItem>
-                                                </NavLink>
-                                            );
-                                        })}
-                                    </MenuList>
-                                </div>
-                            </Drawer>
-                        </Container>
-                    ) : (
-                        <Container disableGutters={true} maxWidth="xl" className={classes.menuWrapper}>
-                            {
-                                menuItems.map((item) => {
-                                    return (
-                                        <NavLink className={classes.menuLink} key={item.menuTitle} to={item.pageUrl}>
-                                            <Typography color="secondary" variant="h6">
-                                                {item.menuTitle}
-                                            </Typography>
-                                        </NavLink>
-                                    )
-                                })
-                            }
-                        </Container>
-                    )
+                            />
+                        :
+                            <DesktopNavItems
+                                classes={classes}
+                                menuItems={menuItems}
+                            />
                     }
                     <NavLink to="/">
                         <img height={32} alt="logo-dibeda" src="/logo.svg"/>
