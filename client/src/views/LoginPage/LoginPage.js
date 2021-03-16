@@ -109,11 +109,10 @@ function LoginPage(){
                             </Grid>
                         </Grid>
                     </Box>
-                    
                 </Paper>
-
             </Grid>
         </Grid>
-    )
+    );
 }
+
 export default LoginPage;

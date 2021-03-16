@@ -44,7 +44,6 @@ function ErrorPage(){
                 </Typography>
             </Grid>
         </Grid>
-
     );
 }
 

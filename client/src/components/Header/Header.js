@@ -124,7 +124,7 @@ function Header() {
                 </Toolbar>
             </AppBar>
         </HideOnScroll>
-    )
+    );
 }
 
 export default withRouter(Header);
