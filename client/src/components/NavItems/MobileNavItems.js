@@ -2,7 +2,6 @@ import {NavLink} from "react-router-dom";
 import {Container, Drawer, IconButton, MenuItem, MenuList, Typography} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import CloseIcon from "@material-ui/icons/Close";
-import {makeStyles} from "@material-ui/core/styles";
 
 function MobileNavItems(props){
     return(
