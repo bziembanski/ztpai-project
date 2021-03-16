@@ -1,14 +1,12 @@
 import {
     AppBar,
     Toolbar,
-    Drawer,
-    useMediaQuery,
     Typography
 } from '@material-ui/core';
 
 import {NavLink} from "react-router-dom";
 import {withRouter} from 'react-router-dom';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
 
@@ -35,22 +33,26 @@ function HideOnScroll(props) {
 }
 
 function Header(props){
-    const theme = useTheme();
+    //const theme = useTheme();
     const classes = useStyles();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    //const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const menuItems=[
         {
-            menuTitle: 'Głowna',
+            menuTitle: 'Główna',
             pageUrl: "/"
         },
         {
-            menuTitle: 'Zaloguj się',
-            pageUrl: "/login"
+            menuTitle: 'Ogłoszenia',
+            pageUrl: "/search"
         },
         {
-            menuTitle: 'Brak strony',
-            pageUrl: "/brak"
+            menuTitle: 'Profil',
+            pageUrl: "/profile"
+        },
+        {
+            menuTitle: 'Dodaj ogłoszenie',
+            pageUrl: "/addannouncement"
         }
     ];
 
