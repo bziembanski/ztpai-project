@@ -5,9 +5,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import {makeStyles} from "@material-ui/core/styles";
 
 function MobileNavItems(props){
-    const styles= makeStyles((theme) => ({
-
-    }));
     return(
         <>
             <Container disableGutters={true} maxWidth="xl" className={props.classes.menuButtonWrapper}>
@@ -63,6 +60,6 @@ function MobileNavItems(props){
                 </MenuList>
             </Drawer>
         </>
-    )
+    );
 }
 export default MobileNavItems;
