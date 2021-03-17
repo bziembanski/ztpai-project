@@ -92,7 +92,7 @@ function SignInPage(){
                                     onChange={e => setName(e.target.value)}
                                     color="secondary"
                                     type="text"
-                                    label="Name"
+                                    label="Imię"
                                     fullWidth />
                             </Grid>
                             <Grid
@@ -106,7 +106,7 @@ function SignInPage(){
                                     onChange={e => setSurname(e.target.value)}
                                     color="secondary"
                                     type="text"
-                                    label="Surname"
+                                    label="Nazwisko"
                                     fullWidth />
                             </Grid>
                             <Grid
