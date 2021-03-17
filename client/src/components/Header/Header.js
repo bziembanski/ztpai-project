@@ -96,7 +96,7 @@ function Header() {
         },
         {
             menuTitle: 'Dodaj ogłoszenie',
-            pageUrl: "/addannouncement"
+            pageUrl: "/add-announcement"
         }
     ];
 

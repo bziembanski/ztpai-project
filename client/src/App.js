@@ -28,7 +28,7 @@ function App() {
                 <Route path="/" exact={true} component={HomePage} />
                 <Route path="/search" component={SearchPage}/>
                 <Route path="/profile" component={ProfilePage}/>
-                <Route path="/addannouncement" component={AddAnnouncementPage}/>
+                <Route path="/add-announcement" component={AddAnnouncementPage}/>
                 <Route path="/404" component={ErrorPage} />
                 <Redirect to="/404"/>
             </Switch>

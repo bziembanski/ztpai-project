@@ -1,7 +1,8 @@
 import {useState} from 'react';
-import { makeStyles, TextField, Box, Button } from '@material-ui/core';
+import {makeStyles, TextField, Box, Button, Typography} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import {NavLink} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -13,6 +14,11 @@ const useStyles = makeStyles((theme) => ({
     },
     fullHeight:{
         height:'100%',
+    },
+    signinLink:{
+        [theme.breakpoints.down('xs')]:{
+            order:1
+        }
     }
 }));
 
@@ -51,8 +57,10 @@ function LoginPage(){
                 justify="center"
                 item
                 xs={11}
-                sm={8} 
-                md={6}
+                sm={10}
+                md={7}
+                lg={5}
+                xl={3}
                 className={classes.formGrid}  
             >
                 <Paper
@@ -101,7 +109,23 @@ function LoginPage(){
                             <Grid
                                 item
                                 xs={12}
-                                sm={6}
+                                sm={7}
+                                md={6}
+                                lg={7}
+                                className={classes.signinLink}
+                            >
+                                <NavLink to='/signin'>
+                                    <Typography color="secondary" variant="subtitle2">
+                                        Nie masz konta? Zarejstruj się!
+                                    </Typography>
+                                </NavLink>
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                sm={5}
+                                md={6}
+                                lg={5}
                             >
                                 <Button type="submit" fullWidth variant="contained" color="secondary">
                                     Zaloguj

@@ -28,6 +28,11 @@ app.post('/login', (req, res) => {
     res.json({wiadomosc: "ok"});
 });
 
+app.post('/signin', (req, res) => {
+    console.log(req.body);
+    res.json({wiadomosc: "ok"});
+});
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
