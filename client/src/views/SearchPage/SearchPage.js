@@ -70,7 +70,7 @@ function SearchPage(){
             <Grid
                 container
                 item
-                xs={11}
+                xs={12}
                 sm={8}
                 md={5}
                 lg={4}

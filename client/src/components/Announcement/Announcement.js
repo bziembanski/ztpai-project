@@ -13,9 +13,6 @@ import PanToolIcon from "@material-ui/icons/PanTool";
 import ModeCommentIcon from "@material-ui/icons/ModeComment";
 
 const useStyles = makeStyles((theme) => ({
-    expand: {
-        marginLeft: "auto"
-    },
     actionText: {
         marginLeft: theme.spacing(1)
     }
@@ -25,7 +22,7 @@ function Announcement(props){
     const classes = useStyles();
     return(
         <Card className={classes.root}>
-            <CardHeader
+            <CardHeader disableTypography={true}
                 avatar={<Avatar variant="square">R</Avatar>}
                 title={
                     <Typography variant="body1" color="primary" component="p">
@@ -34,7 +31,7 @@ function Announcement(props){
                 subheader={props.date}
             />
             <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
+                <Typography variant="body2" color="textPrimary" component="p">
                     {props.description}
                 </Typography>
             </CardContent>
@@ -45,7 +42,7 @@ function Announcement(props){
                         className={classes.actionText}
                         variant="button"
                     >
-                        Zainteresowany
+                        Chętny
                     </Typography>
                 </Button>
                 <Button color="primary">
@@ -57,8 +54,14 @@ function Announcement(props){
                         Napisz
                     </Typography>
                 </Button>
-                <Button color="primary" className={classes.expand}>
-                    <CloseIcon/>
+                <Button color="primary">
+                    <CloseIcon />
+                    <Typography
+                        className={classes.actionText}
+                        variant="button"
+                    >
+                        Odrzuć
+                    </Typography>
                 </Button>
             </CardActions>
         </Card>

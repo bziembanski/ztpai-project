@@ -32,7 +32,6 @@ function MobileNavItems(props){
                         color="secondary"
                         aria-label="menu"
                         onClick={props.toggleDrawer(false)}
-                        size="large"
                         className={props.classes.iconButton}
                     >
                         <CloseIcon/>
