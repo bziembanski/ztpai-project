@@ -14,7 +14,10 @@ import ModeCommentIcon from "@material-ui/icons/ModeComment";
 
 const useStyles = makeStyles((theme) => ({
     actionText: {
-        marginLeft: 4
+        [theme.breakpoints.down("xs")]:{
+            marginLeft: 4
+        },
+        marginLeft: theme.spacing(1)
     }
 }));
 
