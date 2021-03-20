@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         width:'100%'
     },
     expandButton:{
-        padding:theme.spacing(0)
+        padding:theme.spacing(1)
     },
     formControl:{
         padding:theme.spacing(2)

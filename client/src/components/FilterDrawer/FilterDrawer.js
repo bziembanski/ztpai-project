@@ -4,12 +4,13 @@ import {
     Paper,
     Typography,
     Grid,
-    makeStyles,
+    makeStyles, TextField,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import FilterCheckboxGroup from "../FilterCheckboxGroup/FilterCheckboxGroup";
 import FilterSelect from "../FilterSelect/FilterSelect";
 import FilterSlider from "../FilterSlider/FilterSlider";
+import {useState} from "react";
 
 const useStyles = makeStyles((theme) => ({
     filterDrawer:{
@@ -62,13 +63,15 @@ function FilterDrawer(props){
                 "mechanika",
                 "ogrodnictwo",
                 "elektryka",
-                "budownictwo"
+                "budownictwo",
+                "inna"
             ]
         },
     ];
     const classes = useStyles();
     const isDrawerOpen = props.isDrawerOpen;
     const filterDrawerHandler = props.filterDrawerHandler
+    const [searchBox, setSearchBox] = useState();
     return(
         <Drawer
             anchor="left"
@@ -96,6 +99,18 @@ function FilterDrawer(props){
                 className={classes.filtersWrapper}
                 justify="flex-start"
                 alignItems="center">
+
+                <Grid
+                    item
+                    xs={12}
+                >
+                    <TextField
+                        fullWidth
+                        name="searchBox"
+                        label={<Typography variant="body2">Szukaj</Typography>}
+                        value={searchBox}
+                        onChange={(event)=>{setSearchBox(event.target.value)}}/>
+                </Grid>
                 {
                     filtersData.map((filter, key) => {
                         if(filter.type === "select"){
@@ -135,7 +150,6 @@ function FilterDrawer(props){
                     })
                 }
             </Grid>
-
         </Drawer>
     );
 }

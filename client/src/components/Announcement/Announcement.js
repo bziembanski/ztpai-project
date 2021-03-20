@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
 function Announcement(props){
     const classes = useStyles();
     return(
-        <Card className={classes.root}>
+        <Card className={classes.root} elevation={2}>
             <CardHeader disableTypography={true}
                 avatar={<Avatar variant="square">R</Avatar>}
                 title={

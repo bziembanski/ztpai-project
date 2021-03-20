@@ -1,7 +1,14 @@
 import {useState} from 'react';
-import {Grid, makeStyles, Link, Button, Typography, withStyles} from "@material-ui/core";
+import {
+    Grid,
+    makeStyles,
+    Button,
+    Typography,
+    withStyles
+} from "@material-ui/core";
 import Announcement from "../../components/Announcement/Announcement";
 import FilterDrawer from "../../components/FilterDrawer/FilterDrawer";
+import announcements from "../../anns";
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -42,48 +49,7 @@ const LinkButton = withStyles({
 function SearchPage(){
     const classes = useStyles();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const anns = [
-        {
-            title: "Lorem ipsum dolor sit amet, consectetur adipiscing",
-            date: "18.03.2021",
-            description:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                "Dis morbi at facilisis cursus. Dignissim ipsum mattis aliquet ultrices. " +
-                "Tortor elementum amet, sagittis, fermentum amet at."
-        },
-        {
-            title: "Lorem ipsum dolor sit amet, consectetur adipiscing",
-            date: "18.03.2021",
-            description:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                "Dis morbi at facilisis cursus. Dignissim ipsum mattis aliquet ultrices. " +
-                "Tortor elementum amet, sagittis, fermentum amet at."
-        },
-        {
-            title: "Lorem ipsum dolor sit amet, consectetur adipiscing",
-            date: "18.03.2021",
-            description:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                "Dis morbi at facilisis cursus. Dignissim ipsum mattis aliquet ultrices. " +
-                "Tortor elementum amet, sagittis, fermentum amet at."
-        },
-        {
-            title: "Lorem ipsum dolor sit amet, consectetur adipiscing",
-            date: "18.03.2021",
-            description:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                "Dis morbi at facilisis cursus. Dignissim ipsum mattis aliquet ultrices. " +
-                "Tortor elementum amet, sagittis, fermentum amet at."
-        },
-        {
-            title: "Lorem ipsum dolor sit amet, consectetur adipiscing",
-            date: "18.03.2021",
-            description:
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                "Dis morbi at facilisis cursus. Dignissim ipsum mattis aliquet ultrices. " +
-                "Tortor elementum amet, sagittis, fermentum amet at."
-        }
-    ]
+    const [anns, setAnns] = useState(announcements);
     const filterDrawerHandler = (open) => () => {
         setIsDrawerOpen(open);
     }
@@ -92,7 +58,7 @@ function SearchPage(){
             container
             component="main"
             className={classes.root}
-            alignItems="center"
+            alignItems="flex-start"
             justify="center"
         >
             <Grid
@@ -151,7 +117,7 @@ function SearchPage(){
                                 description={ann.description}
                             />
                         </Grid>
-                    )
+                    );
                 })}
             </Grid>
             <FilterDrawer
