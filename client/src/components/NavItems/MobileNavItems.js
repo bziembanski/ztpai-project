@@ -6,7 +6,7 @@ import CloseIcon from "@material-ui/icons/Close";
 function MobileNavItems(props){
     return(
         <>
-            <Container disableGutters={true} maxWidth="xl" className={props.classes.menuButtonWrapper}>
+            <Container disableGutters={true} className={props.classes.menuButtonWrapper}>
                 <IconButton
                     edge="start"
                     color="secondary"

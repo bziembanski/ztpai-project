@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             margin: theme.spacing(0),
         },
-        color:"inherit"
+        color:"inherit",
     },
     logo: {
         background: "white"
@@ -41,14 +41,14 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1
     },
     drawerPaper: {
-        width: 300
+        width: theme.drawerWidth
     },
     fullList: {
         width:"auto"
     },
     iconButton:{
         '& svg': {
-            fontSize: 48
+            fontSize: 32
         }
     }
 }));

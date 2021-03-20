@@ -15,7 +15,8 @@ const customTheme = createMuiTheme({
             'Comfortaa',
             'Roboto'
         ]
-    }
+    },
+    drawerWidth:350
 })
 
 export default customTheme;
