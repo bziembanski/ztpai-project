@@ -51,7 +51,6 @@ function FilterSelect(props){
                 valueLabelDisplay="auto"
                 ValueLabelComponent={ValueLabelComponent}
                 getAriaValueText={valuetext}
-                valueLabelFormat={valuetext}
             />
         </FormControl>
     );

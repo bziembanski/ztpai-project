@@ -29,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     filtersWrapper:{
-        maxWidth:'100%',
         padding:theme.spacing(2)
     },
 }));
@@ -52,7 +51,7 @@ function FilterDrawer(props){
             data:{
                 min:0,
                 max:150,
-                step:5,
+                step:1,
                 value:[0, 100]
             }
         },
@@ -91,7 +90,12 @@ function FilterDrawer(props){
                     <CloseIcon/>
                 </IconButton>
             </Paper>
-            <Grid container spacing={3} className={classes.filtersWrapper} justify="flex-start" alignItems="center">
+            <Grid
+                container
+                spacing={3}
+                className={classes.filtersWrapper}
+                justify="flex-start"
+                alignItems="center">
                 {
                     filtersData.map((filter, key) => {
                         if(filter.type === "select"){

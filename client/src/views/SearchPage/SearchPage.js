@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Grid, makeStyles, Link} from "@material-ui/core";
+import {Grid, makeStyles, Link, Button, Typography, withStyles} from "@material-ui/core";
 import Announcement from "../../components/Announcement/Announcement";
 import FilterDrawer from "../../components/FilterDrawer/FilterDrawer";
 
@@ -32,6 +32,12 @@ const useStyles = makeStyles((theme) => ({
         }
     }
 }));
+
+const LinkButton = withStyles({
+    root:{
+        textTransform:"none"
+    }
+})(Button);
 
 function SearchPage(){
     const classes = useStyles();
@@ -106,14 +112,21 @@ function SearchPage(){
                     lg={4}
 
                 >
-                    <Link
-                        variant="body1"
-                        color="secondary"
+                    <LinkButton
                         onClick={filterDrawerHandler(true)}
                         className={classes.filterButton}
-                        href="#">
-                        Filtruj/Sortuj
-                    </Link>
+                        href="#"
+                        disableElevation
+                        size="small"
+                    >
+                        <Typography
+                            variant="body1"
+                            color="secondary"
+                        >
+                            Filtruj/Sortuj
+                        </Typography>
+
+                    </LinkButton>
                 </Grid>
             </Grid>
             <Grid
