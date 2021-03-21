@@ -18,14 +18,6 @@ const useStyles = makeStyles((theme) => ({
     },
     formGrid:{
         height: '70%',
-    },
-    fullHeight:{
-        height:'100%',
-    },
-    signinLink:{
-        [theme.breakpoints.down('xs')]:{
-            order:1
-        }
     }
 }));
 
@@ -35,13 +27,13 @@ function AddAnnouncementPage(){
         title:"",
         description:"",
         category:0,
-        wage:undefined
+        wage:""
     })
 
     const handleChange = (event) => {
         setForm({
             ...form,
-            [event.target.name]: [event.target.value]
+            [event.target.name]: event.target.value
         })
     }
 
@@ -102,6 +94,8 @@ function AddAnnouncementPage(){
                             >
                                 <TextField
                                     name="title"
+                                    value={form.title}
+                                    onChange={handleChange}
                                     label="Tytuł ogłoszenia"
                                     type="text"
                                     fullWidth
@@ -115,6 +109,8 @@ function AddAnnouncementPage(){
                                 <TextField
                                     name="description"
                                     label="Opis ogłoszenia"
+                                    value={form.description}
+                                    onChange={handleChange}
                                     type="text"
                                     multiline
                                     rows={4}
@@ -136,6 +132,8 @@ function AddAnnouncementPage(){
                                     name="wage"
                                     label="Wynagrodzenie za godzinę"
                                     inputProps={{max:999, min:0}}
+                                    value={form.wage}
+                                    onChange={handleChange}
                                     type="number"
                                     fullWidth
                                     color="secondary"

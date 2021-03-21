@@ -1,6 +1,6 @@
-import {createMuiTheme} from '@material-ui/core/styles';
+import {unstable_createMuiStrictModeTheme as createMuiTheme, responsiveFontSizes} from '@material-ui/core/styles';
 
-const customTheme = createMuiTheme({
+let customTheme = createMuiTheme({
     palette:{
         type:'light',
         primary:{
@@ -18,5 +18,7 @@ const customTheme = createMuiTheme({
     },
     drawerWidth:350
 })
+
+customTheme = responsiveFontSizes(customTheme);
 
 export default customTheme;

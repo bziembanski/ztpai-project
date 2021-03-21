@@ -15,7 +15,7 @@ const filters = [
         data:{
             min:0,
             max:150,
-            step:1,
+            step:5,
             value:[0, 100]
         }
     },

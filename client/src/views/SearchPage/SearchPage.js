@@ -13,13 +13,10 @@ import announcements from "../../anns";
 const useStyles = makeStyles((theme) => ({
     root:{
         [theme.breakpoints.down('sm')]:{
-            height: 'calc(100vh - 56px)',
             marginTop: 56
         },
-        height: 'calc(100vh - 64px)',
         marginTop:64,
-        backgroundColor:theme.palette.background.default,
-        overflow: "auto"
+        backgroundColor:theme.palette.background.default
     },
     announcementsContainer:{
         paddingTop:theme.spacing(3),

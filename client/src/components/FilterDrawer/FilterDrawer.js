@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
     filtersWrapper:{
         padding:theme.spacing(2)
     },
+    filtersElement:{
+        marginBottom:theme.spacing(3)
+    },
 }));
 
 function FilterDrawer(props){
@@ -45,14 +48,20 @@ function FilterDrawer(props){
         filters[2].data.map(name => [name, true])
     )
     const [form, setForm] = useState({
-        category:checkboxes,
         searchBox:"",
         sort:0,
-        wage:[0,100]
+        wage:[0,100],
+        category:checkboxes,
     })
 
-    const handleChange = (name) => (event, newValue) => {
-        if(event.target.type === "checkbox"){
+    const handleChange = (name) => (event, value) => {
+        if(name === "wage"){
+            setForm({
+                ...form,
+                [name]: value
+            })
+        }
+        else if(event.target.type === "checkbox"){
             setForm({
                 ...form,
                 category: {
@@ -61,16 +70,10 @@ function FilterDrawer(props){
                 }
             })
         }
-        else if(name === "wage"){
-            setForm({
-                ...form,
-                [name]: newValue
-            })
-        }
         else {
             setForm({
                 ...form,
-                [name]: [event.target.value]
+                [name]: event.target.value
             })
         }
     }
@@ -97,7 +100,6 @@ function FilterDrawer(props){
             </Paper>
             <Grid
                 container
-                spacing={3}
                 className={classes.filtersWrapper}
                 justify="flex-start"
                 alignItems="center">
@@ -105,6 +107,7 @@ function FilterDrawer(props){
                 <Grid
                     item
                     xs={12}
+                    className={classes.filtersElement}
                 >
                     <TextField
                         fullWidth
@@ -121,6 +124,7 @@ function FilterDrawer(props){
                                     key={key}
                                     item
                                     xs={12}
+                                    className={classes.filtersElement}
                                 >
                                     <FilterSelect control={{name:"sort", value: form.sort, handler: handleChange("sort")}} {...filter}/>
                                 </Grid>
@@ -132,6 +136,7 @@ function FilterDrawer(props){
                                     key={key}
                                     item
                                     xs={12}
+                                    className={classes.filtersElement}
                                 >
                                     <FilterCheckboxGroup control={{value: form.category, handler: handleChange("category")}} {...filter}/>
                                 </Grid>
@@ -143,6 +148,7 @@ function FilterDrawer(props){
                                     key={key}
                                     item
                                     xs={12}
+                                    className={classes.filtersElement}
                                 >
                                     <FilterSlider control={{value: form.wage, handler: handleChange("wage")}} {...filter}/>
                                 </Grid>
