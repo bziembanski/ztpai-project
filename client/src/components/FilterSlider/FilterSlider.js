@@ -6,7 +6,6 @@ import {
     Tooltip
 } from "@material-ui/core";
 import PropTypes from 'prop-types';
-import {useState} from "react";
 
 function valuetext(value) {
     return `${value} zł`;
@@ -29,25 +28,21 @@ ValueLabelComponent.propTypes = {
 };
 
 function FilterSelect(props){
-    const [slider, setSlider] = useState(props.data.data.value);
-    const handleChange = (event, newValue) => {
-        setSlider(newValue);
-    }
     return (
         <FormControl fullWidth color="primary">
             <FormLabel>
                 <Typography variant="body2">
-                    {props.data.name}
+                    {props.name}
                 </Typography>
 
             </FormLabel>
             <Slider
                 color="secondary"
-                min={props.data.data.min}
-                max={props.data.data.max}
-                step={props.data.data.step}
-                value={slider}
-                onChange={handleChange}
+                min={props.data.min}
+                max={props.data.max}
+                step={props.data.step}
+                value={props.control.value}
+                onChange={props.control.handler}
                 valueLabelDisplay="auto"
                 ValueLabelComponent={ValueLabelComponent}
                 getAriaValueText={valuetext}

@@ -41,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
     newestAnnouncementsContainer:{
         marginTop:theme.spacing(4),
         padding:theme.spacing(2),
-        backgroundColor:theme.palette.background.paper
     },
     announcementsContainer:{
         [theme.breakpoints.down("sm")]:{

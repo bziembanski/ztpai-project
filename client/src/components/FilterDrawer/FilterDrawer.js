@@ -4,13 +4,15 @@ import {
     Paper,
     Typography,
     Grid,
-    makeStyles, TextField,
+    makeStyles,
+    TextField,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import FilterCheckboxGroup from "../FilterCheckboxGroup/FilterCheckboxGroup";
 import FilterSelect from "../FilterSelect/FilterSelect";
 import FilterSlider from "../FilterSlider/FilterSlider";
 import {useState} from "react";
+import filters from "../../filters";
 
 const useStyles = makeStyles((theme) => ({
     filterDrawer:{
@@ -35,43 +37,43 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function FilterDrawer(props){
-    const filtersData = [
-        {
-            type:"select",
-            name:"Sortowanie",
-            data:[
-                "Odległość rosnącą",
-                "Odległość malejąco",
-                "Wynagrodzenie rosnąco",
-                "Wynagrodzenie malejąco"
-            ]
-        },
-        {
-            type:"slider",
-            name:"Wynagrodzenie za godzinę",
-            data:{
-                min:0,
-                max:150,
-                step:1,
-                value:[0, 100]
-            }
-        },
-        {
-            type:"checkbox",
-            name:"Kategorie",
-            data:[
-                "mechanika",
-                "ogrodnictwo",
-                "elektryka",
-                "budownictwo",
-                "inna"
-            ]
-        },
-    ];
+    const filtersData = filters;
     const classes = useStyles();
     const isDrawerOpen = props.isDrawerOpen;
     const filterDrawerHandler = props.filterDrawerHandler
-    const [searchBox, setSearchBox] = useState();
+    const checkboxes = Object.fromEntries(
+        filters[2].data.map(name => [name, true])
+    )
+    const [form, setForm] = useState({
+        category:checkboxes,
+        searchBox:"",
+        sort:0,
+        wage:[0,100]
+    })
+
+    const handleChange = (name) => (event, newValue) => {
+        if(event.target.type === "checkbox"){
+            setForm({
+                ...form,
+                category: {
+                    ...form.category,
+                    [event.target.name]:!form.category[event.target.name]
+                }
+            })
+        }
+        else if(name === "wage"){
+            setForm({
+                ...form,
+                [name]: newValue
+            })
+        }
+        else {
+            setForm({
+                ...form,
+                [name]: [event.target.value]
+            })
+        }
+    }
     return(
         <Drawer
             anchor="left"
@@ -108,8 +110,8 @@ function FilterDrawer(props){
                         fullWidth
                         name="searchBox"
                         label={<Typography variant="body2">Szukaj</Typography>}
-                        value={searchBox}
-                        onChange={(event)=>{setSearchBox(event.target.value)}}/>
+                        value={form.searchBox}
+                        onChange={handleChange("searchBox")}/>
                 </Grid>
                 {
                     filtersData.map((filter, key) => {
@@ -120,7 +122,7 @@ function FilterDrawer(props){
                                     item
                                     xs={12}
                                 >
-                                    <FilterSelect data={filter}/>
+                                    <FilterSelect control={{name:"sort", value: form.sort, handler: handleChange("sort")}} {...filter}/>
                                 </Grid>
                             );
                         }
@@ -131,7 +133,7 @@ function FilterDrawer(props){
                                     item
                                     xs={12}
                                 >
-                                    <FilterCheckboxGroup data={filter}/>
+                                    <FilterCheckboxGroup control={{value: form.category, handler: handleChange("category")}} {...filter}/>
                                 </Grid>
                             );
                         }
@@ -142,11 +144,13 @@ function FilterDrawer(props){
                                     item
                                     xs={12}
                                 >
-                                    <FilterSlider data={filter}/>
+                                    <FilterSlider control={{value: form.wage, handler: handleChange("wage")}} {...filter}/>
                                 </Grid>
                             );
                         }
-                        else{return ("");}
+                        else {
+                            return ("");
+                        }
                     })
                 }
             </Grid>

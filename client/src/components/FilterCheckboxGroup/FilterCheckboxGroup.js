@@ -34,25 +34,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function FilterCheckboxGroup(props){
-    const checkboxes = Object.fromEntries(
-        props.data.data.map(name => [name, true])
-    )
-    const [field, setField] = useState({
-        ...checkboxes
-    })
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
-    const handleChange = (event) => {
-        setField({
-            ...field,
-            [event.target.name]: !field[event.target.name]
-        })
-    }
     return (
         <FormControl fullWidth component={Paper} elevation={2} className={classes.formControl}>
             <FormLabel className={classes.checkBoxGroupHeader} color="secondary" component="legend">
                 <Typography className={classes.checkBoxGroupDescription} variant="body2">
-                    {props.data.name}
+                    {props.name}
                     <IconButton className={classes.expandButton} onClick={()=>setExpanded(!expanded)}>
                         {expanded ? <ExpandLessIcon/> : <ExpandMoreIcon/>}
                     </IconButton>
@@ -63,15 +51,15 @@ function FilterCheckboxGroup(props){
                 in={expanded}
             >
                 <FormGroup>
-                    {props.data.data.map((checkBox, key) => {
+                    {props.data.map((checkBox, key) => {
                         return(
                             <FormControlLabel
                                 key={key}
                                 control={
                                     <Checkbox
-                                        checked={field[checkBox]}
                                         name={checkBox}
-                                        onChange={handleChange}
+                                        checked={props.control.value[checkBox]}
+                                        onChange={props.control.handler}
                                     />
                                 }
                                 label={checkBox}

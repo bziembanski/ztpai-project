@@ -188,7 +188,6 @@ function SignInPage(){
                                 item
                                 xs={12}
                                 sm={5}
-                                lg={5}
                             >
                                 <Button type="submit" fullWidth variant="contained" color="secondary">
                                     Zarejestruj się
