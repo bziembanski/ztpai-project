@@ -80,4 +80,6 @@ const announcements = [
             "Tortor elementum amet, sagittis, fermentum amet at."
     },
 ];
-export default announcements;
+module.exports = {
+    announcements
+}

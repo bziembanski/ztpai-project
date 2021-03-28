@@ -17,7 +17,6 @@ import Header from './components/Header/Header';
 
 
 function App() {
-    //const [data, setData] = useState(null);
 
     return (
         <Router>

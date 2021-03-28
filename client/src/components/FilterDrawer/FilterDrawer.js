@@ -12,7 +12,6 @@ import FilterCheckboxGroup from "../FilterCheckboxGroup/FilterCheckboxGroup";
 import FilterSelect from "../FilterSelect/FilterSelect";
 import FilterSlider from "../FilterSlider/FilterSlider";
 import {useState} from "react";
-import filters from "../../filters";
 
 const useStyles = makeStyles((theme) => ({
     filterDrawer:{
@@ -40,12 +39,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function FilterDrawer(props){
-    const filtersData = filters;
+    const filtersData = props.filters;
     const classes = useStyles();
     const isDrawerOpen = props.isDrawerOpen;
     const filterDrawerHandler = props.filterDrawerHandler
     const checkboxes = Object.fromEntries(
-        filters[2].data.map(name => [name, true])
+        filtersData[2].data.map(name => [name, true])
     )
     const [form, setForm] = useState({
         searchBox:"",

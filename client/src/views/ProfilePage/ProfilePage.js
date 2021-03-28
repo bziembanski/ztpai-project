@@ -1,8 +1,8 @@
 import Paper from '@material-ui/core/Paper'
-import {Avatar, Grid, makeStyles, Typography, withStyles} from "@material-ui/core";
+import {Avatar, Grid, LinearProgress, makeStyles, Typography, withStyles} from "@material-ui/core";
 import Rating from '@material-ui/lab/Rating';
 import Announcement from "../../components/Announcement/Announcement";
-import anns from "../../anns";
+import {useEffect, useState} from "react";
 
 const StyledRating = withStyles(({ palette }) => ({
     iconFilled: {
@@ -53,11 +53,40 @@ const useStyles = makeStyles((theme) => ({
     profileHeader:{
         marginTop:theme.spacing(2),
         marginBottom:theme.spacing(2)
+    },
+    progress:{
+        [theme.breakpoints.down('sm')]:{
+            width:'95%',
+        },
+        [theme.breakpoints.up('md')]:{
+            width:'60%',
+        },
+        [theme.breakpoints.up('lg')]:{
+            width:'42%',
+        },
+        margin:"auto",
+        marginTop:theme.spacing(2)
     }
 }));
 
 function ProfilePage(){
     const classes = useStyles();
+    const [isLoading, setIsLoading] = useState(true);
+    const [announcements, setAnnouncements] = useState();
+
+    useEffect(() => {
+        fetch('/anns', {method: "POST"})
+            .then(res => res.json())
+            .then(anns => {
+                setAnnouncements(anns);
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 500);
+            })
+    }, []);
+
     return(
         <div style={{padding:25}}>
             <Grid
@@ -231,23 +260,31 @@ function ProfilePage(){
                 >
                     <Typography align="center" color="primary" variant="h4">Ogłoszenia</Typography>
                 </Grid>
-                {anns.map((ann, key) => {
-                    return(
-                        <Grid
-                            key={key}
-                            item
-                            sm={12}
-                            md={6}
-                            lg={4}
-                            xl={3}
-                        >
-                            <Announcement
-                                title={ann.title}
-                                date={ann.date}
-                                description={ann.description}
-                            />
-                        </Grid>
-                    );
+                {
+                    isLoading
+                        ? <LinearProgress
+                            className={classes.progress}
+                            variant="indeterminate"
+                            color="primary"/>
+
+                        :
+                        announcements.map((ann, key) => {
+                            return(
+                                <Grid
+                                    key={key}
+                                    item
+                                    sm={12}
+                                    md={6}
+                                    lg={4}
+                                    xl={3}
+                                >
+                                    <Announcement
+                                        title={ann.title}
+                                        date={ann.date}
+                                        description={ann.description}
+                                    />
+                                </Grid>
+                            );
                 })}
             </Grid>
         </div>

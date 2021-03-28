@@ -2,8 +2,7 @@ import Paper from '@material-ui/core/Paper'
 import {Box, Button, makeStyles, TextField} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import FilterSelect from "../../components/FilterSelect/FilterSelect";
-import filters from "../../filters";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -23,19 +22,20 @@ const useStyles = makeStyles((theme) => ({
 
 function AddAnnouncementPage(){
     const classes = useStyles();
+    const [categories, setCategories] = useState({data:[], name:""});
     const [form, setForm] = useState({
         title:"",
         description:"",
         category:0,
         wage:""
-    })
+    });
 
     const handleChange = (event) => {
         setForm({
             ...form,
             [event.target.name]: event.target.value
         })
-    }
+    };
 
     const handleSubmit = event => {
         event.preventDefault();
@@ -52,7 +52,15 @@ function AddAnnouncementPage(){
                 return res.json()
             })
             .then(json => console.log(json));
-    }
+    };
+
+    useEffect(() => {
+        fetch('/categories', {method: "POST"})
+            .then(res => res.json())
+            .then(categories => {
+                setCategories(categories);
+            });
+    }, []);
 
     return(
         <Grid
@@ -122,7 +130,7 @@ function AddAnnouncementPage(){
                                 item
                                 xs={12}
                             >
-                                <FilterSelect control={{name:"category", value: form.category, handler: handleChange}} {...filters[2]}/>
+                                <FilterSelect control={{name:"category", value: form.category, handler: handleChange}} {...categories}/>
                             </Grid>
                             <Grid
                                 item

@@ -3,6 +3,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const port = 3001;
 const db = require('./src/database');
+const anns = require('./anns').announcements;
+const filters = require('./filters').filters;
 
 app.use(bodyParser.json())
 app.use((req, res, next) => {
@@ -33,6 +35,16 @@ app.post('/signin', (req, res) => {
     res.json({wiadomosc: "ok"});
 });
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+app.post('/anns', (req, res) => {
+    res.json(anns);
 });
+
+app.post('/filters', (req, res) => {
+    res.json(filters);
+});
+
+app.post('/categories', (req, res) => {
+    res.json({data: filters[2].data, name: filters[2].name});
+});
+
+app.listen(port, () => {});

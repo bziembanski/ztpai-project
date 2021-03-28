@@ -31,4 +31,6 @@ const filters = [
         ]
     },
 ];
-export default filters;
+module.exports = {
+    filters
+}

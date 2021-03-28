@@ -4,55 +4,84 @@ import {
     Grid,
     IconButton,
     InputBase,
+    LinearProgress,
     makeStyles,
     Typography
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import Announcement from "../../components/Announcement/Announcement";
-import announcements from "../../anns";
+import {useEffect, useState} from "react";
 
 const useStyles = makeStyles((theme) => ({
-    root:{
-        [theme.breakpoints.down('sm')]:{
+    root: {
+        [theme.breakpoints.down('xs')]: {
             marginTop: 56
         },
-        marginTop:64,
-        backgroundColor:theme.palette.background.default,
-        overflow: "auto"
+        marginTop: 64,
+        backgroundColor: theme.palette.background.default,
     },
-    searchBox:{
-        marginTop:theme.spacing(3),
-        padding:theme.spacing(1),
-        paddingLeft:theme.spacing(2),
+    searchBox: {
+        marginTop: theme.spacing(3),
+        padding: theme.spacing(1),
+        paddingLeft: theme.spacing(2),
         display: 'flex',
     },
     divider: {
         height: 40,
         margin: 4,
     },
-    input:{
-        flexGrow:1,
-        paddingRight:theme.spacing(1),
+    input: {
+        flexGrow: 1,
+        paddingRight: theme.spacing(1),
     },
-    heading:{
+    heading: {
         fontWeight: "bold",
-        marginBottom:theme.spacing(2)
+        marginBottom: theme.spacing(2)
     },
-    newestAnnouncementsContainer:{
-        marginTop:theme.spacing(4),
-        padding:theme.spacing(2),
+    newestAnnouncementsContainer: {
+        marginTop: theme.spacing(4),
+        padding: theme.spacing(2),
     },
-    announcementsContainer:{
-        [theme.breakpoints.down("sm")]:{
-            justifyContent:"center"
+    announcementsContainer: {
+        [theme.breakpoints.down("sm")]: {
+            justifyContent: "center"
         },
-        justifyContent:"flex-start"
+        justifyContent: "flex-start"
+    },
+    progress:{
+        [theme.breakpoints.down('sm')]:{
+            width:'95%',
+        },
+        [theme.breakpoints.up('md')]:{
+            width:'60%',
+        },
+        [theme.breakpoints.up('lg')]:{
+            width:'42%',
+        },
+        margin:"auto",
+        marginTop:theme.spacing(2)
     }
 }));
 
-function HomePage(){
+function HomePage() {
     const classes = useStyles();
-    return(
+    const [isLoading, setIsLoading] = useState(true);
+    const [announcements, setAnnouncements] = useState();
+
+    useEffect(() => {
+        fetch('/anns', {method: "POST"})
+        .then(res => res.json())
+        .then(anns => {
+            setAnnouncements(anns);
+        })
+        .finally(() => {
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 500);
+        });
+    }, []);
+
+    return (
         <Grid
             container
             component="main"
@@ -73,9 +102,9 @@ function HomePage(){
                     className={classes.input}
                     placeholder="Szukaj"
                 />
-                <Divider className={classes.divider} orientation="vertical" />
+                <Divider className={classes.divider} orientation="vertical"/>
                 <IconButton type="submit" className={classes.iconButton} aria-label="search">
-                    <SearchIcon />
+                    <SearchIcon/>
                 </IconButton>
             </Grid>
             <Grid
@@ -102,25 +131,31 @@ function HomePage(){
                     justify="flex-start"
                 >
                     {
-                        announcements.map((ann, key) => {
-                            return(
-                                <Grid
-                                    xs={12}
-                                    sm={10}
-                                    md={6}
-                                    lg={4}
-                                    xl={3}
-                                    key={key}
-                                    item
-                                >
-                                    <Announcement
-                                        title={ann.title}
-                                        date={ann.date}
-                                        description={ann.description}
-                                    />
-                                </Grid>
-                            );
-                        })
+                        isLoading
+                            ? <LinearProgress
+                                className={classes.progress}
+                                variant="indeterminate"
+                                color="primary"/>
+
+                            : announcements.map((ann, key) => {
+                                return (
+                                    <Grid
+                                        xs={12}
+                                        sm={10}
+                                        md={6}
+                                        lg={4}
+                                        xl={3}
+                                        key={key}
+                                        item
+                                    >
+                                        <Announcement
+                                            title={ann.title}
+                                            date={ann.date}
+                                            description={ann.description}
+                                        />
+                                    </Grid>
+                                );
+                            })
                     }
 
                 </Grid>
@@ -130,4 +165,5 @@ function HomePage(){
         </Grid>
     );
 }
+
 export default HomePage;
