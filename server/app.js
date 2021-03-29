@@ -5,6 +5,7 @@ const port = 3001;
 const db = require('./src/database');
 const anns = require('./anns').announcements;
 const filters = require('./filters').filters;
+const profile = require('./profile').profile;
 
 app.use(bodyParser.json())
 app.use((req, res, next) => {
@@ -45,6 +46,10 @@ app.post('/filters', (req, res) => {
 
 app.post('/categories', (req, res) => {
     res.json({data: filters[2].data, name: filters[2].name});
+});
+
+app.post('/profile', (req, res) => {
+    res.json(profile);
 });
 
 app.listen(port, () => {});

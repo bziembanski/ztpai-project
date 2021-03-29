@@ -4,7 +4,7 @@ import {
     makeStyles,
     Button,
     Typography,
-    withStyles, LinearProgress
+    withStyles
 } from "@material-ui/core";
 import Announcement from "../../components/Announcement/Announcement";
 import FilterDrawer from "../../components/FilterDrawer/FilterDrawer";
@@ -35,15 +35,7 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     progress: {
-        [theme.breakpoints.down('sm')]: {
-            width: '95%',
-        },
-        [theme.breakpoints.up('md')]: {
-            width: '60%',
-        },
-        [theme.breakpoints.up('lg')]: {
-            width: '42%',
-        },
+        width: '95%',
         margin: "auto",
         marginTop: theme.spacing(2)
     }
@@ -141,25 +133,37 @@ function SearchPage() {
             >
                 {
                     isAnnouncementsLoading
-                        ? <LinearProgress
-                            className={classes.progress}
-                            variant="indeterminate"
-                            color="primary"/>
-
-                        : announcements.map((ann, key) => {
-                            return (
-                                <Grid
-                                    key={key}
-                                    item
-                                >
-                                    <Announcement
-                                        title={ann.title}
-                                        date={ann.date}
-                                        description={ann.description}
-                                    />
-                                </Grid>
-                            );
-                        })}
+                        ? (
+                            [1,2,3,4].map(key => {
+                                return (
+                                    <Grid
+                                        key={key}
+                                        item
+                                        xs={12}
+                                    >
+                                        <Announcement
+                                            loading
+                                        />
+                                    </Grid>
+                                );
+                            })
+                        ) : (
+                            announcements.map((ann, key) => {
+                                return (
+                                    <Grid
+                                        key={key}
+                                        item
+                                        xs={12}
+                                    >
+                                        <Announcement
+                                            title={ann.title}
+                                            date={ann.date}
+                                            description={ann.description}
+                                        />
+                                    </Grid>
+                                );
+                            })
+                        )}
             </Grid>
             {
                 isFiltersLoading ?

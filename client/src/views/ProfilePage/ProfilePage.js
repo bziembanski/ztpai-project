@@ -1,14 +1,9 @@
 import Paper from '@material-ui/core/Paper'
-import {Avatar, Grid, LinearProgress, makeStyles, Typography, withStyles} from "@material-ui/core";
-import Rating from '@material-ui/lab/Rating';
+import {Avatar, Grid, makeStyles, Typography} from "@material-ui/core";
+import RatingWithName from "../../components/RatingWithName/RatingWithName";
 import Announcement from "../../components/Announcement/Announcement";
 import {useEffect, useState} from "react";
-
-const StyledRating = withStyles(({ palette }) => ({
-    iconFilled: {
-        color: palette.secondary.main,
-    },
-}))(Rating);
+import {Skeleton} from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -42,14 +37,6 @@ const useStyles = makeStyles((theme) => ({
         height:150,
         marginBottom:theme.spacing(2)
     },
-    ratingLabel:{
-        display:"flex",
-        alignItems:"center"
-    },
-    ratingContainer:{
-        display:"flex",
-        alignItems:"center"
-    },
     profileHeader:{
         marginTop:theme.spacing(2),
         marginBottom:theme.spacing(2)
@@ -66,13 +53,15 @@ const useStyles = makeStyles((theme) => ({
         },
         margin:"auto",
         marginTop:theme.spacing(2)
-    }
+    },
 }));
 
 function ProfilePage(){
     const classes = useStyles();
-    const [isLoading, setIsLoading] = useState(true);
+    const [isAnnsLoading, setIsAnnsLoading] = useState(true);
+    const [isProfileLoading, setIsProfileLoading] = useState(true);
     const [announcements, setAnnouncements] = useState();
+    const [profile, setProfile] = useState();
 
     useEffect(() => {
         fetch('/anns', {method: "POST"})
@@ -82,9 +71,19 @@ function ProfilePage(){
             })
             .finally(() => {
                 setTimeout(() => {
-                    setIsLoading(false);
+                    setIsAnnsLoading(false);
                 }, 500);
+            });
+        fetch('/profile', {method: "POST"})
+            .then(res => res.json())
+            .then(profile => {
+                setProfile(profile);
             })
+            .finally(() => {
+                setTimeout(() => {
+                    setIsProfileLoading(false);
+                }, 500);
+            });
     }, []);
 
     return(
@@ -113,12 +112,23 @@ function ProfilePage(){
                             container
                             justify="center"
                         >
-                            <Avatar
-                                className={classes.avatar}
-                                variant="square">
-                                R
-                            </Avatar>
-
+                            {
+                                isProfileLoading ? (
+                                    <Skeleton animation="wave" variant="rect" className={classes.avatar} />
+                                ) : (
+                                    <Avatar
+                                        className={classes.avatar}
+                                        variant="square">
+                                        {
+                                            profile.avatar==="" ? (
+                                                profile.name[0]
+                                            ) : (
+                                                <img alt="profile" src={profile.avatar}/>
+                                            )
+                                        }
+                                    </Avatar>
+                                )
+                            }
                         </Grid>
                         <Grid
                             item
@@ -130,8 +140,15 @@ function ProfilePage(){
                                 item
                                 xs={7}
                             >
+
                                 <Typography align="center" color="primary" variant="h5">
-                                    Imię Nazwisko
+                                    {
+                                        isProfileLoading ? (
+                                            <Skeleton animation="wave" variant="rect"/>
+                                        ) : (
+                                            `${profile.name} ${profile.surname}`
+                                        )
+                                    }
                                 </Typography>
                             </Grid>
                             <Grid
@@ -139,7 +156,13 @@ function ProfilePage(){
                                 xs={7}
                             >
                                 <Typography align="center" color="textPrimary" variant="h6">
-                                    login
+                                    {
+                                        isProfileLoading ? (
+                                            <Skeleton animation="wave" variant="rect"/>
+                                        ) : (
+                                            profile.username
+                                        )
+                                    }
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -174,81 +197,21 @@ function ProfilePage(){
                                 item
                                 container
                                 xs={12}
-                                md={9}
                                 lg={7}
-                                className={classes.ratingContainer}
-                                justify="space-between"
+                                direction="column"
+                                spacing={2}
                             >
-                                <Grid
-                                    item
-                                    className={classes.ratingLabel}
-                                >
-                                    <Typography variant="body1" align="left">Kompetentność</Typography>
-                                </Grid>
-                                <Grid
-                                    item
-                                >
-                                    <StyledRating
-                                        precision={0.1}
-                                        value={4.4}
-                                        readOnly={true}
-                                        size="large"
-                                    />
-                                </Grid>
-                            </Grid>
-                            <Grid
-                                item
-                                container
-                                xs={12}
-                                md={9}
-                                lg={7}
-                                className={classes.ratingContainer}
-                                justify="space-between"
-                            >
-                                <Grid
-                                    item
-                                    className={classes.ratingLabel}
-                                >
-                                    <Typography variant="body1" align="left">Życzliwość</Typography>
-                                </Grid>
-                                <Grid
-                                    item
-                                >
-                                    <StyledRating
-                                        color="primary"
-                                        precision={0.1}
-                                        value={4.8}
-                                        readOnly={true}
-                                        size="large"
-                                    />
-                                </Grid>
-                            </Grid>
-                            <Grid
-                                item
-                                container
-                                xs={12}
-                                md={9}
-                                lg={7}
-                                className={classes.ratingContainer}
-                                justify="space-between"
-                            >
-                                <Grid
-                                    item
-                                    className={classes.ratingLabel}
-                                >
-                                    <Typography variant="body1" align="left">Zaradność</Typography>
-                                </Grid>
-                                <Grid
-                                    item
-                                >
-                                    <StyledRating
-                                        color="primary"
-                                        precision={0.1}
-                                        value={3.5}
-                                        readOnly={true}
-                                        size="large"
-                                    />
-                                </Grid>
+                                {
+                                    isProfileLoading ? (
+                                        <>
+                                            <Grid item ><Skeleton animation="wave" variant="rect" width='100%' height={20}/></Grid>
+                                            <Grid item><Skeleton animation="wave" variant="rect" width='100%' height={20}/></Grid>
+                                            <Grid item><Skeleton animation="wave" variant="rect" width='100%' height={20}/></Grid>
+                                        </>
+                                    ) : (
+                                        profile.ratings.map((rating, key) => <Grid key={key} item><RatingWithName  {...rating} /></Grid>)
+                                    )
+                                }
                             </Grid>
                         </Grid>
                     </Paper>
@@ -261,13 +224,24 @@ function ProfilePage(){
                     <Typography align="center" color="primary" variant="h4">Ogłoszenia</Typography>
                 </Grid>
                 {
-                    isLoading
-                        ? <LinearProgress
-                            className={classes.progress}
-                            variant="indeterminate"
-                            color="primary"/>
-
-                        :
+                    isAnnsLoading ? (
+                        [1,2,3,4].map((key) => {
+                            return(
+                                <Grid
+                                    key={key}
+                                    item
+                                    sm={12}
+                                    md={6}
+                                    lg={4}
+                                    xl={3}
+                                >
+                                    <Announcement
+                                        loading
+                                    />
+                                </Grid>
+                            );
+                        })
+                    ) : (
                         announcements.map((ann, key) => {
                             return(
                                 <Grid
@@ -285,7 +259,9 @@ function ProfilePage(){
                                     />
                                 </Grid>
                             );
-                })}
+                        })
+                    )
+                }
             </Grid>
         </div>
     );

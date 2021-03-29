@@ -11,6 +11,7 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import ModeCommentIcon from "@material-ui/icons/ModeComment";
+import {Skeleton} from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
     actionText: {
@@ -18,24 +19,59 @@ const useStyles = makeStyles((theme) => ({
             marginLeft: 4
         },
         marginLeft: theme.spacing(1)
+    },
+    root:{
+        width:'100%'
     }
 }));
 
 function Announcement(props){
     const classes = useStyles();
+    const {loading = false} = props;
     return(
         <Card className={classes.root} elevation={2}>
             <CardHeader disableTypography={true}
-                avatar={<Avatar variant="square">R</Avatar>}
+                avatar={
+                    loading ? (
+                        <Skeleton width={40} height={40} animation="wave" variant="rect"/>
+                    ) : (
+                        <Avatar variant="square">R</Avatar>
+                    )
+                }
                 title={
                     <Typography variant="body1" color="primary" component="p">
-                        {props.title}
-                    </Typography>}
-                subheader={props.date}
+                        {
+                            loading ? (
+                                <Skeleton animation="wave" variant="rect"/>
+                            ) : (
+                                props.title
+                            )
+                        }
+                    </Typography>
+                }
+                subheader={
+                    loading ? (
+                        <Skeleton width={100} animation="wave" variant="rect" style={{marginTop:5}}/>
+                    ) : (
+                        props.date
+                    )
+
+                }
             />
             <CardContent>
                 <Typography variant="body2" color="textPrimary" component="p">
-                    {props.description}
+                    {
+                        loading ? (
+                            <>
+                                <Skeleton animation="wave" variant="rect"/>
+                                <Skeleton animation="wave" variant="rect" style={{marginTop:10, marginBottom:10}}/>
+                                <Skeleton animation="wave" variant="rect"/>
+                            </>
+
+                        ) : (
+                            props.description
+                        )
+                    }
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>

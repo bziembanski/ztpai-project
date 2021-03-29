@@ -4,7 +4,6 @@ import {
     Grid,
     IconButton,
     InputBase,
-    LinearProgress,
     makeStyles,
     Typography
 } from "@material-ui/core";
@@ -131,13 +130,26 @@ function HomePage() {
                     justify="flex-start"
                 >
                     {
-                        isLoading
-                            ? <LinearProgress
-                                className={classes.progress}
-                                variant="indeterminate"
-                                color="primary"/>
-
-                            : announcements.map((ann, key) => {
+                        isLoading ? (
+                            [1,2,3,4].map((key) => {
+                                return (
+                                    <Grid
+                                        xs={12}
+                                        sm={10}
+                                        md={6}
+                                        lg={4}
+                                        xl={3}
+                                        key={key}
+                                        item
+                                    >
+                                        <Announcement
+                                            loading
+                                        />
+                                    </Grid>
+                                );
+                            })
+                        ) : (
+                            announcements.map((ann, key) => {
                                 return (
                                     <Grid
                                         xs={12}
@@ -156,6 +168,7 @@ function HomePage() {
                                     </Grid>
                                 );
                             })
+                        )
                     }
 
                 </Grid>
