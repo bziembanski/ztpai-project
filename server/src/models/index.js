@@ -28,10 +28,29 @@ db.announcements = require("./announcement.model")(sequelize, Sequelize);
 db.user_ratings = require("./user_rating.model")(sequelize, Sequelize);
 db.user_rating_types = require("./user_rating_type.model")(sequelize, Sequelize);
 
-db.users.hasMany(db.announcements, {foreignKey: {name: 'user_id', allowNull: false}});
-db.users.hasMany(db.user_ratings, {foreignKey: {name: 'user_id', allowNull: false}});
-db.user_rating_types.hasMany(db.user_ratings, {foreignKey: {name: 'user_rating_type_id', allowNull: false}});
-db.categories.hasMany(db.announcements, {foreignKey: {name: 'category_id', allowNull: false}});
-
+db.users.hasMany(db.announcements, {
+    foreignKey: {
+        name: 'user_id',
+        allowNull: false
+    }
+});
+db.users.hasMany(db.user_ratings, {
+    foreignKey: {
+        name: 'user_id',
+        allowNull: false
+    }
+});
+db.user_rating_types.hasMany(db.user_ratings, {
+    foreignKey: {
+        name: 'user_rating_type_id',
+        allowNull: false
+    }
+});
+db.categories.hasMany(db.announcements, {
+    foreignKey: {
+        name: 'category_id',
+        allowNull: false
+    }
+});
 
 module.exports = db;

@@ -2,9 +2,9 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const port = 3001;
-const db = require('./src/model');
-db.sequelize.sync({force: true}).then(() => {
-    console.log("Drop and re-sync database.");
+const db = require('./src/models');
+db.sequelize.sync({force: false}).then(() => {
+    console.log("[server]Drop and re-sync database.");
 });
 const anns = require('./anns').announcements;
 const filters = require('./filters').filters;
