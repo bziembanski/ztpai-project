@@ -3,27 +3,139 @@ const Announcement = db.announcements;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
-
+    const messages = [];
+    if(!req.body.title){
+        messages.push("Title cannot be empty!");
+    }
+    if(!req.body.description){
+        messages.push("Description cannot be empty!");
+    }
+    if(!req.body.wage){
+        messages.push("Wage cannot be empty!");
+    }
+    if(!req.body.user_id){
+        messages.push("User cannot be empty!");
+    }
+    if(!req.body.category_id){
+        messages.push("Category cannot be empty!");
+    }
+    if(messages.length>0){
+        res.status(400).send({
+            messages: messages
+        });
+        return;
+    }
+    const announcement = {
+        title: req.body.title,
+        description: req.body.description,
+        wage: req.body.wage,
+        user_id: req.body.user_id,
+        category_id: req.body.category_id
+    }
+    Announcement.create(announcement)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                messages: err.message || 'Error occurred while creating Announcement!'
+            });
+        });
 };
 
 exports.findAll = (req, res) => {
     const searchPhrase = req.query.searchPhrase;
     const condition = searchPhrase ?
         {[Op.or]: [{title:{[Op.iLike]: `%${searchPhrase}%`}}, {description:{[Op.iLike]: `%${searchPhrase}%`}}]} : null;
+    Announcement.findAll({
+        where: condition
+    })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || 'Error occurred while fetching for Announcements!'
+            });
+        });
 };
 
 exports.findOne = (req, res) => {
+    const id = req.params.id;
 
+    Announcement.findByPk(id)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || `Error occurred while searching for Announcement with id=${id}!`
+            });
+        });
 };
 
 exports.update = (req, res) => {
+    const id = req.params.id;
 
+    Announcement.update(req.body, {
+        where: {id: id}
+    })
+        .then(result => {
+            if(result === 1){
+                res.send({
+                    message: "Announcement was updated successfully"
+                });
+            }
+            else{
+                res.send({
+                    message: `Cannot update Announcement with id=${id}.`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || `Error occurred while updating Announcement with id=${id}!`
+            });
+        });
 };
 
 exports.delete = (req, res) => {
+    const id = req.params.id;
+
+    Announcement.destroy({
+        where: {id: id}
+    })
+        .then(result => {
+            if(result === 1){
+                res.send({
+                    message: "Announcement was deleted successfully"
+                });
+            }
+            else{
+                res.send({
+                    message: `Cannot delete Announcement with id=${id}.`
+                });
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || `Error occurred while deleting Announcement with id=${id}!`
+            });
+        });
 
 };
 
 exports.deleteAll = (req, res) => {
-
+    Announcement.destroy({
+        where: {},
+        truncate: false
+    })
+        .then(result => {
+            res.send({message: `${result} Announcements were deleted successfully!`});
+        })
+        .catch(err => {
+            res.status(500).send({
+                message: err.message || 'Error occurred while deleting all Announcements!'
+            });
+        });
 };

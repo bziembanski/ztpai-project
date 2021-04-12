@@ -38,7 +38,7 @@ exports.create = (req, res) => {
         name: req.body.name,
         surname: req.body.surname,
         password: req.body.password
-    }
+    };
 
     User.create(user)
         .then(data => {
