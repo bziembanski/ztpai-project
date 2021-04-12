@@ -76,11 +76,7 @@ exports.findOne = (req, res) => {
     if(condition){
         User.findOne({
             where: condition,
-            include: [
-                {
-                    model: UserRating
-                }
-            ]
+            include: [UserRating]
         })
             .then(data => {
                 res.send(data);
@@ -111,12 +107,13 @@ exports.update = (req, res) => {
         where: {id: id}
     })
         .then(result => {
-            if(result === 1){
+            if(result[0] === 1){
                 res.send({
                     message: "User was updated successfully"
                 });
             }
             else{
+                console.log("delete result" + result);
                 res.send({
                     message: `Cannot update User with id=${id}.`
                 });

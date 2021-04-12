@@ -1,10 +1,10 @@
 module.exports = app => {
-    const userRatings = require("../controllers/user_rating.model");
+    const userRatings = require("../controllers/user_rating.controller");
 
     const router = require('express').Router();
 
     //create userRating
-    router.post('post', userRatings.create);
+    router.post('/', userRatings.create);
 
     //get all userRatings
     router.get('/', userRatings.findAll);

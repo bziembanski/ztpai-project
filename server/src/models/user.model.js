@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 module.exports = (sequelize, Sequelize) => {
      const User = sequelize.define('user', {
         username: {
@@ -30,10 +31,7 @@ module.exports = (sequelize, Sequelize) => {
         salt: {
             type: Sequelize.STRING,
             unique: false,
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            },
+            allowNull: true,
             get() {
                 return () => this.getDataValue('salt')
             }
@@ -57,10 +55,7 @@ module.exports = (sequelize, Sequelize) => {
         avatar: {
             type: Sequelize.STRING,
             unique: false,
-            allowNull: false,
-            validate: {
-                notEmpty: true
-            }
+            allowNull: true
         }
     });
 

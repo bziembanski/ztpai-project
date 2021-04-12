@@ -4,7 +4,7 @@ module.exports = app => {
     const router = require('express').Router();
 
     //create category
-    router.post('post', categories.create);
+    router.post('/', categories.create);
 
     //get all categories
     router.get('/', categories.findAll);

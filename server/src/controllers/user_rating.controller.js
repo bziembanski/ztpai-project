@@ -1,6 +1,7 @@
 const db = require("../models");
 const UserRating = db.user_ratings;
 const UserRatingType = db.user_rating_types;
+const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
     const messages = [];
@@ -38,12 +39,16 @@ exports.create = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
+    const id = req.query.id;
+    const condition = id ? {user_id:{[Op.eq]: `${id}`}} : null;
     UserRating.findAll({
-        attributes: ['id', [db.sequelize.fn('count', db.sequelize.col('value'))],],
-        group: ['UserRating.user_rating_type_id'],
+        where: condition,
+        attributes: ['user_rating_type.name',[db.sequelize.fn('avg', db.sequelize.col('value')), 'value']],
+        group: ['user_rating_type.id'],
         include: [
             {
-                model: UserRatingType
+                model: UserRatingType,
+                attributes : ['name']
             }
         ]
     })
@@ -80,7 +85,7 @@ exports.update = (req, res) => {
         where: {id: id}
     })
         .then(result => {
-            if(result === 1){
+            if(result[0] === 1){
                 res.send({
                     message: "Rating was updated successfully"
                 });

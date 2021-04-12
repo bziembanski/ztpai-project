@@ -55,4 +55,9 @@ app.post('/profile', (req, res) => {
     res.json(profile);
 });
 
+require('./src/routes/user.routes')(app);
+require('./src/routes/category.routes')(app);
+require('./src/routes/announcement.routes')(app);
+require('./src/routes/user_rating.routes')(app);
+require('./src/routes/user_rating_type.routes')(app);
 app.listen(port, () => {});

@@ -4,7 +4,7 @@ module.exports = app => {
     const router = require('express').Router();
 
     //create user
-    router.post('post', users.create);
+    router.post('/', users.create);
 
     //get all users
     router.get('/', users.findAll);

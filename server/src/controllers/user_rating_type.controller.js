@@ -61,7 +61,7 @@ exports.update = (req, res) => {
         where: {id: id}
     })
         .then(result => {
-            if(result === 1){
+            if(result[0] === 1){
                 res.send({
                     message: "UserRatingType was updated successfully"
                 });

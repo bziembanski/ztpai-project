@@ -21,5 +21,5 @@ module.exports = app => {
     //delete all announcements
     router.delete('/', announcements.deleteAll);
 
-    app.use('/api/users', router);
+    app.use('/api/announcements', router);
 }

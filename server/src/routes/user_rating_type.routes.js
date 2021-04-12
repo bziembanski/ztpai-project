@@ -4,7 +4,7 @@ module.exports = app => {
     const router = require('express').Router();
 
     //create userRatingType
-    router.post('post', userRatingTypes.create);
+    router.post('/', userRatingTypes.create);
 
     //get all userRatingTypes
     router.get('/', userRatingTypes.findAll);

@@ -40,7 +40,19 @@ db.users.hasMany(db.user_ratings, {
         allowNull: false
     }
 });
+db.user_ratings.belongsTo(db.users,{
+    foreignKey: {
+        name: 'user_id',
+        allowNull: false
+    }
+});
 db.user_rating_types.hasMany(db.user_ratings, {
+    foreignKey: {
+        name: 'user_rating_type_id',
+        allowNull: false
+    }
+});
+db.user_ratings.belongsTo(db.user_rating_types,{
     foreignKey: {
         name: 'user_rating_type_id',
         allowNull: false
