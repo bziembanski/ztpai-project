@@ -1,5 +1,6 @@
 const db = require("../models");
 const User = db.users;
+const UserRating = db.user_ratings;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -73,7 +74,14 @@ exports.findOne = (req, res) => {
         {[Op.or]: [{username:{[Op.iLike]: `${searchPhrase}`}}, {email:{[Op.iLike]: `${searchPhrase}`}}]} : null;
 
     if(condition){
-        User.findOne({where: condition})
+        User.findOne({
+            where: condition,
+            include: [
+                {
+                    model: UserRating
+                }
+            ]
+        })
             .then(data => {
                 res.send(data);
             })
