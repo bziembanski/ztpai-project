@@ -6,9 +6,7 @@ const db = require('./src/models');
 db.sequelize.sync({force: false}).then(() => {
     console.log("[server]Drop and re-sync database.");
 });
-const anns = require('./anns').announcements;
 const filters = require('./filters').filters;
-const profile = require('./profile').profile;
 
 app.use(bodyParser.json())
 app.use((req, res, next) => {
@@ -29,30 +27,13 @@ app.get('/', (req, res) => {
     res.json()
 });
 
-app.post('/login', (req, res) => {
+app.post('/api/login', (req, res) => {
     console.log(req.body);
     res.json({wiadomosc: "ok"});
 });
 
-app.post('/signin', (req, res) => {
-    console.log(req.body);
-    res.json({wiadomosc: "ok"});
-});
-
-app.post('/anns', (req, res) => {
-    res.json(anns);
-});
-
-app.post('/filters', (req, res) => {
+app.get('/api/filters', (req, res) => {
     res.json(filters);
-});
-
-app.post('/categories', (req, res) => {
-    res.json({data: filters[2].data, name: filters[2].name});
-});
-
-app.post('/profile', (req, res) => {
-    res.json(profile);
 });
 
 require('./src/routes/user.routes')(app);

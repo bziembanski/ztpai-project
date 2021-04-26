@@ -42,10 +42,10 @@ function FilterDrawer(props){
     const filtersData = props.filters;
     const classes = useStyles();
     const isDrawerOpen = props.isDrawerOpen;
-    const filterDrawerHandler = props.filterDrawerHandler
+    const filterDrawerHandler = props.filterDrawerHandler;
     const checkboxes = Object.fromEntries(
         filtersData[2].data.map(name => [name, true])
-    )
+    );
     const [form, setForm] = useState({
         searchBox:"",
         sort:0,

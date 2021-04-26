@@ -4,6 +4,7 @@ import RatingWithName from "../../components/RatingWithName/RatingWithName";
 import Announcement from "../../components/Announcement/Announcement";
 import {useEffect, useState} from "react";
 import {Skeleton} from "@material-ui/lab";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -60,31 +61,40 @@ function ProfilePage(){
     const classes = useStyles();
     const [isAnnsLoading, setIsAnnsLoading] = useState(true);
     const [isProfileLoading, setIsProfileLoading] = useState(true);
-    const [announcements, setAnnouncements] = useState();
-    const [profile, setProfile] = useState();
+    const [announcements, setAnnouncements] = useState([]);
+    const [profile, setProfile] = useState({});
+    const [userId, setUserId] = useState(2);
 
     useEffect(() => {
-        fetch('/anns', {method: "POST"})
-            .then(res => res.json())
-            .then(anns => {
-                setAnnouncements(anns);
+        axios.get(`/api/users/${userId}`)
+            .then(_profile => {
+                setAnnouncements(_profile.data.announcements);
+                setProfile(() => {
+                    return (({ announcements, ...us }) => us)(_profile.data);
+                });
             })
             .finally(() => {
                 setTimeout(() => {
                     setIsAnnsLoading(false);
                 }, 500);
+                axios.get(`/api/userRatings?id=${userId}`)
+                    .then(_ratings => {
+                        setProfile(p => {
+                            return {ratings: _ratings.data, ...p}
+                        });
+                    })
+                    .finally(() => {
+                        setTimeout(() => {
+                            setIsProfileLoading(false);
+                        }, 500);
+                    });
             });
-        fetch('/profile', {method: "POST"})
-            .then(res => res.json())
-            .then(profile => {
-                setProfile(profile);
-            })
-            .finally(() => {
-                setTimeout(() => {
-                    setIsProfileLoading(false);
-                }, 500);
-            });
-    }, []);
+
+        return () => {
+            setProfile({});
+            setAnnouncements([]);
+        };
+    }, [userId]);
 
     return(
         <div style={{padding:25}}>
@@ -120,11 +130,7 @@ function ProfilePage(){
                                         className={classes.avatar}
                                         variant="square">
                                         {
-                                            profile.avatar==="" ? (
-                                                profile.name[0]
-                                            ) : (
-                                                <img alt="profile" src={profile.avatar}/>
-                                            )
+                                            <img alt={profile.name[0]} src={profile.avatar}/>
                                         }
                                     </Avatar>
                                 )
@@ -253,6 +259,7 @@ function ProfilePage(){
                                     xl={3}
                                 >
                                     <Announcement
+                                        user={profile}
                                         title={ann.title}
                                         date={ann.date}
                                         description={ann.description}

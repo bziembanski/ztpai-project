@@ -1,6 +1,7 @@
+
 const db = require("../models");
 const User = db.users;
-const UserRating = db.user_ratings;
+const Announcement = db.announcements;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -46,8 +47,10 @@ exports.create = (req, res) => {
             res.send(data);
         })
         .catch(err => {
+            messages.push(err.message);
+            messages.push('Error occurred while creating User!');
             res.status(500).send({
-                messages: err.message || 'Error occurred while creating User!'
+                messages: messages
             });
         });
 };
@@ -57,7 +60,9 @@ exports.findAll = (req, res) => {
     const condition = searchPhrase ?
         {[Op.or]: [{username:{[Op.iLike]: `%${searchPhrase}%`}}, {email:{[Op.iLike]: `%${searchPhrase}%`}}]} : null;
 
-    User.findAll({where: condition})
+    User.findAll({
+        where: condition,
+    })
         .then(data => {
             res.send(data);
         })
@@ -76,7 +81,11 @@ exports.findOne = (req, res) => {
     if(condition){
         User.findOne({
             where: condition,
-            include: [UserRating]
+            include:[
+                {
+                    model: Announcement
+                }
+            ]
         })
             .then(data => {
                 res.send(data);
@@ -88,7 +97,13 @@ exports.findOne = (req, res) => {
             });
     }
     else{
-        User.findByPk(searchPhrase)
+        User.findByPk(searchPhrase,{
+            include:[
+                {
+                    model: Announcement
+                }
+            ]
+        })
             .then(data => {
                 res.send(data);
             })

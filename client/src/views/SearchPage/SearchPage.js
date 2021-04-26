@@ -8,6 +8,7 @@ import {
 } from "@material-ui/core";
 import Announcement from "../../components/Announcement/Announcement";
 import FilterDrawer from "../../components/FilterDrawer/FilterDrawer";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -51,32 +52,34 @@ function SearchPage() {
     const classes = useStyles();
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [isAnnouncementsLoading, setIsAnnouncementsLoading] = useState(true);
-    const [announcements, setAnnouncements] = useState();
+    const [announcements, setAnnouncements] = useState([]);
     const [isFiltersLoading, setIsFiltersLoading] = useState(true);
     const [filters, setFilters] = useState();
-    const filterDrawerHandler = (open) => () => {
+    const filterDrawerHandler = (open, form) => () => {
         setIsDrawerOpen(open);
     }
 
     useEffect(() => {
-        fetch('/anns', {method: "POST"})
-            .then(res => res.json())
-            .then(anns => {
-                setAnnouncements(anns);
+        axios.get(`/api/announcements`)
+            .then(_announcements => {
+                setAnnouncements(_announcements.data);
+
             })
             .finally(() => {
                 setTimeout(() => {
                     setIsAnnouncementsLoading(false);
                 }, 500);
             });
-        fetch('/filters', {method: "POST"})
-            .then(res => res.json())
-            .then(filters => {
-                setFilters(filters);
+        axios.get('/api/filters')
+            .then(_filters => {
+                setFilters(_filters.data);
             })
             .finally(() => {
                 setIsFiltersLoading(false);
             });
+        return () => {
+            setAnnouncements([]);
+        };
     }, []);
 
     return (
@@ -156,6 +159,7 @@ function SearchPage() {
                                         xs={12}
                                     >
                                         <Announcement
+                                            user={ann.user}
                                             title={ann.title}
                                             date={ann.date}
                                             description={ann.description}

@@ -34,6 +34,12 @@ db.users.hasMany(db.announcements, {
         allowNull: false
     }
 });
+db.announcements.belongsTo(db.users, {
+    foreignKey: {
+        name: 'user_id',
+        allowNull: false
+    }
+})
 db.users.hasMany(db.user_ratings, {
     foreignKey: {
         name: 'user_id',
@@ -64,5 +70,10 @@ db.categories.hasMany(db.announcements, {
         allowNull: false
     }
 });
-
+db.announcements.belongsTo(db.categories, {
+    foreignKey: {
+        name: 'category_id',
+        allowNull: false
+    }
+})
 module.exports = db;

@@ -21,7 +21,10 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: theme.spacing(1)
     },
     root:{
-        width:'100%'
+        width:'100%',
+    },
+    desc:{
+        minHeight:40
     }
 }));
 
@@ -35,7 +38,7 @@ function Announcement(props){
                     loading ? (
                         <Skeleton width={40} height={40} animation="wave" variant="rect"/>
                     ) : (
-                        <Avatar variant="square">R</Avatar>
+                        <Avatar variant="square"><img alt={props.user.name[0]} src={props.user.avatar}/></Avatar>
                     )
                 }
                 title={
@@ -59,7 +62,7 @@ function Announcement(props){
                 }
             />
             <CardContent>
-                <Typography variant="body2" color="textPrimary" component="p">
+                <Typography className={classes.desc} variant="body2" color="textPrimary" component="p">
                     {
                         loading ? (
                             <>

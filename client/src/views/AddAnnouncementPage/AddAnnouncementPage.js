@@ -3,6 +3,7 @@ import {Box, Button, makeStyles, TextField} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import FilterSelect from "../../components/FilterSelect/FilterSelect";
 import {useEffect, useState} from "react";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -26,8 +27,9 @@ function AddAnnouncementPage(){
     const [form, setForm] = useState({
         title:"",
         description:"",
-        category:0,
-        wage:""
+        category_id:0,
+        wage:"",
+        user_id:1
     });
 
     const handleChange = (event) => {
@@ -39,26 +41,17 @@ function AddAnnouncementPage(){
 
     const handleSubmit = event => {
         event.preventDefault();
-        const url = "http://localhost:3001/signin"
-        const dataObject = {...form}
-        console.log(dataObject);
-        const requestOption = {
-            method:'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(dataObject)
-        };
-        fetch(url, requestOption)
-            .then(res => {
-                return res.json()
-            })
-            .then(json => console.log(json));
+        axios.post('/api/announcements',{
+            ...form,
+            category_id: form.category_id+1,
+        })
+            .then(r => console.log(r));
     };
 
     useEffect(() => {
-        fetch('/categories', {method: "POST"})
-            .then(res => res.json())
+        axios.get('/api/categories')
             .then(categories => {
-                setCategories(categories);
+                setCategories({name: "Kategoria", data: categories.data.map(el => {return el.name})});
             });
     }, []);
 
@@ -130,7 +123,7 @@ function AddAnnouncementPage(){
                                 item
                                 xs={12}
                             >
-                                <FilterSelect control={{name:"category", value: form.category, handler: handleChange}} {...categories}/>
+                                <FilterSelect control={{name:"category_id", value: form.category_id, handler: handleChange}} {...categories}/>
                             </Grid>
                             <Grid
                                 item

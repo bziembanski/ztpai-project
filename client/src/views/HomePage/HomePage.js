@@ -10,6 +10,7 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import Announcement from "../../components/Announcement/Announcement";
 import {useEffect, useState} from "react";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -65,19 +66,33 @@ const useStyles = makeStyles((theme) => ({
 function HomePage() {
     const classes = useStyles();
     const [isLoading, setIsLoading] = useState(true);
-    const [announcements, setAnnouncements] = useState();
+    const [announcements, setAnnouncements] = useState([]);
 
     useEffect(() => {
-        fetch('/anns', {method: "POST"})
-        .then(res => res.json())
-        .then(anns => {
-            setAnnouncements(anns);
-        })
-        .finally(() => {
-            setTimeout(() => {
-                setIsLoading(false);
-            }, 500);
-        });
+        axios.get(`/api/announcements?limit=10`)
+            .then(_announcements => {
+                setAnnouncements(_announcements.data);
+
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    setIsLoading(false);
+                }, 500);
+            });
+
+        return () => {
+            setAnnouncements([]);
+        };
+        // fetch('/anns', {method: "POST"})
+        // .then(res => res.json())
+        // .then(anns => {
+        //     setAnnouncements(anns);
+        // })
+        // .finally(() => {
+        //     setTimeout(() => {
+        //         setIsLoading(false);
+        //     }, 500);
+        // });
     }, []);
 
     return (
@@ -161,6 +176,7 @@ function HomePage() {
                                         item
                                     >
                                         <Announcement
+                                            user={ann.user}
                                             title={ann.title}
                                             date={ann.date}
                                             description={ann.description}

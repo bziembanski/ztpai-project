@@ -1,5 +1,7 @@
 const db = require("../models");
 const Announcement = db.announcements;
+const User = db.users;
+const Category = db.categories;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -37,18 +39,34 @@ exports.create = (req, res) => {
             res.send(data);
         })
         .catch(err => {
+            messages.push(err.message);
+            messages.push('Error occurred while creating Announcement!');
             res.status(500).send({
-                messages: err.message || 'Error occurred while creating Announcement!'
+                messages: messages
             });
         });
 };
 
 exports.findAll = (req, res) => {
     const searchPhrase = req.query.searchPhrase;
-    const condition = searchPhrase ?
-        {[Op.or]: [{title:{[Op.iLike]: `%${searchPhrase}%`}}, {description:{[Op.iLike]: `%${searchPhrase}%`}}]} : null;
+    const limit = req.query.limit;
+    const condition = searchPhrase && isNaN(searchPhrase)
+        ?   {[Op.or]: [{title:{[Op.iLike]: `%${searchPhrase}%`}}, {description:{[Op.iLike]: `%${searchPhrase}%`}}]}
+        :   typeof searchPhrase !== 'undefined'
+            ? {user_id: searchPhrase}
+            : null;
+
     Announcement.findAll({
-        where: condition
+        limit:limit,
+        where: condition,
+        include:[
+            {
+                model: User
+            },
+            {
+                model: Category
+            }
+        ]
     })
         .then(data => {
             res.send(data);
@@ -58,12 +76,23 @@ exports.findAll = (req, res) => {
                 message: err.message || 'Error occurred while fetching for Announcements!'
             });
         });
+
+
 };
 
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    Announcement.findByPk(id)
+    Announcement.findByPk(id, {
+        include:[
+            {
+                model: User
+            },
+            {
+                model: Category
+            }
+        ]
+    })
         .then(data => {
             res.send(data);
         })

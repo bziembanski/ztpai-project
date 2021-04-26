@@ -4,10 +4,10 @@ module.exports = app => {
     const router = require('express').Router();
 
     //create announcement
-    router.post('post', announcements.create);
+    router.post('/', announcements.create);
 
     //get all announcements with phrase in title or description
-    router.get('/searchPhrase', announcements.findAll);
+    router.get('/', announcements.findAll);
 
     //get single announcement with id
     router.get('/:id', announcements.findOne);

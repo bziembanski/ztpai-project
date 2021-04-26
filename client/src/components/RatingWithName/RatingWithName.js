@@ -26,7 +26,7 @@ function RatingWithName(props){
                 item
                 className={classes.ratingLabel}
             >
-                <Typography variant="body1" align="left">{props.name}</Typography>
+                <Typography variant="body1" align="left">{props.user_rating_type.name}</Typography>
             </Grid>
             <Grid
                 item
