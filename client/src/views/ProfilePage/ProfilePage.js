@@ -63,7 +63,7 @@ function ProfilePage(){
     const [isProfileLoading, setIsProfileLoading] = useState(true);
     const [announcements, setAnnouncements] = useState([]);
     const [profile, setProfile] = useState({});
-    const [userId, setUserId] = useState(2);
+    const [userId, setUserId] = useState(1);
 
     useEffect(() => {
         axios.get(`/api/users/${userId}`)

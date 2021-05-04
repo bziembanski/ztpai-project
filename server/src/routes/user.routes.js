@@ -1,5 +1,6 @@
 module.exports = app => {
     const users = require("../controllers/user.controller");
+    const security = require("../controllers/security.controller");
 
     const router = require('express').Router();
 
@@ -8,6 +9,8 @@ module.exports = app => {
 
     //get all users
     router.get('/', users.findAll);
+
+    router.get('/login', security.login);
 
     //get single user with id, username or email
     router.get('/:searchPhrase', users.findOne);
@@ -22,4 +25,5 @@ module.exports = app => {
     router.delete('/', users.deleteAll);
 
     app.use('/api/users', router);
+
 }

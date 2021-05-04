@@ -1,5 +1,5 @@
 const {Sequelize} = require('sequelize');
-const db_conf = require('../../database-confidential');
+const db_conf = process.env.DATABASE_URL;
 
 const sequelize = new Sequelize(db_conf, {
     dialect:'postgres',

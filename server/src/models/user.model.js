@@ -20,7 +20,7 @@ module.exports = (sequelize, Sequelize) => {
         password: {
             type: Sequelize.STRING,
             unique: false,
-            allowNull: false,
+            allowNull: true,
             validate: {
                 notEmpty: true
             },
@@ -68,10 +68,11 @@ module.exports = (sequelize, Sequelize) => {
             .createHash('RSA-SHA256')
             .update(plainText)
             .update(salt)
-            .digest('hex')
+            .digest('hex');
     };
 
     const setSaltAndPassword = user => {
+        console.log("hello");
         if(user.changed('password')){
             user.salt = User.generateSalt();
             user.password = User.encryptPassword(user.password(), user.salt());
@@ -79,10 +80,14 @@ module.exports = (sequelize, Sequelize) => {
     };
 
     User.beforeCreate(setSaltAndPassword);
-    User.beforeUpdate(setSaltAndPassword);
+    User.beforeBulkUpdate(setSaltAndPassword);
 
-    User.prototype.correctPassword = (enteredPassword) => {
-        return User.encryptPassword(enteredPassword, this.salt()) === this.password();
+    User.correctPassword = (enteredPassword, user) => {
+        console.log(user.salt());
+        console.log(user.email);
+        console.log(user.password());
+        console.log(User.encryptPassword(enteredPassword, user.salt()));
+        return User.encryptPassword(enteredPassword, user.salt()) === user.password();
     };
 
     return User;

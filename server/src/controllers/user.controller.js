@@ -1,4 +1,3 @@
-
 const db = require("../models");
 const User = db.users;
 const Announcement = db.announcements;

@@ -1,7 +1,12 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
+
+const dotenv = require('dotenv');
+dotenv.config();
+
 const bodyParser = require('body-parser');
-const port = 3001;
+const port = parseInt(process.env.PORT);
 const db = require('./src/models');
 db.sequelize.sync({force: false}).then(() => {
     console.log("[server]Drop and re-sync database.");
@@ -9,11 +14,10 @@ db.sequelize.sync({force: false}).then(() => {
 const filters = require('./filters').filters;
 
 app.use(bodyParser.json())
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
 
 app.get('/', (req, res) => {
     try{
@@ -41,4 +45,4 @@ require('./src/routes/category.routes')(app);
 require('./src/routes/announcement.routes')(app);
 require('./src/routes/user_rating.routes')(app);
 require('./src/routes/user_rating_type.routes')(app);
-app.listen(port, () => {});
+app.listen(port, () => {console.log("listening on port "+ port)});
