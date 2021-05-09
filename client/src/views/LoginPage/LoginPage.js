@@ -3,6 +3,8 @@ import {makeStyles, TextField, Box, Button, Typography} from '@material-ui/core'
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import {NavLink} from "react-router-dom";
+import axios from "axios";
+axios.defaults.withCredentials = true;
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -30,24 +32,19 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginPage(){
     const classes = useStyles();
-    const [login, setLogin] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     const handleSubmit = event => {
         event.preventDefault();
-        const url = "http://localhost:3001/login"
-        const dataObject = {login, password}
-        console.log(dataObject);
-        const requestOption = {
-            method:'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(dataObject)
-        };
-        fetch(url, requestOption)
-            .then(res => {
-                return res.json()
+        const dataObject = {username, password};
+        axios.post('api/users/login', dataObject)
+            .then(data=>{
+                console.log(data.data);
             })
-            .then(json => console.log(json));
+            .catch(err => {
+                console.log(err.response.data);
+            });
     }
     return(
         <Grid 
@@ -90,8 +87,8 @@ function LoginPage(){
                             >
                                 <TextField
                                     required
-                                    value={login}
-                                    onChange={e => setLogin(e.target.value)}
+                                    value={username}
+                                    onChange={e => setUsername(e.target.value)}
                                     color="secondary"
                                     type="text"
                                     label="Login lub email"

@@ -3,7 +3,7 @@ const Announcement = db.announcements;
 const User = db.users;
 const Category = db.categories;
 const Op = db.Sequelize.Op;
-
+const jwt = require('jsonwebtoken');
 exports.create = (req, res) => {
     const messages = [];
     if(!req.body.title){
@@ -15,9 +15,6 @@ exports.create = (req, res) => {
     if(!req.body.wage){
         messages.push("Wage cannot be empty!");
     }
-    if(!req.body.user_id){
-        messages.push("User cannot be empty!");
-    }
     if(!req.body.category_id){
         messages.push("Category cannot be empty!");
     }
@@ -27,11 +24,12 @@ exports.create = (req, res) => {
         });
         return;
     }
+    const userId = jwt.decode((req.cookies['jwt'])).id;
     const announcement = {
         title: req.body.title,
         description: req.body.description,
         wage: req.body.wage,
-        user_id: req.body.user_id,
+        user_id: userId,
         category_id: req.body.category_id
     }
     Announcement.create(announcement)

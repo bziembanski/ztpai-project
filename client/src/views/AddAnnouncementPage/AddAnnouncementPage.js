@@ -4,6 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import FilterSelect from "../../components/FilterSelect/FilterSelect";
 import {useEffect, useState} from "react";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -28,8 +29,7 @@ function AddAnnouncementPage(){
         title:"",
         description:"",
         category_id:0,
-        wage:"",
-        user_id:1
+        wage:""
     });
 
     const handleChange = (event) => {
@@ -45,7 +45,10 @@ function AddAnnouncementPage(){
             ...form,
             category_id: form.category_id+1,
         })
-            .then(r => console.log(r));
+            .then(r => console.log(r))
+            .catch(err => {
+                console.log(err.response.data);
+            });
     };
 
     useEffect(() => {

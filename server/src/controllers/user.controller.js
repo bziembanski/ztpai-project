@@ -4,31 +4,31 @@ const Announcement = db.announcements;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
-    const messages = [];
+    const message = [];
     if(!req.body.username){
-        messages.push("Username cannot be empty!");
+        message.push("Username cannot be empty!");
     }
     if(!req.body.email){
-        messages.push("Email cannot be empty!");
+        message.push("Email cannot be empty!");
     }
     if(!req.body.name){
-        messages.push("Name cannot be empty!");
+        message.push("Name cannot be empty!");
     }
     if(!req.body.surname){
-        messages.push("Surname cannot be empty!");
+        message.push("Surname cannot be empty!");
     }
     if(!req.body.password){
-        messages.push("Password cannot be empty!");
+        message.push("Password cannot be empty!");
     }
     if(!req.body.password2){
-        messages.push("Repeat password cannot be empty!");
+        message.push("Repeat password cannot be empty!");
     }
     if(req.body.password!==req.body.password2){
-        messages.push("Password must be the same!");
+        message.push("Password must be the same!");
     }
-    if(messages.length>0){
+    if(message.length>0){
         res.status(400).send({
-            messages: messages
+            message: message
         });
         return;
     }
@@ -46,10 +46,10 @@ exports.create = (req, res) => {
             res.send(data);
         })
         .catch(err => {
-            messages.push(err.message);
-            messages.push('Error occurred while creating User!');
+            message.push(err.message);
+            message.push('Error occurred while creating User!');
             res.status(500).send({
-                messages: messages
+                message: message
             });
         });
 };

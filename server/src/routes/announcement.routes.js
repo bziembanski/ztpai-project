@@ -1,10 +1,11 @@
+const passport = require("passport");
 module.exports = app => {
     const announcements = require("../controllers/announcement.controller");
 
     const router = require('express').Router();
 
     //create announcement
-    router.post('/', announcements.create);
+    router.post('/', passport.authenticate('jwt', {session: false}), announcements.create);
 
     //get all announcements with phrase in title or description
     router.get('/', announcements.findAll);
@@ -13,13 +14,13 @@ module.exports = app => {
     router.get('/:id', announcements.findOne);
 
     //update announcement with id
-    router.put('/:id', announcements.update);
+    router.put('/:id', passport.authenticate('jwt', {session: false}), announcements.update);
 
     //delete announcement with id
-    router.delete('/:id', announcements.delete);
+    router.delete('/:id', passport.authenticate('jwt', {session: false}), announcements.delete);
 
     //delete all announcements
-    router.delete('/', announcements.deleteAll);
+    router.delete('/', passport.authenticate('jwt', {session: false}), announcements.deleteAll);
 
     app.use('/api/announcements', router);
 }

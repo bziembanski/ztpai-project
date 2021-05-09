@@ -1,23 +1,27 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-
+const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
 dotenv.config();
-
+const passport = require('passport');
+const pass = require('./src/auth/passport');
 const bodyParser = require('body-parser');
 const port = parseInt(process.env.PORT);
 const db = require('./src/models');
-db.sequelize.sync({force: false}).then(() => {
-    console.log("[server]Drop and re-sync database.");
-});
 const filters = require('./filters').filters;
 
+app.use(passport.initialize());
+app.use(cookieParser());
 app.use(bodyParser.json())
 app.use(cors({
     origin: 'http://localhost:3000',
     credentials: true
 }));
+
+db.sequelize.sync({force: false}).then(() => {
+    console.log("[server]Drop and re-sync database.");
+});
 
 app.get('/', (req, res) => {
     try{
@@ -29,11 +33,6 @@ app.get('/', (req, res) => {
         console.error("Failed to connect to db: ", e);
     }
     res.json()
-});
-
-app.post('/api/login', (req, res) => {
-    console.log(req.body);
-    res.json({wiadomosc: "ok"});
 });
 
 app.get('/api/filters', (req, res) => {

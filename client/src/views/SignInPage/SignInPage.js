@@ -1,8 +1,10 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import {Box, Button, makeStyles, TextField, Typography} from "@material-ui/core";
 import {NavLink} from "react-router-dom";
+import axios from 'axios';
+import AlertDialog from "../../components/AlertDialog/AlertDialog";
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -29,29 +31,38 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SignInPage(){
+
     const classes = useStyles();
     const [name, setName] = useState("");
     const [surname, setSurname] = useState("");
     const [email, setEmail] = useState("");
-    const [login, setLogin] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
 
+    const [open, setOpen] = useState(false);
+    const [title, setTitle] = useState("");
+    const [text, setText] = useState("");
+    const [action, setAction] = useState('');
     const handleSubmit = event => {
         event.preventDefault();
-        const url = "http://localhost:3001/signin"
-        const dataObject = {name, surname, login, email, password, password2}
-        console.log(dataObject);
-        const requestOption = {
-            method:'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(dataObject)
-        };
-        fetch(url, requestOption)
-            .then(res => {
-                return res.json()
+        const dataObject = {name, surname, username, email, password, password2}
+
+        axios.post('/api/users/',dataObject)
+            .then(data=>{
+                if(!data.data.hasOwnProperty('message')){
+                    setTitle("Rejestracja przebiegła pomyślnie");
+                    setText("Możesz już się zalogować!");
+                    setAction('/login');
+                    setOpen(true);
+                }
             })
-            .then(json => console.log(json));
+            .catch(err=>{
+                setTitle("Problem z rejestracją");
+                setText(err.response.data.message.map(message => {return message + "\n"}));
+                setAction('');
+                setOpen(true);
+            })
     }
     return(
         <Grid
@@ -122,8 +133,8 @@ function SignInPage(){
                             >
                                 <TextField
                                     required
-                                    value={login}
-                                    onChange={e => setLogin(e.target.value)}
+                                    value={username}
+                                    onChange={e => setUsername(e.target.value)}
                                     color="secondary"
                                     type="text"
                                     label="Login"
@@ -197,6 +208,7 @@ function SignInPage(){
                     </Box>
                 </Paper>
             </Grid>
+            <AlertDialog title={title} text={text} open={open} setOpen={setOpen} action={action}/>
         </Grid>
     );
 }

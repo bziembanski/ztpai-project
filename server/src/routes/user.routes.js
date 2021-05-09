@@ -1,3 +1,4 @@
+const passport = require("passport");
 module.exports = app => {
     const users = require("../controllers/user.controller");
     const security = require("../controllers/security.controller");
@@ -8,21 +9,21 @@ module.exports = app => {
     router.post('/', users.create);
 
     //get all users
-    router.get('/', users.findAll);
+    router.get('/', passport.authenticate('jwt', {session: false}), users.findAll);
 
-    router.get('/login', security.login);
+    router.post('/login', security.login);
 
     //get single user with id, username or email
-    router.get('/:searchPhrase', users.findOne);
+    router.get('/:searchPhrase', passport.authenticate('jwt', {session: false}),users.findOne);
 
     //update user with id
-    router.put('/:id', users.update);
+    router.put('/:id', passport.authenticate('jwt', {session: false}),users.update);
 
     //delete user with id
-    router.delete('/:id', users.delete);
+    router.delete('/:id', passport.authenticate('jwt', {session: false}),users.delete);
 
     //delete all users
-    router.delete('/', users.deleteAll);
+    router.delete('/', passport.authenticate('jwt', {session: false}), users.deleteAll);
 
     app.use('/api/users', router);
 

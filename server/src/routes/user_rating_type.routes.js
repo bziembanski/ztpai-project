@@ -1,25 +1,26 @@
+const passport = require("passport");
 module.exports = app => {
     const userRatingTypes = require("../controllers/user_rating_type.controller");
 
     const router = require('express').Router();
 
     //create userRatingType
-    router.post('/', userRatingTypes.create);
+    router.post('/', passport.authenticate('jwt', {session: false}), userRatingTypes.create);
 
     //get all userRatingTypes
-    router.get('/', userRatingTypes.findAll);
+    router.get('/', passport.authenticate('jwt', {session: false}), userRatingTypes.findAll);
 
     //get single userRatingType with id
-    router.get('/:id', userRatingTypes.findOne);
+    router.get('/:id', passport.authenticate('jwt', {session: false}), userRatingTypes.findOne);
 
     //update userRatingType with id
-    router.put('/:id', userRatingTypes.update);
+    router.put('/:id', passport.authenticate('jwt', {session: false}), userRatingTypes.update);
 
     //delete userRatingType with id
-    router.delete('/:id', userRatingTypes.delete);
+    router.delete('/:id', passport.authenticate('jwt', {session: false}), userRatingTypes.delete);
 
     //delete all userRatingTypes
-    router.delete('/', userRatingTypes.deleteAll);
+    router.delete('/', passport.authenticate('jwt', {session: false}), userRatingTypes.deleteAll);
 
     app.use('/api/userRatingTypes', router);
 }
