@@ -29,18 +29,23 @@ exports.login = (req, res) => {
             if(data){
                 if(User.correctPassword(password, data)){
                     const token = jwt.sign({
-                        username: data.username,
-                        avatar: data.avatar,
                         id: data.id,
                         expiration: Date.now() + parseInt(process.env.TOKEN_EXPIRE)
                     }, process.env.TOKEN_SECRET);
 
-                    res.cookie('jwt',
+                    res
+                        .cookie('jwt',
                         token, {
                             httpOnly: true,
-                            secure:false
-                        }
-                    ).status(200).send(data);
+                            secure:false,
+                            sameSite:true
+                        })
+                        .cookie('user',{
+                            id: data.id,
+                            username: data.username,
+                            avatar: data.avatar,
+                        },{sameSite:true})
+                        .status(200).send(data);
                 }
                 else{
                     res.status(401).send({
