@@ -44,6 +44,7 @@ function SignInPage(){
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
     const [action, setAction] = useState('');
+
     const handleSubmit = event => {
         event.preventDefault();
         const dataObject = {name, surname, username, email, password, password2}

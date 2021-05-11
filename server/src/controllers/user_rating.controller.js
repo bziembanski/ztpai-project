@@ -4,19 +4,19 @@ const UserRatingType = db.user_rating_types;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
-    const messages = [];
+    const message = [];
     if(!req.body.value){
-        messages.push("Value cannot be empty!");
+        message.push("Value cannot be empty!");
     }
     if(!req.body.user_id){
-        messages.push("User_id cannot be empty!");
+        message.push("User_id cannot be empty!");
     }
     if(!req.body.user_rating_type_id){
-        messages.push("User_rating_type_id cannot be empty!");
+        message.push("User_rating_type_id cannot be empty!");
     }
-    if(messages.length>0){
+    if(message.length>0){
         res.status(400).send({
-            messages: messages
+            message: message
         });
         return;
     }
@@ -33,7 +33,7 @@ exports.create = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                messages: err.message || 'Error occurred while creating UserRating!'
+                messages: [err.message, 'Error occurred while creating UserRating!']
             });
         });
 };
@@ -57,7 +57,7 @@ exports.findAll = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || 'Error occurred while fetching for Ratings!'
+                message: [err.message, 'Error occurred while fetching for Ratings!']
             });
         });
 };
@@ -73,7 +73,7 @@ exports.findOne = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || `Error occurred while searching for Ratings ${id}!`
+                message: [err.message, `Error occurred while searching for Ratings ${id}!`]
             });
         });
 };
@@ -87,18 +87,18 @@ exports.update = (req, res) => {
         .then(result => {
             if(result[0] === 1){
                 res.send({
-                    message: "Rating was updated successfully"
+                    message: ["Rating was updated successfully"]
                 });
             }
             else{
                 res.send({
-                    message: `Cannot update Rating with id=${id}.`
+                    message: [`Cannot update Rating with id=${id}.`]
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || `Error occurred while updating Rating with id=${id}!`
+                message: [err.message, `Error occurred while updating Rating with id=${id}!`]
             });
         });
 };
@@ -112,18 +112,18 @@ exports.delete = (req, res) => {
         .then(result => {
             if(result === 1){
                 res.send({
-                    message: "Rating was deleted successfully"
+                    message: ["Rating was deleted successfully"]
                 });
             }
             else{
                 res.send({
-                    message: `Cannot delete Rating with id=${id}.`
+                    message: [`Cannot delete Rating with id=${id}.`]
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || `Error occurred while deleting Rating with id=${id}!`
+                message: [err.message, `Error occurred while deleting Rating with id=${id}!`]
             });
         });
 };
@@ -134,11 +134,11 @@ exports.deleteAll = (req, res) => {
         truncate: false
     })
         .then(result => {
-            res.send({message: `${result} Ratings were deleted successfully!`});
+            res.send({message: [`${result} Ratings were deleted successfully!`]});
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || 'Error occurred while deleting all Ratings!'
+                message: [err.message, 'Error occurred while deleting all Ratings!']
             });
         });
 };

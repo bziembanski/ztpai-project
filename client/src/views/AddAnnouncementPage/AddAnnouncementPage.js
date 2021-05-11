@@ -2,8 +2,9 @@ import Paper from '@material-ui/core/Paper'
 import {Box, Button, makeStyles, TextField} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import FilterSelect from "../../components/FilterSelect/FilterSelect";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
+import AlertDialog from "../../components/AlertDialog/AlertDialog";
 axios.defaults.withCredentials = true;
 
 const useStyles = makeStyles((theme) => ({
@@ -32,6 +33,11 @@ function AddAnnouncementPage(){
         wage:""
     });
 
+    const [open, setOpen] = useState(false);
+    const [title, setTitle] = useState("");
+    const [text, setText] = useState("");
+    const [action, setAction] = useState('');
+
     const handleChange = (event) => {
         setForm({
             ...form,
@@ -45,9 +51,19 @@ function AddAnnouncementPage(){
             ...form,
             category_id: form.category_id+1,
         })
-            .then(r => console.log(r))
+            .then(data =>{
+                if(!data.data.hasOwnProperty('message')){
+                    setTitle("Ogłoszenie dodane pomyślnie");
+                    setText("Ogłoszenie zostało wystawione na tablicę!");
+                    setAction('/search');
+                    setOpen(true);
+                }
+            })
             .catch(err => {
-                console.log(err.response.data);
+                setTitle("Problem z dodaniem ogłoszenia");
+                setText(err.response.data.message.map(message => {return message + "\n"}));
+                setAction('/add-announcement');
+                setOpen(true);
             });
     };
 
@@ -55,7 +71,10 @@ function AddAnnouncementPage(){
         axios.get('/api/categories')
             .then(categories => {
                 setCategories({name: "Kategoria", data: categories.data.map(el => {return el.name})});
-            });
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }, []);
 
     return(
@@ -97,6 +116,7 @@ function AddAnnouncementPage(){
                                 xs={12}
                             >
                                 <TextField
+                                    required
                                     name="title"
                                     value={form.title}
                                     onChange={handleChange}
@@ -111,6 +131,7 @@ function AddAnnouncementPage(){
                                 xs={12}
                             >
                                 <TextField
+                                    required
                                     name="description"
                                     label="Opis ogłoszenia"
                                     value={form.description}
@@ -133,6 +154,7 @@ function AddAnnouncementPage(){
                                 xs={12}
                             >
                                 <TextField
+                                    required
                                     name="wage"
                                     label="Wynagrodzenie za godzinę"
                                     inputProps={{max:999, min:0}}
@@ -161,6 +183,7 @@ function AddAnnouncementPage(){
                     </Box>
                 </Paper>
             </Grid>
+            <AlertDialog title={title} text={text} open={open} setOpen={setOpen} action={action}/>
         </Grid>
     );
 }

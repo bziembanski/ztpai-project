@@ -1,9 +1,10 @@
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {makeStyles, TextField, Box, Button, Typography} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import {NavLink} from "react-router-dom";
 import axios from "axios";
+import AlertDialog from "../../components/AlertDialog/AlertDialog";
 axios.defaults.withCredentials = true;
 
 const useStyles = makeStyles((theme) => ({
@@ -35,15 +36,28 @@ function LoginPage(){
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
+    const [open, setOpen] = useState(false);
+    const [title, setTitle] = useState("");
+    const [text, setText] = useState("");
+    const [action, setAction] = useState('');
+
     const handleSubmit = event => {
         event.preventDefault();
         const dataObject = {username, password};
         axios.post('api/users/login', dataObject)
             .then(data=>{
-                console.log(data.data);
+                if(!data.data.hasOwnProperty('message')){
+                    setTitle("Logowanie przebiegło pomyślnie");
+                    setText("Zostaniesz przekierowny na stronę główną!");
+                    setAction('/');
+                    setOpen(true);
+                }
             })
             .catch(err => {
-                console.log(err.response.data);
+                setTitle("Problem z logowaniem");
+                setText(err.response.data.message.map(message => {return message + "\n"}));
+                setAction('/login');
+                setOpen(true);
             });
     }
     return(
@@ -138,6 +152,7 @@ function LoginPage(){
                     </Box>
                 </Paper>
             </Grid>
+            <AlertDialog title={title} text={text} open={open} setOpen={setOpen} action={action}/>
         </Grid>
     );
 }

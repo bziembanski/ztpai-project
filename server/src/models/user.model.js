@@ -72,7 +72,6 @@ module.exports = (sequelize, Sequelize) => {
     };
 
     const setSaltAndPassword = user => {
-        console.log("hello");
         if(user.changed('password')){
             user.salt = User.generateSalt();
             user.password = User.encryptPassword(user.password(), user.salt());
@@ -83,10 +82,6 @@ module.exports = (sequelize, Sequelize) => {
     User.beforeBulkUpdate(setSaltAndPassword);
 
     User.correctPassword = (enteredPassword, user) => {
-        console.log(user.salt());
-        console.log(user.email);
-        console.log(user.password());
-        console.log(User.encryptPassword(enteredPassword, user.salt()));
         return User.encryptPassword(enteredPassword, user.salt()) === user.password();
     };
 

@@ -2,7 +2,7 @@ module.exports = (sequelize, Sequelize) => {
     return sequelize.define('announcement', {
         title: {
             type: Sequelize.STRING,
-            unique: true,
+            unique: false,
             allowNull: false,
             validate: {
                 notEmpty: true
@@ -10,7 +10,7 @@ module.exports = (sequelize, Sequelize) => {
         },
         description: {
             type: Sequelize.STRING,
-            unique: true,
+            unique: false,
             allowNull: false,
             validate: {
                 notEmpty: true

@@ -5,6 +5,7 @@ import Announcement from "../../components/Announcement/Announcement";
 import {useEffect, useState} from "react";
 import {Skeleton} from "@material-ui/lab";
 import axios from "axios";
+axios.defaults.withCredentials = true;
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -72,22 +73,28 @@ function ProfilePage(){
                 setProfile(() => {
                     return (({ announcements, ...us }) => us)(_profile.data);
                 });
-            })
-            .finally(() => {
-                setTimeout(() => {
-                    setIsAnnsLoading(false);
-                }, 500);
                 axios.get(`/api/userRatings?id=${userId}`)
                     .then(_ratings => {
                         setProfile(p => {
                             return {ratings: _ratings.data, ...p}
                         });
                     })
+                    .catch(err => {
+                        console.log(err);
+                    })
                     .finally(() => {
                         setTimeout(() => {
                             setIsProfileLoading(false);
                         }, 500);
                     });
+            })
+            .catch(err => {
+                console.log(err);
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    setIsAnnsLoading(false);
+                }, 500);
             });
 
         return () => {

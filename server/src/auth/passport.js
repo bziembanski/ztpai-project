@@ -6,6 +6,7 @@ const cookieExtractor = req => {
     let jwt = null;
 
     if(req && req.cookies){
+        console.log(req.cookies['jwt']);
         jwt = req.cookies['jwt'];
     }
 
@@ -16,9 +17,13 @@ passport.use('jwt', new JWTStrategy({
     jwtFromRequest: cookieExtractor,
     secretOrKey: process.env.TOKEN_SECRET
 }, (jwtPayload, done) => {
+
     const {expiration} = jwtPayload;
+    console.log(expiration);
     if(Date.now() > expiration){
+
         done("Unauthorized", false);
+
     }
     done(null, jwtPayload);
 }));

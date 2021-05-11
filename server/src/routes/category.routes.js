@@ -8,7 +8,7 @@ module.exports = app => {
     router.post('/', passport.authenticate('jwt', {session: false}),categories.create);
 
     //get all categories
-    router.get('/', passport.authenticate('jwt', {session: false}), categories.findAll);
+    router.get('/', categories.findAll);
 
     //get single category with id
     router.get('/:id', passport.authenticate('jwt', {session: false}), categories.findOne);

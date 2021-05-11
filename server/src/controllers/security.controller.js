@@ -17,7 +17,6 @@ exports.login = (req, res) => {
         });
         return;
     }
-    console.log(req.body);
     const user = req.body.username;
     const password = req.body.password;
     const condition = {[Op.or]: [{username:{[Op.iLike]: `${user}`}}, {email:{[Op.iLike]: `${user}`}}]};
@@ -50,20 +49,20 @@ exports.login = (req, res) => {
                 else{
                     res.status(401).send({
                         accessToken: null,
-                        message: "Wrong password!"
+                        message: ["Wrong username or password!"]
                     })
                 }
             }
             else{
                 res.status(401).send({
-                    message: "User not found!"
+                    message: ["Wrong username or password!"]
                 })
             }
 
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || `Error occurred while logging in User ${user}!`
+                message: [err.message, `Error occurred while logging in User ${user}!`]
             })
         });
 };
@@ -75,7 +74,7 @@ exports.logout = (req, res) => {
     }
     else{
         res.status(401).send({
-            message: "Invalid jwt"
+            message: ["Invalid jwt"]
         });
     }
 };

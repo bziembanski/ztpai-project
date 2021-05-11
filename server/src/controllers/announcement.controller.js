@@ -5,22 +5,22 @@ const Category = db.categories;
 const Op = db.Sequelize.Op;
 const jwt = require('jsonwebtoken');
 exports.create = (req, res) => {
-    const messages = [];
+    const message = [];
     if(!req.body.title){
-        messages.push("Title cannot be empty!");
+        message.push("Title cannot be empty!");
     }
     if(!req.body.description){
-        messages.push("Description cannot be empty!");
+        message.push("Description cannot be empty!");
     }
     if(!req.body.wage){
-        messages.push("Wage cannot be empty!");
+        message.push("Wage cannot be empty!");
     }
     if(!req.body.category_id){
-        messages.push("Category cannot be empty!");
+        message.push("Category cannot be empty!");
     }
-    if(messages.length>0){
+    if(message.length>0){
         res.status(400).send({
-            messages: messages
+            message: message
         });
         return;
     }
@@ -37,10 +37,10 @@ exports.create = (req, res) => {
             res.send(data);
         })
         .catch(err => {
-            messages.push(err.message);
-            messages.push('Error occurred while creating Announcement!');
+            message.push(err.message);
+            message.push('Error occurred while creating Announcement!');
             res.status(500).send({
-                messages: messages
+                message: message
             });
         });
 };
@@ -64,6 +64,9 @@ exports.findAll = (req, res) => {
             {
                 model: Category
             }
+        ],
+        order:[
+            ['createdAt', 'DESC']
         ]
     })
         .then(data => {
@@ -71,7 +74,7 @@ exports.findAll = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || 'Error occurred while fetching for Announcements!'
+                message: [err.message, 'Error occurred while fetching for Announcements!']
             });
         });
 
@@ -96,7 +99,7 @@ exports.findOne = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || `Error occurred while searching for Announcement with id=${id}!`
+                message: [err.message, `Error occurred while searching for Announcement with id=${id}!`]
             });
         });
 };
@@ -110,18 +113,18 @@ exports.update = (req, res) => {
         .then(result => {
             if(result[0] === 1){
                 res.send({
-                    message: "Announcement was updated successfully"
+                    message: ["Announcement was updated successfully"]
                 });
             }
             else{
                 res.send({
-                    message: `Cannot update Announcement with id=${id}.`
+                    message: [`Cannot update Announcement with id=${id}.`]
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || `Error occurred while updating Announcement with id=${id}!`
+                message: [err.message, `Error occurred while updating Announcement with id=${id}!`]
             });
         });
 };
@@ -135,18 +138,18 @@ exports.delete = (req, res) => {
         .then(result => {
             if(result === 1){
                 res.send({
-                    message: "Announcement was deleted successfully"
+                    message: ["Announcement was deleted successfully"]
                 });
             }
             else{
                 res.send({
-                    message: `Cannot delete Announcement with id=${id}.`
+                    message: [`Cannot delete Announcement with id=${id}.`]
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || `Error occurred while deleting Announcement with id=${id}!`
+                message: [err.message, `Error occurred while deleting Announcement with id=${id}!`]
             });
         });
 
@@ -158,11 +161,13 @@ exports.deleteAll = (req, res) => {
         truncate: false
     })
         .then(result => {
-            res.send({message: `${result} Announcements were deleted successfully!`});
+            res.send({
+                message: [`${result} Announcements were deleted successfully!`]
+            });
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || 'Error occurred while deleting all Announcements!'
+                message: [err.message, 'Error occurred while deleting all Announcements!']
             });
         });
 };

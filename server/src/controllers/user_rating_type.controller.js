@@ -3,13 +3,13 @@ const UserRatingType = db.user_rating_types;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
-    const messages = [];
+    const message = [];
     if(!req.body.name){
-        messages.push("UserRatingType name cannot be empty!");
+        message.push("UserRatingType name cannot be empty!");
     }
-    if(messages.length>0){
+    if(message.length>0){
         res.status(400).send({
-            messages: messages
+            message: message
         });
         return;
     }
@@ -22,7 +22,7 @@ exports.create = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                messages: err.message || 'Error occurred while creating UserRatingType!'
+                message: [err.message, 'Error occurred while creating UserRatingType!']
             });
         });
 };
@@ -34,7 +34,7 @@ exports.findAll = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || 'Error occurred while fetching UserRatingTypes!'
+                message: [err.message, 'Error occurred while fetching UserRatingTypes!']
             });
         });
 };
@@ -48,7 +48,7 @@ exports.findOne = (req, res) => {
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || `Error occurred while searching for UserRatingType with id=${id}!`
+                message: [err.message, `Error occurred while searching for UserRatingType with id=${id}!`]
             });
         });
 
@@ -63,18 +63,18 @@ exports.update = (req, res) => {
         .then(result => {
             if(result[0] === 1){
                 res.send({
-                    message: "UserRatingType was updated successfully"
+                    message: ["UserRatingType was updated successfully"]
                 });
             }
             else{
                 res.send({
-                    message: `Cannot update UserRatingType with id=${id}.`
+                    message: [`Cannot update UserRatingType with id=${id}.`]
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || `Error occurred while updating UserRatingType with id=${id}!`
+                message: [err.message, `Error occurred while updating UserRatingType with id=${id}!`]
             });
         });
 };
@@ -88,18 +88,18 @@ exports.delete = (req, res) => {
         .then(result => {
             if(result === 1){
                 res.send({
-                    message: "UserRatingType was deleted successfully"
+                    message: ["UserRatingType was deleted successfully"]
                 });
             }
             else{
                 res.send({
-                    message: `Cannot delete UserRatingType with id=${id}.`
+                    message: [`Cannot delete UserRatingType with id=${id}.`]
                 });
             }
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || `Error occurred while deleting UserRatingType with id=${id}!`
+                message: [err.message, `Error occurred while deleting UserRatingType with id=${id}!`]
             });
         });
 };
@@ -110,11 +110,11 @@ exports.deleteAll = (req, res) => {
         truncate: false
     })
         .then(result => {
-            res.send({message: `${result} UserRatingTypes were deleted successfully!`});
+            res.send({message: [`${result} UserRatingTypes were deleted successfully!`]});
         })
         .catch(err => {
             res.status(500).send({
-                message: err.message || 'Error occurred while deleting all UserRatingTypes!'
+                message: [err.message, 'Error occurred while deleting all UserRatingTypes!']
             });
         });
 };
