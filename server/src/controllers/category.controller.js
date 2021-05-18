@@ -68,7 +68,7 @@ exports.update = (req, res) => {
             }
             else{
                 res.send({
-                    message: [`Cannot update Category with id=${id}.`]
+                    message:[`Cannot update Category with id=${id}.`]
                 });
             }
         })

@@ -5,6 +5,7 @@ import FilterSelect from "../../components/FilterSelect/FilterSelect";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
+import {useHistory} from "react-router-dom";
 axios.defaults.withCredentials = true;
 
 const useStyles = makeStyles((theme) => ({
@@ -23,7 +24,11 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function AddAnnouncementPage(){
+function AddAnnouncementPage(props){
+    const history = useHistory();
+    if(props.authorized===false){
+        history.push('/login');
+    }
     const classes = useStyles();
     const [categories, setCategories] = useState({data:[], name:""});
     const [form, setForm] = useState({
@@ -60,10 +65,15 @@ function AddAnnouncementPage(){
                 }
             })
             .catch(err => {
-                setTitle("Problem z dodaniem ogłoszenia");
-                setText(err.response.data.message.map(message => {return message + "\n"}));
-                setAction('/add-announcement');
-                setOpen(true);
+                if(err.response.status === 500){
+                    props.setAuthorized(false);
+                }
+                else{
+                    setTitle("Problem z dodaniem ogłoszenia");
+                    setText(err.response.data.message.map(message => {return message + "\n"}));
+                    setAction('/add-announcement');
+                    setOpen(true);
+                }
             });
     };
 

@@ -18,6 +18,15 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: 'row',
         flexGrow: 1
     },
+    logoutLink: {
+        margin: theme.spacing(0),
+        marginRight: theme.spacing(3),
+        marginLeft: theme.spacing(3),
+        [theme.breakpoints.down('sm')]: {
+            margin: theme.spacing(0),
+        },
+        cursor: "pointer"
+    }
 }));
 
 
@@ -27,13 +36,19 @@ function DesktopNavItems(props){
         <Container disableGutters={true} maxWidth="xl" className={classes.menuWrapper}>
             {
                 props.menuItems.map((item) => {
-                    return (
+                    return item.menuTitle!=="Wyloguj"
+                    ? (
                         <NavLink className={classes.menuLink} key={item.menuTitle} to={item.pageUrl}>
                             <Typography color="secondary" variant="h6">
                                 {item.menuTitle}
                             </Typography>
                         </NavLink>
                     )
+                    : (
+                        <Typography onClick={props.logout} className={classes.logoutLink} color="secondary" variant="h6">
+                            {item.menuTitle}
+                        </Typography>
+                    );
                 })
             }
         </Container>

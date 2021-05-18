@@ -12,6 +12,8 @@ module.exports = app => {
     router.get('/', passport.authenticate('jwt', {session: false}), users.findAll);
 
     router.post('/login', security.login);
+    router.post('/logout', security.logout);
+    router.post('/isAuthorized', passport.authenticate('jwt', {session: false}), security.isAuthorized);
 
     //get single user with id, username or email
     router.get('/:searchPhrase', passport.authenticate('jwt', {session: false}),users.findOne);

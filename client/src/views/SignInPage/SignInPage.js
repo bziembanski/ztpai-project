@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import {Box, Button, makeStyles, TextField, Typography} from "@material-ui/core";
-import {NavLink} from "react-router-dom";
+import {NavLink, useHistory} from "react-router-dom";
 import axios from 'axios';
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
 
@@ -30,7 +30,11 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function SignInPage(){
+function SignInPage(props){
+    const history = useHistory();
+    if(props.authorized===true){
+        history.push("/");
+    }
 
     const classes = useStyles();
     const [name, setName] = useState("");

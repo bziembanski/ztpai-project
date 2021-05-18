@@ -5,6 +5,7 @@ import Announcement from "../../components/Announcement/Announcement";
 import {useEffect, useState} from "react";
 import {Skeleton} from "@material-ui/lab";
 import axios from "axios";
+import {useHistory} from "react-router-dom";
 axios.defaults.withCredentials = true;
 
 const useStyles = makeStyles((theme) => ({
@@ -58,7 +59,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function ProfilePage(){
+function ProfilePage(props){
+    const history = useHistory();
+    if(props.authorized===false){
+        history.push("login");
+    }
+
     const classes = useStyles();
     const [isAnnsLoading, setIsAnnsLoading] = useState(true);
     const [isProfileLoading, setIsProfileLoading] = useState(true);
@@ -80,7 +86,9 @@ function ProfilePage(){
                         });
                     })
                     .catch(err => {
-                        console.log(err);
+                        if(err.response.status === 500){
+                            props.setAuthorized(false);
+                        }
                     })
                     .finally(() => {
                         setTimeout(() => {
@@ -89,7 +97,9 @@ function ProfilePage(){
                     });
             })
             .catch(err => {
-                console.log(err);
+                if(err.response.status === 500){
+                    props.setAuthorized(false);
+                }
             })
             .finally(() => {
                 setTimeout(() => {

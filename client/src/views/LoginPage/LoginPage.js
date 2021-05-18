@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {makeStyles, TextField, Box, Button, Typography} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import {NavLink} from "react-router-dom";
+import {NavLink, Redirect, useHistory} from "react-router-dom";
 import axios from "axios";
 import AlertDialog from "../../components/AlertDialog/AlertDialog";
 axios.defaults.withCredentials = true;
@@ -31,7 +31,11 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function LoginPage(){
+function LoginPage(props){
+    const history = useHistory();
+    if(props.authorized===true){
+        history.push("/");
+    }
     const classes = useStyles();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -47,6 +51,7 @@ function LoginPage(){
         axios.post('api/users/login', dataObject)
             .then(data=>{
                 if(!data.data.hasOwnProperty('message')){
+                    props.setAuthorized(true);
                     setTitle("Logowanie przebiegło pomyślnie");
                     setText("Zostaniesz przekierowny na stronę główną!");
                     setAction('/');

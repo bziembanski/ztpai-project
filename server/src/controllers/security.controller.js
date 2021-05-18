@@ -71,10 +71,28 @@ exports.logout = (req, res) => {
         res
             .clearCookie('jwt')
             .status(200)
+            .send({
+                message: ["Logout successful "]
+            })
     }
     else{
         res.status(401).send({
             message: ["Invalid jwt"]
+        });
+    }
+};
+
+exports.isAuthorized = (req, res) => {
+    if(req.cookies['jwt']){
+        res
+            .status(200)
+            .send({
+                message: ["Authorized"]
+            })
+    }
+    else{
+        res.status(401).send({
+            message: ["Unauthorized"]
         });
     }
 };

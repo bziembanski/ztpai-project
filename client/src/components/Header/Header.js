@@ -12,6 +12,7 @@ import Slide from '@material-ui/core/Slide';
 
 import DesktopNavItems from "../NavItems/DesktopNavItems";
 import MobileNavItems from "../NavItems/MobileNavItems";
+import axios from "axios";
 
 
 
@@ -29,7 +30,7 @@ function HideOnScroll(props) {
     );
 }
 
-function Header() {
+function Header(props) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const [open, setOpen] = useState(false);
@@ -41,25 +42,58 @@ function Header() {
         setOpen(open);
     };
 
+    const logout = () => {
+        axios.post('api/users/logout', {})
+            .then(data=>{
+                if(data.status===200){
+                    props.setAuthorized(false);
+                }
+            });
+    }
 
-    const menuItems = [
-        {
-            menuTitle: 'Główna',
-            pageUrl: "/"
-        },
-        {
-            menuTitle: 'Ogłoszenia',
-            pageUrl: "/search"
-        },
-        {
-            menuTitle: 'Profil',
-            pageUrl: "/profile"
-        },
-        {
-            menuTitle: 'Dodaj ogłoszenie',
-            pageUrl: "/add-announcement"
-        }
-    ];
+
+    const menuItems =
+        props.authorized
+        ? [
+            {
+                menuTitle: 'Główna',
+                pageUrl: "/"
+            },
+            {
+                menuTitle: 'Ogłoszenia',
+                pageUrl: "/search"
+            },
+            {
+                menuTitle: 'Profil',
+                pageUrl: "/profile"
+            },
+            {
+                menuTitle: 'Dodaj ogłoszenie',
+                pageUrl: "/add-announcement"
+            },
+            {
+                menuTitle: 'Wyloguj',
+                pageUrl: "/logout"
+            }
+        ]
+        : [
+            {
+                menuTitle: 'Główna',
+                pageUrl: "/"
+            },
+            {
+                menuTitle: 'Ogłoszenia',
+                pageUrl: "/search"
+            },
+            {
+                menuTitle: 'Logowanie',
+                pageUrl: "/login"
+            },
+            {
+                menuTitle: 'Rejestracja',
+                pageUrl: "/signin"
+            }
+        ];
 
     return (
         <HideOnScroll>
@@ -71,10 +105,12 @@ function Header() {
                                 menuItems={menuItems}
                                 toggleDrawer={toggleDrawer}
                                 open={open}
+                                logout={logout}
                             />
                         :
                             <DesktopNavItems
                                 menuItems={menuItems}
+                                logout={logout}
                             />
                     }
                     <NavLink to="/">

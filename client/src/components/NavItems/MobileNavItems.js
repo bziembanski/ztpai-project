@@ -70,7 +70,8 @@ function MobileNavItems(props){
                 </Container>
                 <MenuList>
                     {props.menuItems.map(item => {
-                        return (
+                        return item.menuTitle!=="Wyloguj"
+                        ? (
                             <NavLink
                                 className={classes.menuLink}
                                 to={item.pageUrl}
@@ -84,6 +85,16 @@ function MobileNavItems(props){
                                     </Typography>
                                 </MenuItem>
                             </NavLink>
+                        )
+                        :(
+                            <MenuItem
+                                key={item.menuTitle}
+                                className={classes.menuLink}
+                                onClick={props.logout}>
+                                <Typography color="secondary" variant="h5">
+                                    {item.menuTitle}
+                                </Typography>
+                            </MenuItem>
                         );
                     })}
                 </MenuList>
