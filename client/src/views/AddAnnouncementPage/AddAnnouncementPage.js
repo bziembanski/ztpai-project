@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import FilterSelect from "../../components/FilterSelect/FilterSelect";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import AlertDialog from "../../components/AlertDialog/AlertDialog";
+import RedirectDialog from "../../components/RedirectDialog/RedirectDialog";
 import {useHistory} from "react-router-dom";
 axios.defaults.withCredentials = true;
 
@@ -193,7 +193,7 @@ function AddAnnouncementPage(props){
                     </Box>
                 </Paper>
             </Grid>
-            <AlertDialog title={title} text={text} open={open} setOpen={setOpen} action={action}/>
+            <RedirectDialog title={title} text={text} open={open} setOpen={setOpen} action={action}/>
         </Grid>
     );
 }

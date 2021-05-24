@@ -13,19 +13,21 @@ import ProfilePage from './views/ProfilePage/ProfilePage';
 import AddAnnouncementPage from './views/AddAnnouncementPage/AddAnnouncementPage';
 import ErrorPage from './views/ErrorPage/ErrorPage';
 import Header from './components/Header/Header';
-import {useEffect, useState} from "react";
-import axios from "axios";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import {useEffect, useState} from "react"
+import AuthorizationService from "./services/AuthorizationService/AuthorizationService";
 
 
 
 function App() {
     const [authorized, setAuthorized] = useState(false);
     useEffect(() => {
-        axios.post('api/users/isAuthorized')
+        console.log("app is authorized");
+        AuthorizationService.isAuthorized()
             .then(data => {
-               if(data.status===200){
-                   setAuthorized(true);
-               }
+                if(data.status === 200) {
+                    setAuthorized(true);
+                }
             })
             .catch(() => {
                 setAuthorized(false);
@@ -47,11 +49,11 @@ function App() {
                 <Route path="/search" render={(props) => (
                     <SearchPage {...props} />
                 )}/>
-                <Route path="/profile" render={(props) => (
-                    <ProfilePage {...props} authorized={authorized} setAuthorized={setAuthorized}/>
+                <ProtectedRoute path="/profile/:id" authorized={authorized} setAuthorized={setAuthorized} render={(props) => (
+                    <ProfilePage {...props}/>
                 )}/>
-                <Route path="/add-announcement" render={(props) => (
-                    <AddAnnouncementPage {...props} authorized={authorized} setAuthorized={setAuthorized}/>
+                <ProtectedRoute path="/add-announcement" authorized={authorized} setAuthorized={setAuthorized} render={(props) => (
+                    <AddAnnouncementPage {...props}/>
                 )}/>
                 <Route path="/404" render={(props) => (
                     <ErrorPage {...props} />

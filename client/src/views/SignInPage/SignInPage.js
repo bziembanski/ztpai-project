@@ -3,8 +3,8 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import {Box, Button, makeStyles, TextField, Typography} from "@material-ui/core";
 import {NavLink, useHistory} from "react-router-dom";
-import axios from 'axios';
-import AlertDialog from "../../components/AlertDialog/AlertDialog";
+import RedirectDialog from "../../components/RedirectDialog/RedirectDialog";
+import UserService from '../../services/UserService/UserService';
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -51,11 +51,9 @@ function SignInPage(props){
 
     const handleSubmit = event => {
         event.preventDefault();
-        const dataObject = {name, surname, username, email, password, password2}
-
-        axios.post('/api/users/',dataObject)
+        UserService.signin(name, surname, username, email, password, password2)
             .then(data=>{
-                if(!data.data.hasOwnProperty('message')){
+                if(!data.hasOwnProperty('message')){
                     setTitle("Rejestracja przebiegła pomyślnie");
                     setText("Możesz już się zalogować!");
                     setAction('/login');
@@ -213,7 +211,7 @@ function SignInPage(props){
                     </Box>
                 </Paper>
             </Grid>
-            <AlertDialog title={title} text={text} open={open} setOpen={setOpen} action={action}/>
+            <RedirectDialog title={title} text={text} open={open} setOpen={setOpen} action={action}/>
         </Grid>
     );
 }

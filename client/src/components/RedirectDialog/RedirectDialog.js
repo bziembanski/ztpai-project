@@ -7,11 +7,13 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {useHistory} from "react-router-dom";
 
-function AlertDialog(props) {
+function RedirectDialog(props) {
     const history = useHistory();
     const handleClose = () => {
         props.setOpen(false);
-        history.push(props.action);
+        if(props.action !== ''){
+            history.push(props.action);
+        }
     };
 
     return (
@@ -37,4 +39,4 @@ function AlertDialog(props) {
         </div>
     );
 }
-export default AlertDialog;
+export default RedirectDialog;

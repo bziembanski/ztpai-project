@@ -45,7 +45,7 @@ function DesktopNavItems(props){
                         </NavLink>
                     )
                     : (
-                        <Typography onClick={props.logout} className={classes.logoutLink} color="secondary" variant="h6">
+                        <Typography key={item.menuTitle} onClick={props.logout} className={classes.logoutLink} color="secondary" variant="h6">
                             {item.menuTitle}
                         </Typography>
                     );

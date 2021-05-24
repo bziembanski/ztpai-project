@@ -9,11 +9,11 @@ import {withRouter} from 'react-router-dom';
 import {useTheme} from '@material-ui/core/styles';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
+import {getCookie} from '../../utils/Utils';
 
 import DesktopNavItems from "../NavItems/DesktopNavItems";
 import MobileNavItems from "../NavItems/MobileNavItems";
 import axios from "axios";
-
 
 
 function HideOnScroll(props) {
@@ -34,6 +34,7 @@ function Header(props) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     const [open, setOpen] = useState(false);
+    const [authorized, setAuthorized] = [props.authorized, props.setAuthorized]
 
     const toggleDrawer = (open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -43,17 +44,17 @@ function Header(props) {
     };
 
     const logout = () => {
-        axios.post('api/users/logout', {})
-            .then(data=>{
-                if(data.status===200){
-                    props.setAuthorized(false);
-                }
-            });
+        axios.post('/api/users/logout', {})
+            .then(() => {
+               setAuthorized(false);
+            })
+            .catch();
     }
 
 
+
     const menuItems =
-        props.authorized
+        authorized
         ? [
             {
                 menuTitle: 'Główna',
@@ -65,7 +66,7 @@ function Header(props) {
             },
             {
                 menuTitle: 'Profil',
-                pageUrl: "/profile"
+                pageUrl: `/profile/${JSON.parse(getCookie("user").substr(2)).id}`
             },
             {
                 menuTitle: 'Dodaj ogłoszenie',

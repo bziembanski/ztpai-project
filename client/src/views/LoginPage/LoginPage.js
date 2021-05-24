@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {makeStyles, TextField, Box, Button, Typography} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import {NavLink, Redirect, useHistory} from "react-router-dom";
-import axios from "axios";
-import AlertDialog from "../../components/AlertDialog/AlertDialog";
-axios.defaults.withCredentials = true;
+import {NavLink, useHistory, useLocation} from "react-router-dom";
+import RedirectDialog from "../../components/RedirectDialog/RedirectDialog";
+import UserService from "../../services/UserService/UserService";
+
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -33,8 +33,10 @@ const useStyles = makeStyles((theme) => ({
 
 function LoginPage(props){
     const history = useHistory();
+    const location = useLocation();
     if(props.authorized===true){
-        history.push("/");
+        const {from} = location.state || {from: {pathname: "/"}};
+        history.replace(from);
     }
     const classes = useStyles();
     const [username, setUsername] = useState("");
@@ -47,18 +49,14 @@ function LoginPage(props){
 
     const handleSubmit = event => {
         event.preventDefault();
-        const dataObject = {username, password};
-        axios.post('api/users/login', dataObject)
+        UserService.login(username, password)
             .then(data=>{
-                if(!data.data.hasOwnProperty('message')){
+                if(!data.hasOwnProperty('message')){
                     props.setAuthorized(true);
-                    setTitle("Logowanie przebiegło pomyślnie");
-                    setText("Zostaniesz przekierowny na stronę główną!");
-                    setAction('/');
-                    setOpen(true);
                 }
             })
             .catch(err => {
+                console.log(err);
                 setTitle("Problem z logowaniem");
                 setText(err.response.data.message.map(message => {return message + "\n"}));
                 setAction('/login');
@@ -157,7 +155,7 @@ function LoginPage(props){
                     </Box>
                 </Paper>
             </Grid>
-            <AlertDialog title={title} text={text} open={open} setOpen={setOpen} action={action}/>
+            <RedirectDialog title={title} text={text} open={open} setOpen={setOpen} action={action}/>
         </Grid>
     );
 }

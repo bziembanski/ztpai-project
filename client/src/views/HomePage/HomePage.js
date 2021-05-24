@@ -83,16 +83,6 @@ function HomePage() {
         return () => {
             setAnnouncements([]);
         };
-        // fetch('/anns', {method: "POST"})
-        // .then(res => res.json())
-        // .then(anns => {
-        //     setAnnouncements(anns);
-        // })
-        // .finally(() => {
-        //     setTimeout(() => {
-        //         setIsLoading(false);
-        //     }, 500);
-        // });
     }, []);
 
     return (
