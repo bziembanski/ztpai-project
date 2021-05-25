@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const dotenv = require('dotenv');
 dotenv.config();
 const passport = require('passport');
+const pass = require('./src/auth/passport');
 const bodyParser = require('body-parser');
 const port = parseInt(process.env.PORT);
 const db = require('./src/models');
