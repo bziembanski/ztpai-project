@@ -10,7 +10,7 @@ import {
 import SearchIcon from "@material-ui/icons/Search";
 import Announcement from "../../components/Announcement/Announcement";
 import {useEffect, useState} from "react";
-import axios from "axios";
+import AnnouncementService from "../../services/AnnouncementService/AnnouncementService";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -46,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down("sm")]: {
             justifyContent: "center"
         },
-        justifyContent: "flex-start"
+        justifyContent: "flex-start",
+        alignItems: "stretch"
     },
     progress:{
         [theme.breakpoints.down('sm')]:{
@@ -69,9 +70,9 @@ function HomePage() {
     const [announcements, setAnnouncements] = useState([]);
 
     useEffect(() => {
-        axios.get(`/api/announcements?limit=10`)
+        AnnouncementService.announcements(undefined,10)
             .then(_announcements => {
-                setAnnouncements(_announcements.data);
+                setAnnouncements(_announcements);
 
             })
             .finally(() => {

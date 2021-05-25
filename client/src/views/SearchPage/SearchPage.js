@@ -9,6 +9,7 @@ import {
 import Announcement from "../../components/Announcement/Announcement";
 import FilterDrawer from "../../components/FilterDrawer/FilterDrawer";
 import axios from "axios";
+import AnnouncementService from "../../services/AnnouncementService/AnnouncementService";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -55,32 +56,46 @@ function SearchPage() {
     const [announcements, setAnnouncements] = useState([]);
     const [isFiltersLoading, setIsFiltersLoading] = useState(true);
     const [filters, setFilters] = useState();
-    const filterDrawerHandler = (open, form) => () => {
+    const [form, setForm] = useState({});
+    const filterDrawerHandler = (open) => () => {
         setIsDrawerOpen(open);
     }
-
     useEffect(() => {
-        axios.get(`/api/announcements`)
-            .then(_announcements => {
-                setAnnouncements(_announcements.data);
-
-            })
-            .finally(() => {
-                setTimeout(() => {
-                    setIsAnnouncementsLoading(false);
-                }, 500);
-            });
         axios.get('/api/filters')
             .then(_filters => {
                 setFilters(_filters.data);
             })
+            .catch(() => {});
+    }, []);
+    useEffect(() => {
+        AnnouncementService.announcements(form.searchBox)
+            .then(_announcements => {
+                setAnnouncements(_announcements);
+            })
+            .catch(()=>{})
             .finally(() => {
-                setIsFiltersLoading(false);
+                setIsAnnouncementsLoading(false);
             });
         return () => {
             setAnnouncements([]);
         };
-    }, []);
+    }, [form]);
+
+    useEffect(() => {
+        if(filters){
+            const checkboxes = Object.fromEntries(
+                filters && filters[2] && filters[2].data.map(name => [name, true])
+            );
+            setForm({
+                searchBox:"",
+                sort:0,
+                wage:[0,100],
+                category:checkboxes,
+            });
+            setIsFiltersLoading(false);
+        }
+
+    }, [filters]);
 
     return (
         <Grid
@@ -120,7 +135,6 @@ function SearchPage() {
                         >
                             Filtruj/Sortuj
                         </Typography>
-
                     </LinkButton>
                 </Grid>
             </Grid>
@@ -176,7 +190,10 @@ function SearchPage() {
                     <FilterDrawer
                         filters={filters}
                         isDrawerOpen={isDrawerOpen}
-                        filterDrawerHandler={filterDrawerHandler}/>
+                        filterDrawerHandler={filterDrawerHandler}
+                        form={form}
+                        setForm={setForm}
+                    />
             }
 
         </Grid>

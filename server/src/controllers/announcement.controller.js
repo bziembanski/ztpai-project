@@ -4,6 +4,7 @@ const User = db.users;
 const Category = db.categories;
 const Op = db.Sequelize.Op;
 const jwt = require('jsonwebtoken');
+const maxDescLength = 280;
 exports.create = (req, res) => {
     const message = [];
     if(!req.body.title){
@@ -27,7 +28,7 @@ exports.create = (req, res) => {
     const userId = jwt.decode((req.cookies['jwt'])).id;
     const announcement = {
         title: req.body.title,
-        description: req.body.description,
+        description: req.body.description.substr(0, maxDescLength),
         wage: req.body.wage,
         user_id: userId,
         category_id: req.body.category_id
@@ -48,11 +49,10 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
     const searchPhrase = req.query.searchPhrase;
     const limit = req.query.limit;
-    const condition = searchPhrase && isNaN(searchPhrase)
-        ?   {[Op.or]: [{title:{[Op.iLike]: `%${searchPhrase}%`}}, {description:{[Op.iLike]: `%${searchPhrase}%`}}]}
-        :   typeof searchPhrase !== 'undefined'
-            ? {user_id: searchPhrase}
-            : null;
+    console.log(searchPhrase)
+    const condition = searchPhrase
+        ? {[Op.or]: [{title:{[Op.iLike]: `%${searchPhrase}%`}}, {description:{[Op.iLike]: `%${searchPhrase}%`}}]}
+        : null;
 
     Announcement.findAll({
         limit:limit,

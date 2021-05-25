@@ -248,7 +248,7 @@ function ProfilePage(props){
                                 <Grid
                                     key={key}
                                     item
-                                    sm={12}
+                                    xs={12}
                                     md={6}
                                     lg={4}
                                     xl={3}
@@ -265,7 +265,7 @@ function ProfilePage(props){
                                 <Grid
                                     key={key}
                                     item
-                                    sm={12}
+                                    xs={12}
                                     md={6}
                                     lg={4}
                                     xl={3}

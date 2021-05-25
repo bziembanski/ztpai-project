@@ -22,9 +22,15 @@ const useStyles = makeStyles((theme) => ({
     },
     root:{
         width:'100%',
+        height: 285,
+        display: "flex",
+        flexDirection: "column"
     },
     desc:{
         minHeight:40
+    },
+    descContainer:{
+        flexGrow:1
     }
 }));
 
@@ -61,7 +67,7 @@ function Announcement(props){
 
                 }
             />
-            <CardContent>
+            <CardContent className={classes.descContainer}>
                 <Typography className={classes.desc} variant="body2" color="textPrimary" component="p">
                     {
                         loading ? (

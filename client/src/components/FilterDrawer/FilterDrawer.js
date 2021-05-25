@@ -11,7 +11,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import FilterCheckboxGroup from "../FilterCheckboxGroup/FilterCheckboxGroup";
 import FilterSelect from "../FilterSelect/FilterSelect";
 import FilterSlider from "../FilterSlider/FilterSlider";
-import {useState} from "react";
 
 const useStyles = makeStyles((theme) => ({
     filterDrawer:{
@@ -43,15 +42,7 @@ function FilterDrawer(props){
     const classes = useStyles();
     const isDrawerOpen = props.isDrawerOpen;
     const filterDrawerHandler = props.filterDrawerHandler;
-    const checkboxes = Object.fromEntries(
-        filtersData[2].data.map(name => [name, true])
-    );
-    const [form, setForm] = useState({
-        searchBox:"",
-        sort:0,
-        wage:[0,100],
-        category:checkboxes,
-    })
+    const [form, setForm] = [props.form, props.setForm]
 
     const handleChange = (name) => (event, value) => {
         if(name === "wage"){

@@ -37,17 +37,26 @@ function AddAnnouncementPage(props){
         category_id:0,
         wage:""
     });
-
+    const maxDescLength = 280;
     const [open, setOpen] = useState(false);
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
     const [action, setAction] = useState('');
 
     const handleChange = (event) => {
-        setForm({
-            ...form,
-            [event.target.name]: event.target.value
-        })
+        if(event.target.name === "description" && event.target.value.length<=maxDescLength){
+            setForm({
+                ...form,
+                [event.target.name]: event.target.value
+            })
+        }
+        else if(event.target.name !== "description"){
+            setForm({
+                ...form,
+                [event.target.name]: event.target.value
+            })
+        }
+
     };
 
     const handleSubmit = event => {
@@ -145,10 +154,13 @@ function AddAnnouncementPage(props){
                                     name="description"
                                     label="Opis ogłoszenia"
                                     value={form.description}
+                                    helperText={`${form.description.length}/${maxDescLength}`}
                                     onChange={handleChange}
                                     type="text"
                                     multiline
-                                    rows={4}
+                                    rows={2}
+                                    rowsMax={10}
+                                    inputProps={{maxlength: maxDescLength}}
                                     fullWidth
                                     color="secondary"
                                 />
