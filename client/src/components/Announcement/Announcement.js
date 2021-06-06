@@ -12,6 +12,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import ModeCommentIcon from "@material-ui/icons/ModeComment";
 import {Skeleton} from "@material-ui/lab";
+import {NavLink} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     actionText: {
@@ -31,6 +32,9 @@ const useStyles = makeStyles((theme) => ({
     },
     descContainer:{
         flexGrow:1
+    },
+    profileLink:{
+        textDecoration:"none"
     }
 }));
 
@@ -44,7 +48,14 @@ function Announcement(props){
                     loading ? (
                         <Skeleton width={40} height={40} animation="wave" variant="rect"/>
                     ) : (
-                        <Avatar variant="square"><img alt={props.user.name[0]} src={props.user.avatar}/></Avatar>
+                        <NavLink className={classes.profileLink} to={`/profile/${props.user.id}`}>
+                            <Avatar variant="square">
+                                {props.user.avatar
+                                ? <img alt="avatar" src={props.user.avatar}/>
+                                : props.user.name[0]
+                                }
+                            </Avatar>
+                        </NavLink>
                     )
                 }
                 title={

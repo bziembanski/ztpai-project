@@ -86,9 +86,7 @@ function ProfilePage(props){
                         }
                     })
                     .finally(() => {
-                        setTimeout(() => {
-                            setIsProfileLoading(false);
-                        }, 500);
+                        setIsProfileLoading(false);
                     });
             })
             .catch(err => {
@@ -97,9 +95,7 @@ function ProfilePage(props){
                 }
             })
             .finally(() => {
-                setTimeout(() => {
-                    setIsAnnsLoading(false);
-                }, 0);
+                setIsAnnsLoading(false);
             });
 
         return () => {
