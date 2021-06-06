@@ -57,9 +57,11 @@ function SearchPage() {
     const [isFiltersLoading, setIsFiltersLoading] = useState(true);
     const [filters, setFilters] = useState();
     const [form, setForm] = useState({});
+
     const filterDrawerHandler = (open) => () => {
         setIsDrawerOpen(open);
     }
+
     useEffect(() => {
         axios.get('/api/filters')
             .then(_filters => {
@@ -67,6 +69,7 @@ function SearchPage() {
             })
             .catch(() => {});
     }, []);
+
     useEffect(() => {
         AnnouncementService.announcements(form.searchBox)
             .then(_announcements => {

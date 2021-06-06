@@ -179,9 +179,7 @@ function HomePage() {
                     }
 
                 </Grid>
-
             </Grid>
-
         </Grid>
     );
 }
