@@ -138,7 +138,10 @@ function ProfilePage(props){
                                         className={classes.avatar}
                                         variant="square">
                                         {
-                                            <img alt={profile.name[0]} src={profile.avatar}/>
+                                            profile.avatar
+                                                ? <img alt="avatar" src={profile.avatar}/>
+                                                : profile.name[0]
+
                                         }
                                     </Avatar>
                                 )
