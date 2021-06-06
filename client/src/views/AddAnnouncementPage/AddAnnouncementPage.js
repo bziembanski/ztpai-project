@@ -37,7 +37,7 @@ function AddAnnouncementPage(props){
         category_id:0,
         wage:""
     });
-    const maxDescLength = 280;
+    const maxDescLength = 240;
     const [open, setOpen] = useState(false);
     const [title, setTitle] = useState("");
     const [text, setText] = useState("");
@@ -74,15 +74,10 @@ function AddAnnouncementPage(props){
                 }
             })
             .catch(err => {
-                if(err.response.status === 500){
-                    props.setAuthorized(false);
-                }
-                else{
-                    setTitle("Problem z dodaniem ogłoszenia");
-                    setText(err.response.data.message.map(message => {return message + "\n"}));
-                    setAction('/add-announcement');
-                    setOpen(true);
-                }
+                setTitle("Problem z dodaniem ogłoszenia");
+                setText(err.response.data.message.map(message => {return message + "\n"}));
+                setAction('/add-announcement');
+                setOpen(true);
             });
     };
 

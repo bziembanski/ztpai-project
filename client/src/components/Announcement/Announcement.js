@@ -28,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
         flexDirection: "column"
     },
     desc:{
-        minHeight:40
+        minHeight:40,
+        overflowWrap:"break-word"
     },
     descContainer:{
         flexGrow:1
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 function Announcement(props){
     const classes = useStyles();
     const {loading = false} = props;
+
     return(
         <Card className={classes.root} elevation={2}>
             <CardHeader disableTypography={true}

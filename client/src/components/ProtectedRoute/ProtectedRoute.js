@@ -17,7 +17,7 @@ function ProtectedRoute(props){
             })
     },[])
     return authorized ? (
-        <Route {...props} />
+        <Route {...props} authorized={authorized} setAuthorized={setAuthorized} />
     ) : (
         <Redirect to={{pathname: "/login", state: {from: location}}}/>
     );

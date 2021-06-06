@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     },
     newestAnnouncementsContainer: {
         marginTop: theme.spacing(4),
-        padding: theme.spacing(2),
+        padding: theme.spacing(1),
     },
     announcementsContainer: {
         [theme.breakpoints.down("sm")]: {
@@ -128,7 +128,7 @@ function HomePage() {
                     className={classes.announcementsContainer}
                     item
                     container
-                    spacing={3}
+                    spacing={2}
                     xs={12}
                     alignItems="flex-start"
                     justify="flex-start"
