@@ -4,10 +4,10 @@ let customTheme = createMuiTheme({
     palette: {
         type: 'dark',
         primary: {
-            main: '#7e58a7'
+            main: '#9a6ccc'
         },
         secondary: {
-            main: '#585aa7'
+            main: '#878bff'
         }
     },
     typography: {
