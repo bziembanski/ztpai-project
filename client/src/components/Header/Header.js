@@ -1,11 +1,6 @@
 import {useState} from 'react';
-import {
-    AppBar,
-    Toolbar,
-    useMediaQuery,
-} from '@material-ui/core';
-import {NavLink} from "react-router-dom";
-import {withRouter} from 'react-router-dom';
+import {AppBar, Toolbar, useMediaQuery,} from '@material-ui/core';
+import {NavLink, withRouter} from "react-router-dom";
 import {useTheme} from '@material-ui/core/styles';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Slide from '@material-ui/core/Slide';
@@ -18,9 +13,6 @@ import axios from "axios";
 
 function HideOnScroll(props) {
     const {children, window} = props;
-    // Note that you normally won't need to set the window ref as useScrollTrigger
-    // will default to window.
-    // This is only being set here because the demo is in an iframe.
     const trigger = useScrollTrigger({target: window ? window() : undefined});
 
     return (
@@ -46,73 +38,72 @@ function Header(props) {
     const logout = () => {
         axios.post('/api/users/logout', {})
             .then(() => {
-               setAuthorized(false);
+                setAuthorized(false);
             })
             .catch();
     }
 
 
-
     const menuItems =
         authorized
-        ? [
-            {
-                menuTitle: 'Główna',
-                pageUrl: "/"
-            },
-            {
-                menuTitle: 'Ogłoszenia',
-                pageUrl: "/search"
-            },
-            {
-                menuTitle: 'Profil',
-                pageUrl: `/profile/${JSON.parse(getCookie("user").substr(2)).id}`
-            },
-            {
-                menuTitle: 'Dodaj ogłoszenie',
-                pageUrl: "/add-announcement"
-            },
-            {
-                menuTitle: 'Wyloguj',
-                pageUrl: "/logout"
-            }
-        ]
-        : [
-            {
-                menuTitle: 'Główna',
-                pageUrl: "/"
-            },
-            {
-                menuTitle: 'Ogłoszenia',
-                pageUrl: "/search"
-            },
-            {
-                menuTitle: 'Logowanie',
-                pageUrl: "/login"
-            },
-            {
-                menuTitle: 'Rejestracja',
-                pageUrl: "/signin"
-            }
-        ];
+            ? [
+                {
+                    menuTitle: 'Główna',
+                    pageUrl: "/"
+                },
+                {
+                    menuTitle: 'Ogłoszenia',
+                    pageUrl: "/search"
+                },
+                {
+                    menuTitle: 'Profil',
+                    pageUrl: `/profile/${JSON.parse(getCookie("user").substr(2)).id}`
+                },
+                {
+                    menuTitle: 'Dodaj ogłoszenie',
+                    pageUrl: "/add-announcement"
+                },
+                {
+                    menuTitle: 'Wyloguj',
+                    pageUrl: "/logout"
+                }
+            ]
+            : [
+                {
+                    menuTitle: 'Główna',
+                    pageUrl: "/"
+                },
+                {
+                    menuTitle: 'Ogłoszenia',
+                    pageUrl: "/search"
+                },
+                {
+                    menuTitle: 'Logowanie',
+                    pageUrl: "/login"
+                },
+                {
+                    menuTitle: 'Rejestracja',
+                    pageUrl: "/signin"
+                }
+            ];
 
     return (
         <HideOnScroll>
             <AppBar color="inherit">
                 <Toolbar>
-                    { isMobile
+                    {isMobile
                         ?
-                            <MobileNavItems
-                                menuItems={menuItems}
-                                toggleDrawer={toggleDrawer}
-                                open={open}
-                                logout={logout}
-                            />
+                        <MobileNavItems
+                            menuItems={menuItems}
+                            toggleDrawer={toggleDrawer}
+                            open={open}
+                            logout={logout}
+                        />
                         :
-                            <DesktopNavItems
-                                menuItems={menuItems}
-                                logout={logout}
-                            />
+                        <DesktopNavItems
+                            menuItems={menuItems}
+                            logout={logout}
+                        />
                     }
                     <NavLink to="/">
                         <img height={32} alt="logo-dibeda" src="/logo.svg"/>

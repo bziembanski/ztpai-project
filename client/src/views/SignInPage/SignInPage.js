@@ -7,32 +7,32 @@ import RedirectDialog from "../../components/RedirectDialog/RedirectDialog";
 import UserService from '../../services/UserService/UserService';
 
 const useStyles = makeStyles((theme) => ({
-    root:{
-        [theme.breakpoints.down('sm')]:{
+    root: {
+        [theme.breakpoints.down('sm')]: {
             height: 'calc(100vh - 56px)',
             marginTop: 56
         },
         height: 'calc(100vh - 64px)',
-        marginTop:64,
-        backgroundColor:theme.palette.background.default,
+        marginTop: 64,
+        backgroundColor: theme.palette.background.default,
         overflow: "auto"
     },
-    formGrid:{
+    formGrid: {
         height: '70%',
     },
-    fullHeight:{
-        height:'100%',
+    fullHeight: {
+        height: '100%',
     },
-    signinLink:{
-        [theme.breakpoints.down('xs')]:{
-            order:1
+    signinLink: {
+        [theme.breakpoints.down('xs')]: {
+            order: 1
         }
     }
 }));
 
-function SignInPage(props){
+function SignInPage(props) {
     const history = useHistory();
-    if(props.authorized===true){
+    if (props.authorized === true) {
         history.push("/");
     }
 
@@ -52,22 +52,24 @@ function SignInPage(props){
     const handleSubmit = event => {
         event.preventDefault();
         UserService.signin(name, surname, username, email, password, password2)
-            .then(data=>{
-                if(!data.hasOwnProperty('message')){
+            .then(data => {
+                if (!data.hasOwnProperty('message')) {
                     setTitle("Rejestracja przebiegła pomyślnie");
                     setText("Możesz już się zalogować!");
                     setAction('/login');
                     setOpen(true);
                 }
             })
-            .catch(err=>{
+            .catch(err => {
                 setTitle("Problem z rejestracją");
-                setText(err.response.data.message.map(message => {return message + "\n"}));
+                setText(err.response.data.message.map(message => {
+                    return message + "\n"
+                }));
                 setAction('');
                 setOpen(true);
             })
     }
-    return(
+    return (
         <Grid
             container
             component="main"
@@ -113,7 +115,7 @@ function SignInPage(props){
                                     color="secondary"
                                     type="text"
                                     label="Imię"
-                                    fullWidth />
+                                    fullWidth/>
                             </Grid>
                             <Grid
                                 item
@@ -127,7 +129,7 @@ function SignInPage(props){
                                     color="secondary"
                                     type="text"
                                     label="Nazwisko"
-                                    fullWidth />
+                                    fullWidth/>
                             </Grid>
                             <Grid
                                 item
@@ -141,7 +143,7 @@ function SignInPage(props){
                                     color="secondary"
                                     type="text"
                                     label="Login"
-                                    fullWidth />
+                                    fullWidth/>
                             </Grid>
                             <Grid
                                 item
@@ -155,7 +157,7 @@ function SignInPage(props){
                                     color="secondary"
                                     type="text"
                                     label="Email"
-                                    fullWidth />
+                                    fullWidth/>
                             </Grid>
                             <Grid
                                 item

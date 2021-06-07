@@ -1,11 +1,12 @@
 const passport = require("passport");
+
 module.exports = app => {
     const categories = require("../controllers/category.controller");
 
     const router = require('express').Router();
 
     //create category
-    router.post('/', passport.authenticate('jwt', {session: false}),categories.create);
+    router.post('/', passport.authenticate('jwt', {session: false}), categories.create);
 
     //get all categories
     router.get('/', categories.findAll);

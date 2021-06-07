@@ -1,4 +1,5 @@
 const passport = require("passport");
+
 module.exports = app => {
     const announcements = require("../controllers/announcement.controller");
 

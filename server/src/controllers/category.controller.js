@@ -1,13 +1,12 @@
 const db = require("../models");
 const Category = db.categories;
-const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
     const message = [];
-    if(!req.body.name){
+    if (!req.body.name) {
         message.push("Category name cannot be empty!");
     }
-    if(message.length>0){
+    if (message.length > 0) {
         res.status(400).send({
             message: message
         });
@@ -61,14 +60,13 @@ exports.update = (req, res) => {
         where: {id: id}
     })
         .then(result => {
-            if(result[0] === 1){
+            if (result[0] === 1) {
                 res.send({
                     message: ["Category was updated successfully"]
                 });
-            }
-            else{
+            } else {
                 res.send({
-                    message:[`Cannot update Category with id=${id}.`]
+                    message: [`Cannot update Category with id=${id}.`]
                 });
             }
         })
@@ -86,12 +84,11 @@ exports.delete = (req, res) => {
         where: {id: id}
     })
         .then(result => {
-            if(result === 1){
+            if (result === 1) {
                 res.send({
                     message: ["Category was deleted successfully"]
                 });
-            }
-            else{
+            } else {
                 res.send({
                     message: [`Cannot delete Category with id=${id}.`]
                 });

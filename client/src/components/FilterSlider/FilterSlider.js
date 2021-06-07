@@ -1,10 +1,4 @@
-import {
-    FormControl,
-    FormLabel,
-    Typography,
-    Slider,
-    Tooltip
-} from "@material-ui/core";
+import {FormControl, FormLabel, Slider, Tooltip, Typography} from "@material-ui/core";
 import PropTypes from 'prop-types';
 
 function valuetext(value) {
@@ -12,7 +6,7 @@ function valuetext(value) {
 }
 
 function ValueLabelComponent(props) {
-    const { children, open, value } = props;
+    const {children, open, value} = props;
 
     return (
         <Tooltip color="secondary" open={open} enterTouchDelay={0} placement="top" title={value}>
@@ -27,7 +21,7 @@ ValueLabelComponent.propTypes = {
     value: PropTypes.number.isRequired,
 };
 
-function FilterSelect(props){
+function FilterSelect(props) {
     return (
         <FormControl fullWidth color="primary">
             <FormLabel>
@@ -50,4 +44,5 @@ function FilterSelect(props){
         </FormControl>
     );
 }
+
 export default FilterSelect;

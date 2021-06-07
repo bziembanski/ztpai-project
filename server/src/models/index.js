@@ -2,16 +2,16 @@ const {Sequelize} = require('sequelize');
 const db_conf = process.env.DATABASE_URL;
 
 const sequelize = new Sequelize(db_conf, {
-    dialect:'postgres',
-    dialectOptions:{
-        ssl:{
-            require:true,
-            rejectUnauthorized:false
+    dialect: 'postgres',
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
         }
     },
-    pool:{
+    pool: {
         max: 5,
-        min:0,
+        min: 0,
         acquire: 30000,
         idle: 10000
     }
@@ -46,7 +46,7 @@ db.users.hasMany(db.user_ratings, {
         allowNull: false
     }
 });
-db.user_ratings.belongsTo(db.users,{
+db.user_ratings.belongsTo(db.users, {
     foreignKey: {
         name: 'user_id',
         allowNull: false
@@ -58,7 +58,7 @@ db.user_rating_types.hasMany(db.user_ratings, {
         allowNull: false
     }
 });
-db.user_ratings.belongsTo(db.user_rating_types,{
+db.user_ratings.belongsTo(db.user_rating_types, {
     foreignKey: {
         name: 'user_rating_type_id',
         allowNull: false

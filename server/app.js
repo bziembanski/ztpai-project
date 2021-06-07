@@ -32,4 +32,6 @@ require('./src/routes/category.routes')(app);
 require('./src/routes/announcement.routes')(app);
 require('./src/routes/user_rating.routes')(app);
 require('./src/routes/user_rating_type.routes')(app);
-app.listen(port, () => {console.log("listening on port "+ port)});
+app.listen(port, () => {
+    console.log("listening on port " + port)
+});

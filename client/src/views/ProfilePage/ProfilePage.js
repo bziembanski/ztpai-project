@@ -6,59 +6,60 @@ import {useEffect, useState} from "react";
 import {Skeleton} from "@material-ui/lab";
 import {useParams} from "react-router-dom";
 import UserService from "../../services/UserService/UserService";
+
 const useStyles = makeStyles((theme) => ({
-    root:{
-        [theme.breakpoints.down('sm')]:{
+    root: {
+        [theme.breakpoints.down('sm')]: {
             marginTop: 56
         },
-        marginTop:64,
-        backgroundColor:theme.palette.background.default,
-        flexGrow:1,
+        marginTop: 64,
+        backgroundColor: theme.palette.background.default,
+        flexGrow: 1,
 
     },
-    ratings:{
-        [theme.breakpoints.up('md')]:{
-            marginTop:theme.spacing(3),
+    ratings: {
+        [theme.breakpoints.up('md')]: {
+            marginTop: theme.spacing(3),
         }
     },
-    userInfo:{
-        marginTop:theme.spacing(3),
+    userInfo: {
+        marginTop: theme.spacing(3),
     },
-    dashBoardElementTop:{
-        flexGrow:1,
-        flexWrap:"wrap",
+    dashBoardElementTop: {
+        flexGrow: 1,
+        flexWrap: "wrap",
         padding: theme.spacing(3),
     },
-    rootChild:{
-        padding:theme.spacing(3),
-        height:'100%',
+    rootChild: {
+        padding: theme.spacing(3),
+        height: '100%',
     },
-    avatar:{
-        width:150,
-        height:150,
-        marginBottom:theme.spacing(2)
+    avatar: {
+        width: 150,
+        height: 150,
+        marginBottom: theme.spacing(2)
     },
-    profileHeader:{
-        marginTop:theme.spacing(2),
-        marginBottom:theme.spacing(2)
+    profileHeader: {
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2)
     },
-    progress:{
-        [theme.breakpoints.down('sm')]:{
-            width:'95%',
+    progress: {
+        [theme.breakpoints.down('sm')]: {
+            width: '95%',
         },
-        [theme.breakpoints.up('md')]:{
-            width:'60%',
+        [theme.breakpoints.up('md')]: {
+            width: '60%',
         },
-        [theme.breakpoints.up('lg')]:{
-            width:'42%',
+        [theme.breakpoints.up('lg')]: {
+            width: '42%',
         },
-        margin:"auto",
-        marginTop:theme.spacing(2)
+        margin: "auto",
+        marginTop: theme.spacing(2)
     },
 }));
 
-function ProfilePage(props){
-    const { id } = useParams();
+function ProfilePage(props) {
+    const {id} = useParams();
     const classes = useStyles();
     const [isAnnsLoading, setIsAnnsLoading] = useState(true);
     const [isProfileLoading, setIsProfileLoading] = useState(true);
@@ -72,7 +73,7 @@ function ProfilePage(props){
             .then(_profile => {
                 setAnnouncements(_profile.announcements);
                 setProfile(() => {
-                    return (({ announcements, ...us }) => us)(_profile);
+                    return (({announcements, ...us}) => us)(_profile);
                 });
                 UserService.userRatings(id)
                     .then(_ratings => {
@@ -81,7 +82,7 @@ function ProfilePage(props){
                         });
                     })
                     .catch(err => {
-                        if(err.response.status === 500){
+                        if (err.response.status === 500) {
                             props.setAuthorized(false);
                         }
                     })
@@ -90,7 +91,7 @@ function ProfilePage(props){
                     });
             })
             .catch(err => {
-                if(err.response.status === 500){
+                if (err.response.status === 500) {
                     props.setAuthorized(false);
                 }
             })
@@ -104,8 +105,8 @@ function ProfilePage(props){
         };
     }, [id]);
 
-    return(
-        <div style={{padding:25}}>
+    return (
+        <div style={{padding: 25}}>
             <Grid
                 container
                 component="main"
@@ -132,7 +133,7 @@ function ProfilePage(props){
                         >
                             {
                                 isProfileLoading ? (
-                                    <Skeleton animation="wave" variant="rect" className={classes.avatar} />
+                                    <Skeleton animation="wave" variant="rect" className={classes.avatar}/>
                                 ) : (
                                     <Avatar
                                         className={classes.avatar}
@@ -221,12 +222,16 @@ function ProfilePage(props){
                                 {
                                     isProfileLoading ? (
                                         <>
-                                            <Grid item ><Skeleton animation="wave" variant="rect" width='100%' height={20}/></Grid>
-                                            <Grid item><Skeleton animation="wave" variant="rect" width='100%' height={20}/></Grid>
-                                            <Grid item><Skeleton animation="wave" variant="rect" width='100%' height={20}/></Grid>
+                                            <Grid item><Skeleton animation="wave" variant="rect" width='100%'
+                                                                 height={20}/></Grid>
+                                            <Grid item><Skeleton animation="wave" variant="rect" width='100%'
+                                                                 height={20}/></Grid>
+                                            <Grid item><Skeleton animation="wave" variant="rect" width='100%'
+                                                                 height={20}/></Grid>
                                         </>
                                     ) : (
-                                        profile.ratings.map((rating, key) => <Grid key={key} item><RatingWithName  {...rating} /></Grid>)
+                                        profile.ratings.map((rating, key) => <Grid key={key}
+                                                                                   item><RatingWithName  {...rating} /></Grid>)
                                     )
                                 }
                             </Grid>
@@ -242,8 +247,8 @@ function ProfilePage(props){
                 </Grid>
                 {
                     isAnnsLoading ? (
-                        [1,2,3,4].map((key) => {
-                            return(
+                        [1, 2, 3, 4].map((key) => {
+                            return (
                                 <Grid
                                     key={key}
                                     item
@@ -260,7 +265,7 @@ function ProfilePage(props){
                         })
                     ) : (
                         announcements.map((ann, key) => {
-                            return(
+                            return (
                                 <Grid
                                     key={key}
                                     item
@@ -284,4 +289,5 @@ function ProfilePage(props){
         </div>
     );
 }
+
 export default ProfilePage;

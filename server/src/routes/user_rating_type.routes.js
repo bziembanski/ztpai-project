@@ -1,4 +1,5 @@
 const passport = require("passport");
+
 module.exports = app => {
     const userRatingTypes = require("../controllers/user_rating_type.controller");
 

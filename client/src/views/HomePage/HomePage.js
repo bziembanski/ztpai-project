@@ -1,12 +1,5 @@
 import Paper from '@material-ui/core/Paper'
-import {
-    Divider,
-    Grid,
-    IconButton,
-    InputBase,
-    makeStyles,
-    Typography
-} from "@material-ui/core";
+import {Divider, Grid, IconButton, InputBase, makeStyles, Typography} from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import Announcement from "../../components/Announcement/Announcement";
 import {useEffect, useState} from "react";
@@ -49,18 +42,18 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: "flex-start",
         alignItems: "stretch"
     },
-    progress:{
-        [theme.breakpoints.down('sm')]:{
-            width:'95%',
+    progress: {
+        [theme.breakpoints.down('sm')]: {
+            width: '95%',
         },
-        [theme.breakpoints.up('md')]:{
-            width:'60%',
+        [theme.breakpoints.up('md')]: {
+            width: '60%',
         },
-        [theme.breakpoints.up('lg')]:{
-            width:'42%',
+        [theme.breakpoints.up('lg')]: {
+            width: '42%',
         },
-        margin:"auto",
-        marginTop:theme.spacing(2)
+        margin: "auto",
+        marginTop: theme.spacing(2)
     }
 }));
 
@@ -70,7 +63,7 @@ function HomePage() {
     const [announcements, setAnnouncements] = useState([]);
 
     useEffect(() => {
-        AnnouncementService.announcements(undefined,10)
+        AnnouncementService.announcements(undefined, 10)
             .then(_announcements => {
                 setAnnouncements(_announcements);
 
@@ -135,7 +128,7 @@ function HomePage() {
                 >
                     {
                         isLoading ? (
-                            [1,2,3,4].map((key) => {
+                            [1, 2, 3, 4].map((key) => {
                                 return (
                                     <Grid
                                         xs={12}

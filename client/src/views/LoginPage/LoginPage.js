@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {makeStyles, TextField, Box, Button, Typography} from '@material-ui/core';
+import {Box, Button, makeStyles, TextField, Typography} from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import {NavLink, useHistory, useLocation} from "react-router-dom";
@@ -8,33 +8,33 @@ import UserService from "../../services/UserService/UserService";
 
 
 const useStyles = makeStyles((theme) => ({
-    root:{
-        [theme.breakpoints.down('sm')]:{
+    root: {
+        [theme.breakpoints.down('sm')]: {
             height: 'calc(100vh - 56px)',
             marginTop: 56
         },
         height: 'calc(100vh - 64px)',
-        marginTop:64,
-        backgroundColor:theme.palette.background.default,
+        marginTop: 64,
+        backgroundColor: theme.palette.background.default,
         overflow: "auto"
     },
-    formGrid:{
+    formGrid: {
         height: '70%',
     },
-    fullHeight:{
-        height:'100%',
+    fullHeight: {
+        height: '100%',
     },
-    signinLink:{
-        [theme.breakpoints.down('xs')]:{
-            order:1
+    signinLink: {
+        [theme.breakpoints.down('xs')]: {
+            order: 1
         }
     }
 }));
 
-function LoginPage(props){
+function LoginPage(props) {
     const history = useHistory();
     const location = useLocation();
-    if(props.authorized===true){
+    if (props.authorized === true) {
         const {from} = location.state || {from: {pathname: "/"}};
         history.replace(from);
     }
@@ -51,25 +51,27 @@ function LoginPage(props){
     const handleSubmit = event => {
         event.preventDefault();
         UserService.login(username, password)
-            .then(data=>{
-                if(!data.hasOwnProperty('message')){
+            .then(data => {
+                if (!data.hasOwnProperty('message')) {
                     props.setAuthorized(true);
                 }
             })
             .catch(err => {
                 console.log(err);
                 setTitle("Problem z logowaniem");
-                setText(err.response.data.message.map(message => {return message + "\n"}));
+                setText(err.response.data.message.map(message => {
+                    return message + "\n"
+                }));
                 setAction('/login');
                 setOpen(true);
             });
     }
-    return(
-        <Grid 
+    return (
+        <Grid
             container
-            component="main" 
-            className={classes.root} 
-            alignItems="center" 
+            component="main"
+            className={classes.root}
+            alignItems="center"
             justify="center"
         >
             <Grid
@@ -82,11 +84,11 @@ function LoginPage(props){
                 md={7}
                 lg={5}
                 xl={3}
-                className={classes.formGrid}  
+                className={classes.formGrid}
             >
                 <Paper
                     elevation={3}
-                    square 
+                    square
                 >
                     <Box height={'100%'} p={4}>
                         <Grid
@@ -110,7 +112,7 @@ function LoginPage(props){
                                     color="secondary"
                                     type="text"
                                     label="Login lub email"
-                                    fullWidth />
+                                    fullWidth/>
                             </Grid>
 
                             <Grid

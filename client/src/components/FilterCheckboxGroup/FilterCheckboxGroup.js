@@ -1,5 +1,4 @@
 import {
-    Paper,
     Checkbox,
     Collapse,
     FormControl,
@@ -8,6 +7,7 @@ import {
     FormLabel,
     IconButton,
     makeStyles,
+    Paper,
     Typography
 } from "@material-ui/core";
 import ExpandLessIcon from "@material-ui/icons/ExpandLess";
@@ -15,25 +15,25 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {useState} from "react";
 
 const useStyles = makeStyles((theme) => ({
-    checkBoxGroupDescription:{
-        display:"flex",
-        flexDirection:"row",
-        width:'100%',
-        alignItems:"center",
-        justifyContent:"space-between"
+    checkBoxGroupDescription: {
+        display: "flex",
+        flexDirection: "row",
+        width: '100%',
+        alignItems: "center",
+        justifyContent: "space-between"
     },
-    checkBoxGroupHeader:{
-        width:'100%'
+    checkBoxGroupHeader: {
+        width: '100%'
     },
-    expandButton:{
-        padding:theme.spacing(1)
+    expandButton: {
+        padding: theme.spacing(1)
     },
-    formControl:{
-        padding:theme.spacing(2)
+    formControl: {
+        padding: theme.spacing(2)
     }
 }));
 
-function FilterCheckboxGroup(props){
+function FilterCheckboxGroup(props) {
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
     return (
@@ -41,7 +41,7 @@ function FilterCheckboxGroup(props){
             <FormLabel className={classes.checkBoxGroupHeader} color="secondary" component="legend">
                 <Typography className={classes.checkBoxGroupDescription} variant="body2">
                     {props.name}
-                    <IconButton className={classes.expandButton} onClick={()=>setExpanded(!expanded)}>
+                    <IconButton className={classes.expandButton} onClick={() => setExpanded(!expanded)}>
                         {expanded ? <ExpandLessIcon/> : <ExpandMoreIcon/>}
                     </IconButton>
                 </Typography>
@@ -52,7 +52,7 @@ function FilterCheckboxGroup(props){
             >
                 <FormGroup>
                     {props.data.map((checkBox, key) => {
-                        return(
+                        return (
                             <FormControlLabel
                                 key={key}
                                 control={
@@ -71,4 +71,5 @@ function FilterCheckboxGroup(props){
         </FormControl>
     );
 }
+
 export default FilterCheckboxGroup;

@@ -5,13 +5,13 @@ const jwt = require("jsonwebtoken");
 
 exports.login = (req, res) => {
     const message = [];
-    if(!req.body.username){
+    if (!req.body.username) {
         message.push("Username cannot be empty!");
     }
-    if(!req.body.password){
+    if (!req.body.password) {
         message.push("Password cannot be empty!");
     }
-    if(message.length>0){
+    if (message.length > 0) {
         res.status(400).send({
             message: message
         });
@@ -19,14 +19,14 @@ exports.login = (req, res) => {
     }
     const user = req.body.username;
     const password = req.body.password;
-    const condition = {[Op.or]: [{username:{[Op.iLike]: `${user}`}}, {email:{[Op.iLike]: `${user}`}}]};
+    const condition = {[Op.or]: [{username: {[Op.iLike]: `${user}`}}, {email: {[Op.iLike]: `${user}`}}]};
 
     User.findOne({
         where: condition
     })
         .then((data) => {
-            if(data){
-                if(User.correctPassword(password, data)){
+            if (data) {
+                if (User.correctPassword(password, data)) {
                     const token = jwt.sign({
                         id: data.id,
                         expiration: Date.now() + parseInt(process.env.TOKEN_EXPIRE)
@@ -34,26 +34,24 @@ exports.login = (req, res) => {
 
                     res
                         .cookie('jwt',
-                        token, {
-                            httpOnly: true,
-                            secure:false,
-                            sameSite:true
-                        })
-                        .cookie('user',{
+                            token, {
+                                httpOnly: true,
+                                secure: false,
+                                sameSite: true
+                            })
+                        .cookie('user', {
                             id: data.id,
                             username: data.username,
                             avatar: data.avatar,
-                        },{sameSite:true})
+                        }, {sameSite: true})
                         .status(200).send(data);
-                }
-                else{
+                } else {
                     res.status(401).send({
                         accessToken: null,
                         message: ["Wrong username or password!"]
                     })
                 }
-            }
-            else{
+            } else {
                 res.status(401).send({
                     message: ["Wrong username or password!"]
                 })
@@ -67,15 +65,14 @@ exports.login = (req, res) => {
         });
 };
 exports.logout = (req, res) => {
-    if(req.cookies['jwt']){
+    if (req.cookies['jwt']) {
         res
             .clearCookie('jwt')
             .status(200)
             .send({
                 message: ["Logout successful "]
             })
-    }
-    else{
+    } else {
         res.status(401).send({
             message: ["Invalid jwt"]
         });
@@ -83,14 +80,13 @@ exports.logout = (req, res) => {
 };
 
 exports.isAuthorized = (req, res) => {
-    if(req.cookies['jwt']){
+    if (req.cookies['jwt']) {
         res
             .status(200)
             .send({
                 message: ["Authorized"]
             })
-    }
-    else{
+    } else {
         res.status(401).send({
             message: ["Unauthorized"]
         });

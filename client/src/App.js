@@ -1,10 +1,4 @@
-//import { useState, useEffect } from 'react';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Redirect
-} from "react-router-dom";
+import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
 import LoginPage from './views/LoginPage/LoginPage';
 import SignInPage from './views/SignInPage/SignInPage';
 import HomePage from './views/HomePage/HomePage';
@@ -18,14 +12,13 @@ import {useEffect, useState} from "react"
 import AuthorizationService from "./services/AuthorizationService/AuthorizationService";
 
 
-
 function App() {
     const [authorized, setAuthorized] = useState(false);
     useEffect(() => {
         console.log("app is authorized");
         AuthorizationService.isAuthorized()
             .then(data => {
-                if(data.status === 200) {
+                if (data.status === 200) {
                     setAuthorized(true);
                 }
             })
@@ -49,12 +42,14 @@ function App() {
                 <Route path="/search" render={(props) => (
                     <SearchPage {...props} />
                 )}/>
-                <ProtectedRoute path="/profile/:id" authorized={authorized} setAuthorized={setAuthorized} render={(props) => (
-                    <ProfilePage {...props}/>
-                )}/>
-                <ProtectedRoute path="/add-announcement" authorized={authorized} setAuthorized={setAuthorized} render={(props) => (
-                    <AddAnnouncementPage {...props}/>
-                )}/>
+                <ProtectedRoute path="/profile/:id" authorized={authorized} setAuthorized={setAuthorized}
+                                render={(props) => (
+                                    <ProfilePage {...props}/>
+                                )}/>
+                <ProtectedRoute path="/add-announcement" authorized={authorized} setAuthorized={setAuthorized}
+                                render={(props) => (
+                                    <AddAnnouncementPage {...props}/>
+                                )}/>
                 <Route path="/404" render={(props) => (
                     <ErrorPage {...props} />
                 )}/>

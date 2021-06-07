@@ -11,7 +11,7 @@ function RedirectDialog(props) {
     const history = useHistory();
     const handleClose = () => {
         props.setOpen(false);
-        if(props.action !== ''){
+        if (props.action !== '') {
             history.push(props.action);
         }
     };
@@ -26,7 +26,7 @@ function RedirectDialog(props) {
             >
                 <DialogTitle id="alert-dialog-title">{props.title}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText style={{whiteSpace:"pre"}} id="alert-dialog-description">
+                    <DialogContentText style={{whiteSpace: "pre"}} id="alert-dialog-description">
                         {props.text}
                     </DialogContentText>
                 </DialogContent>
@@ -39,4 +39,5 @@ function RedirectDialog(props) {
         </div>
     );
 }
+
 export default RedirectDialog;

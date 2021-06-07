@@ -4,22 +4,23 @@ const User = db.users;
 const Category = db.categories;
 const Op = db.Sequelize.Op;
 const jwt = require('jsonwebtoken');
+
 const maxDescLength = 280;
 exports.create = (req, res) => {
     const message = [];
-    if(!req.body.title){
+    if (!req.body.title) {
         message.push("Title cannot be empty!");
     }
-    if(!req.body.description){
+    if (!req.body.description) {
         message.push("Description cannot be empty!");
     }
-    if(!req.body.wage){
+    if (!req.body.wage) {
         message.push("Wage cannot be empty!");
     }
-    if(!req.body.category_id){
+    if (!req.body.category_id) {
         message.push("Category cannot be empty!");
     }
-    if(message.length>0){
+    if (message.length > 0) {
         res.status(400).send({
             message: message
         });
@@ -51,13 +52,13 @@ exports.findAll = (req, res) => {
     const limit = req.query.limit;
     console.log(searchPhrase)
     const condition = searchPhrase
-        ? {[Op.or]: [{title:{[Op.iLike]: `%${searchPhrase}%`}}, {description:{[Op.iLike]: `%${searchPhrase}%`}}]}
+        ? {[Op.or]: [{title: {[Op.iLike]: `%${searchPhrase}%`}}, {description: {[Op.iLike]: `%${searchPhrase}%`}}]}
         : null;
 
     Announcement.findAll({
-        limit:limit,
+        limit: limit,
         where: condition,
-        include:[
+        include: [
             {
                 model: User
             },
@@ -65,7 +66,7 @@ exports.findAll = (req, res) => {
                 model: Category
             }
         ],
-        order:[
+        order: [
             ['createdAt', 'DESC']
         ]
     })
@@ -85,7 +86,7 @@ exports.findOne = (req, res) => {
     const id = req.params.id;
 
     Announcement.findByPk(id, {
-        include:[
+        include: [
             {
                 model: User
             },
@@ -111,12 +112,11 @@ exports.update = (req, res) => {
         where: {id: id}
     })
         .then(result => {
-            if(result[0] === 1){
+            if (result[0] === 1) {
                 res.send({
                     message: ["Announcement was updated successfully"]
                 });
-            }
-            else{
+            } else {
                 res.send({
                     message: [`Cannot update Announcement with id=${id}.`]
                 });
@@ -136,12 +136,11 @@ exports.delete = (req, res) => {
         where: {id: id}
     })
         .then(result => {
-            if(result === 1){
+            if (result === 1) {
                 res.send({
                     message: ["Announcement was deleted successfully"]
                 });
-            }
-            else{
+            } else {
                 res.send({
                     message: [`Cannot delete Announcement with id=${id}.`]
                 });

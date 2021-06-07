@@ -1,11 +1,5 @@
 import {useEffect, useState} from 'react';
-import {
-    Grid,
-    makeStyles,
-    Button,
-    Typography,
-    withStyles
-} from "@material-ui/core";
+import {Button, Grid, makeStyles, Typography, withStyles} from "@material-ui/core";
 import Announcement from "../../components/Announcement/Announcement";
 import FilterDrawer from "../../components/FilterDrawer/FilterDrawer";
 import axios from "axios";
@@ -67,7 +61,8 @@ function SearchPage() {
             .then(_filters => {
                 setFilters(_filters.data);
             })
-            .catch(() => {});
+            .catch(() => {
+            });
     }, []);
 
     useEffect(() => {
@@ -75,7 +70,8 @@ function SearchPage() {
             .then(_announcements => {
                 setAnnouncements(_announcements);
             })
-            .catch(()=>{})
+            .catch(() => {
+            })
             .finally(() => {
                 setIsAnnouncementsLoading(false);
             });
@@ -85,15 +81,15 @@ function SearchPage() {
     }, [form]);
 
     useEffect(() => {
-        if(filters){
+        if (filters) {
             const checkboxes = Object.fromEntries(
                 filters && filters[2] && filters[2].data.map(name => [name, true])
             );
             setForm({
-                searchBox:"",
-                sort:0,
-                wage:[0,100],
-                category:checkboxes,
+                searchBox: "",
+                sort: 0,
+                wage: [0, 100],
+                category: checkboxes,
             });
             setIsFiltersLoading(false);
         }
@@ -154,7 +150,7 @@ function SearchPage() {
                 {
                     isAnnouncementsLoading
                         ? (
-                            [1,2,3,4].map(key => {
+                            [1, 2, 3, 4].map(key => {
                                 return (
                                     <Grid
                                         key={key}

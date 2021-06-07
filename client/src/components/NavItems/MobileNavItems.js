@@ -13,29 +13,29 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             margin: theme.spacing(0),
         },
-        color:"inherit",
+        color: "inherit",
     },
     menuButtonWrapper: {
         flexGrow: 1,
     },
-    cancelButtonWrapper:{
-        display:"flex",
-        flexDirection:"row",
-        justifyContent:"flex-end",
+    cancelButtonWrapper: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "flex-end",
     },
     drawerPaper: {
         width: theme.drawerWidth
     },
-    iconButton:{
+    iconButton: {
         '& svg': {
             fontSize: 32
         }
     }
 }));
 
-function MobileNavItems(props){
+function MobileNavItems(props) {
     const classes = useStyles();
-    return(
+    return (
         <>
             <Container disableGutters={true} className={classes.menuButtonWrapper}>
                 <IconButton
@@ -70,36 +70,37 @@ function MobileNavItems(props){
                 </Container>
                 <MenuList>
                     {props.menuItems.map(item => {
-                        return item.menuTitle!=="Wyloguj"
-                        ? (
-                            <NavLink
-                                className={classes.menuLink}
-                                to={item.pageUrl}
-                                key={item.menuTitle}
-                                onClick={props.toggleDrawer(false)}
-                                onKeyDown={props.toggleDrawer(false)}
-                            >
-                                <MenuItem>
+                        return item.menuTitle !== "Wyloguj"
+                            ? (
+                                <NavLink
+                                    className={classes.menuLink}
+                                    to={item.pageUrl}
+                                    key={item.menuTitle}
+                                    onClick={props.toggleDrawer(false)}
+                                    onKeyDown={props.toggleDrawer(false)}
+                                >
+                                    <MenuItem>
+                                        <Typography color="secondary" variant="h5">
+                                            {item.menuTitle}
+                                        </Typography>
+                                    </MenuItem>
+                                </NavLink>
+                            )
+                            : (
+                                <MenuItem
+                                    key={item.menuTitle}
+                                    className={classes.menuLink}
+                                    onClick={props.logout}>
                                     <Typography color="secondary" variant="h5">
                                         {item.menuTitle}
                                     </Typography>
                                 </MenuItem>
-                            </NavLink>
-                        )
-                        :(
-                            <MenuItem
-                                key={item.menuTitle}
-                                className={classes.menuLink}
-                                onClick={props.logout}>
-                                <Typography color="secondary" variant="h5">
-                                    {item.menuTitle}
-                                </Typography>
-                            </MenuItem>
-                        );
+                            );
                     })}
                 </MenuList>
             </Drawer>
         </>
     );
 }
+
 export default MobileNavItems;

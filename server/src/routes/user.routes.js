@@ -1,4 +1,5 @@
 const passport = require("passport");
+
 module.exports = app => {
     const users = require("../controllers/user.controller");
     const security = require("../controllers/security.controller");
@@ -16,13 +17,13 @@ module.exports = app => {
     router.post('/isAuthorized', passport.authenticate('jwt', {session: false}), security.isAuthorized);
 
     //get single user with id, username or email
-    router.get('/:searchPhrase', passport.authenticate('jwt', {session: false}),users.findOne);
+    router.get('/:searchPhrase', passport.authenticate('jwt', {session: false}), users.findOne);
 
     //update user with id
-    router.put('/:id', passport.authenticate('jwt', {session: false}),users.update);
+    router.put('/:id', passport.authenticate('jwt', {session: false}), users.update);
 
     //delete user with id
-    router.delete('/:id', passport.authenticate('jwt', {session: false}),users.delete);
+    router.delete('/:id', passport.authenticate('jwt', {session: false}), users.delete);
 
     //delete all users
     router.delete('/', passport.authenticate('jwt', {session: false}), users.deleteAll);

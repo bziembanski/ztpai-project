@@ -5,16 +5,16 @@ const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
     const message = [];
-    if(!req.body.value){
+    if (!req.body.value) {
         message.push("Value cannot be empty!");
     }
-    if(!req.body.user_id){
+    if (!req.body.user_id) {
         message.push("User_id cannot be empty!");
     }
-    if(!req.body.user_rating_type_id){
+    if (!req.body.user_rating_type_id) {
         message.push("User_rating_type_id cannot be empty!");
     }
-    if(message.length>0){
+    if (message.length > 0) {
         res.status(400).send({
             message: message
         });
@@ -40,15 +40,15 @@ exports.create = (req, res) => {
 
 exports.findAll = (req, res) => {
     const id = req.query.id;
-    const condition = id ? {user_id:{[Op.eq]: `${id}`}} : null;
+    const condition = id ? {user_id: {[Op.eq]: `${id}`}} : null;
     UserRating.findAll({
         where: condition,
-        attributes: ['user_rating_type.name',[db.sequelize.fn('avg', db.sequelize.col('value')), 'value']],
+        attributes: ['user_rating_type.name', [db.sequelize.fn('avg', db.sequelize.col('value')), 'value']],
         group: ['user_rating_type.id'],
         include: [
             {
                 model: UserRatingType,
-                attributes : ['name']
+                attributes: ['name']
             }
         ]
     })
@@ -85,12 +85,11 @@ exports.update = (req, res) => {
         where: {id: id}
     })
         .then(result => {
-            if(result[0] === 1){
+            if (result[0] === 1) {
                 res.send({
                     message: ["Rating was updated successfully"]
                 });
-            }
-            else{
+            } else {
                 res.send({
                     message: [`Cannot update Rating with id=${id}.`]
                 });
@@ -110,12 +109,11 @@ exports.delete = (req, res) => {
         where: {id: id}
     })
         .then(result => {
-            if(result === 1){
+            if (result === 1) {
                 res.send({
                     message: ["Rating was deleted successfully"]
                 });
-            }
-            else{
+            } else {
                 res.send({
                     message: [`Cannot delete Rating with id=${id}.`]
                 });

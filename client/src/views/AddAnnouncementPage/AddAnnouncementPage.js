@@ -6,36 +6,37 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import RedirectDialog from "../../components/RedirectDialog/RedirectDialog";
 import {useHistory} from "react-router-dom";
+
 axios.defaults.withCredentials = true;
 
 const useStyles = makeStyles((theme) => ({
-    root:{
-        [theme.breakpoints.down('sm')]:{
+    root: {
+        [theme.breakpoints.down('sm')]: {
             height: 'calc(100vh - 56px)',
             marginTop: 56
         },
         height: 'calc(100vh - 64px)',
-        marginTop:64,
-        backgroundColor:theme.palette.background.default,
+        marginTop: 64,
+        backgroundColor: theme.palette.background.default,
         overflow: "auto"
     },
-    formGrid:{
+    formGrid: {
         height: '70%',
     }
 }));
 
-function AddAnnouncementPage(props){
+function AddAnnouncementPage(props) {
     const history = useHistory();
-    if(props.authorized===false){
+    if (props.authorized === false) {
         history.push('/login');
     }
     const classes = useStyles();
-    const [categories, setCategories] = useState({data:[], name:""});
+    const [categories, setCategories] = useState({data: [], name: ""});
     const [form, setForm] = useState({
-        title:"",
-        description:"",
-        category_id:0,
-        wage:""
+        title: "",
+        description: "",
+        category_id: 0,
+        wage: ""
     });
     const maxDescLength = 240;
     const [open, setOpen] = useState(false);
@@ -44,13 +45,12 @@ function AddAnnouncementPage(props){
     const [action, setAction] = useState('');
 
     const handleChange = (event) => {
-        if(event.target.name === "description" && event.target.value.length<=maxDescLength){
+        if (event.target.name === "description" && event.target.value.length <= maxDescLength) {
             setForm({
                 ...form,
                 [event.target.name]: event.target.value
             })
-        }
-        else if(event.target.name !== "description"){
+        } else if (event.target.name !== "description") {
             setForm({
                 ...form,
                 [event.target.name]: event.target.value
@@ -61,12 +61,12 @@ function AddAnnouncementPage(props){
 
     const handleSubmit = event => {
         event.preventDefault();
-        axios.post('/api/announcements',{
+        axios.post('/api/announcements', {
             ...form,
-            category_id: form.category_id+1,
+            category_id: form.category_id + 1,
         })
-            .then(data =>{
-                if(!data.data.hasOwnProperty('message')){
+            .then(data => {
+                if (!data.data.hasOwnProperty('message')) {
                     setTitle("Ogłoszenie dodane pomyślnie");
                     setText("Ogłoszenie zostało wystawione na tablicę!");
                     setAction('/search');
@@ -75,7 +75,9 @@ function AddAnnouncementPage(props){
             })
             .catch(err => {
                 setTitle("Problem z dodaniem ogłoszenia");
-                setText(err.response.data.message.map(message => {return message + "\n"}));
+                setText(err.response.data.message.map(message => {
+                    return message + "\n"
+                }));
                 setAction('/add-announcement');
                 setOpen(true);
             });
@@ -84,14 +86,18 @@ function AddAnnouncementPage(props){
     useEffect(() => {
         axios.get('/api/categories')
             .then(categories => {
-                setCategories({name: "Kategoria", data: categories.data.map(el => {return el.name})});
+                setCategories({
+                    name: "Kategoria", data: categories.data.map(el => {
+                        return el.name
+                    })
+                });
             })
             .catch(err => {
                 console.log(err);
             })
     }, []);
 
-    return(
+    return (
         <Grid
             container
             component="main"
@@ -164,7 +170,11 @@ function AddAnnouncementPage(props){
                                 item
                                 xs={12}
                             >
-                                <FilterSelect control={{name:"category_id", value: form.category_id, handler: handleChange}} {...categories}/>
+                                <FilterSelect control={{
+                                    name: "category_id",
+                                    value: form.category_id,
+                                    handler: handleChange
+                                }} {...categories}/>
                             </Grid>
                             <Grid
                                 item
@@ -174,7 +184,7 @@ function AddAnnouncementPage(props){
                                     required
                                     name="wage"
                                     label="Wynagrodzenie za godzinę"
-                                    inputProps={{max:999, min:0}}
+                                    inputProps={{max: 999, min: 0}}
                                     value={form.wage}
                                     onChange={handleChange}
                                     type="number"
@@ -204,4 +214,5 @@ function AddAnnouncementPage(props){
         </Grid>
     );
 }
+
 export default AddAnnouncementPage;

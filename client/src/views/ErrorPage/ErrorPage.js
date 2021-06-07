@@ -1,24 +1,24 @@
-import {makeStyles, Paper, Typography, Grid} from "@material-ui/core";
+import {Grid, makeStyles, Paper, Typography} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-    root:{
+    root: {
         height: 'calc(100vh - 64px)',
-        marginTop:64,
-        backgroundColor:theme.palette.background.default,
+        marginTop: 64,
+        backgroundColor: theme.palette.background.default,
         textAlign: 'center'
     },
-    big:{
+    big: {
         color: theme.palette.primary.dark
     },
-    errorPaper:{
-        height:'70%',
-        flexDirection:'column'
+    errorPaper: {
+        height: '70%',
+        flexDirection: 'column'
     }
 }));
 
-function ErrorPage(){
+function ErrorPage() {
     const classes = useStyles();
-    return(
+    return (
         <Grid
             container
             component="main"

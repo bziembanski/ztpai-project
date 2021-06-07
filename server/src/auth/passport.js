@@ -5,7 +5,7 @@ const JWTStrategy = passportJWT.Strategy;
 const cookieExtractor = req => {
     let jwt = null;
 
-    if(req && req.cookies){
+    if (req && req.cookies) {
         jwt = req.cookies['jwt'];
     }
 
@@ -18,7 +18,7 @@ passport.use('jwt', new JWTStrategy({
 }, (jwtPayload, done) => {
     const {expiration} = jwtPayload;
 
-    if(Date.now() > expiration){
+    if (Date.now() > expiration) {
         done("Unauthorized", false);
     }
 

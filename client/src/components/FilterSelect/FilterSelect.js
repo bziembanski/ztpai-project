@@ -1,14 +1,7 @@
-import {
-    FormControl,
-    FormLabel,
-    Typography,
-    Select,
-    MenuItem
-} from "@material-ui/core";
+import {FormControl, FormLabel, MenuItem, Select, Typography} from "@material-ui/core";
 
 
-function FilterSelect(props){
-
+function FilterSelect(props) {
     return (
         <FormControl fullWidth color="primary">
             <FormLabel>
@@ -26,7 +19,7 @@ function FilterSelect(props){
             >
                 {
                     props.data.map((item, key) => {
-                        return(
+                        return (
                             <MenuItem key={key} value={key}>{item}</MenuItem>
                         );
                     })
@@ -35,4 +28,5 @@ function FilterSelect(props){
         </FormControl>
     );
 }
+
 export default FilterSelect;

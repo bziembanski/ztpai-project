@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             margin: theme.spacing(0),
         },
-        color:"inherit",
+        color: "inherit",
     },
     menuWrapper: {
         display: "flex",
@@ -30,28 +30,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function DesktopNavItems(props){
+function DesktopNavItems(props) {
     const classes = useStyles();
-    return(
+    return (
         <Container disableGutters={true} maxWidth="xl" className={classes.menuWrapper}>
             {
                 props.menuItems.map((item) => {
-                    return item.menuTitle!=="Wyloguj"
-                    ? (
-                        <NavLink className={classes.menuLink} key={item.menuTitle} to={item.pageUrl}>
-                            <Typography color="secondary" variant="h6">
+                    return item.menuTitle !== "Wyloguj"
+                        ? (
+                            <NavLink className={classes.menuLink} key={item.menuTitle} to={item.pageUrl}>
+                                <Typography color="secondary" variant="h6">
+                                    {item.menuTitle}
+                                </Typography>
+                            </NavLink>
+                        )
+                        : (
+                            <Typography key={item.menuTitle} onClick={props.logout} className={classes.logoutLink}
+                                        color="secondary" variant="h6">
                                 {item.menuTitle}
                             </Typography>
-                        </NavLink>
-                    )
-                    : (
-                        <Typography key={item.menuTitle} onClick={props.logout} className={classes.logoutLink} color="secondary" variant="h6">
-                            {item.menuTitle}
-                        </Typography>
-                    );
+                        );
                 })
             }
         </Container>
     )
 }
+
 export default DesktopNavItems;

@@ -1,6 +1,7 @@
 const crypto = require('crypto');
+
 module.exports = (sequelize, Sequelize) => {
-     const User = sequelize.define('user', {
+    const User = sequelize.define('user', {
         username: {
             type: Sequelize.STRING,
             unique: true,
@@ -72,7 +73,7 @@ module.exports = (sequelize, Sequelize) => {
     };
 
     const setSaltAndPassword = user => {
-        if(user.changed('password')){
+        if (user.changed('password')) {
             user.salt = User.generateSalt();
             user.password = User.encryptPassword(user.password(), user.salt());
         }
