@@ -4,7 +4,7 @@ import RatingWithName from "../../components/RatingWithName/RatingWithName";
 import Announcement from "../../components/Announcement/Announcement";
 import {useEffect, useState} from "react";
 import {Skeleton} from "@material-ui/lab";
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import UserService from "../../services/UserService/UserService";
 
 const useStyles = makeStyles((theme) => ({
@@ -60,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ProfilePage(props) {
     const {id} = useParams();
+    const history = useHistory();
     const classes = useStyles();
     const [isAnnsLoading, setIsAnnsLoading] = useState(true);
     const [isProfileLoading, setIsProfileLoading] = useState(true);
@@ -71,6 +72,9 @@ function ProfilePage(props) {
         setIsProfileLoading(true);
         UserService.user(id)
             .then(_profile => {
+                if(_profile === ""){
+                    history.replace('/404')
+                }
                 setAnnouncements(_profile.announcements);
                 setProfile(() => {
                     return (({announcements, ...us}) => us)(_profile);
@@ -96,6 +100,7 @@ function ProfilePage(props) {
                 }
             })
             .finally(() => {
+
                 setIsAnnsLoading(false);
             });
 
