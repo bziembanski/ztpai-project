@@ -88,7 +88,7 @@ function Announcement(props) {
                 </Typography>
             </CardContent>
             <CardActions disableSpacing>
-                <Button color="primary">
+                <Button color="secondary">
                     <PanToolIcon/>
                     <Typography
                         className={classes.actionText}
@@ -97,7 +97,7 @@ function Announcement(props) {
                         Chętny
                     </Typography>
                 </Button>
-                <Button color="primary">
+                <Button color="secondary">
                     <ModeCommentIcon/>
                     <Typography
                         className={classes.actionText}
@@ -106,7 +106,7 @@ function Announcement(props) {
                         Napisz
                     </Typography>
                 </Button>
-                <Button color="primary">
+                <Button color="secondary">
                     <CloseIcon/>
                     <Typography
                         className={classes.actionText}
