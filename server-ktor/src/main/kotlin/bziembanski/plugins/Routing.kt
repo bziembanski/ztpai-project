@@ -1,19 +1,22 @@
 package bziembanski.plugins
 
 
-import io.ktor.routing.*
+import bziembanski.user.UserService
+import bziembanski.user.user
 import io.ktor.application.*
-import io.ktor.response.*
 import io.ktor.request.*
+import io.ktor.response.*
+import io.ktor.routing.*
 
 fun Application.configureRouting() {
 
-  routing {
-    get("/") {
-      call.respondText("Hello World!")
+    routing {
+        user(UserService())
+        get("/") {
+            call.respondText("Hello World!")
+        }
+        get("*") {
+            call.respondText(this.context.request.uri.uppercase())
+        }
     }
-    get("*") {
-      call.respondText(this.context.request.uri.uppercase())
-    }
-  }
 }
