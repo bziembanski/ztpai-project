@@ -1,15 +1,40 @@
 package bziembanski
 
+import bziembanski.ServiceHelper.dbQuery
 import io.ktor.application.*
 import bziembanski.plugins.*
+import bziembanski.user.Users
+import com.zaxxer.hikari.HikariDataSource
+import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.sql.Database
+import org.jetbrains.exposed.sql.SchemaUtils
 
 fun main(args: Array<String>): Unit =
-    io.ktor.server.netty.EngineMain.main(args)
+  io.ktor.server.netty.EngineMain.main(args)
 
 @Suppress("unused") // application.conf references the main function. This annotation prevents the IDE from marking it as unused.
 fun Application.module() {
-    configureRouting()
-    configureSecurity()
-    configureHTTP()
-    configureSerialization()
+  initDB(environment)
+  configureRouting()
+  configureSecurity()
+  configureHTTP()
+  configureSerialization()
+}
+
+fun initDB(environment: ApplicationEnvironment) {
+
+  val ds = HikariDataSource().apply {
+    jdbcUrl = environment.config
+      .property("ktor.db_url")
+      .getString()
+    driverClassName = "org.postgresql.Driver"
+  }
+  Database.connect(ds)
+  runBlocking {
+    dbQuery {
+      SchemaUtils.drop(Users)
+      SchemaUtils.create(Users)
+    }
+  }
+
 }

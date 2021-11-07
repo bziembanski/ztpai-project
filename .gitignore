@@ -1,3 +1,11 @@
 /server-ktor/.gradle/
 /server-ktor/.idea/
 /server-ktor/gradle/
+/.idea/.gitignore
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/runConfigurations.xml
+/.idea/vcs.xml
+/.idea/ztpai-project.iml
+/server-ktor/build/
+/.idea/
