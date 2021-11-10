@@ -6,6 +6,8 @@ import bziembanski.plugins.configureRouting
 import bziembanski.plugins.configureSecurity
 import bziembanski.plugins.configureSerialization
 import bziembanski.user.Users
+import bziembanski.userRating.UserRatings
+import bziembanski.userRatingType.UserRatingTypes
 import com.zaxxer.hikari.HikariDataSource
 import io.ktor.application.*
 import kotlinx.coroutines.runBlocking
@@ -37,8 +39,11 @@ fun initDB(environment: ApplicationEnvironment) {
     Database.connect(ds)
     runBlocking {
         dbQuery {
-            SchemaUtils.drop(Users)
-            SchemaUtils.create(Users)
+            SchemaUtils.create(
+                Users,
+                UserRatingTypes,
+                UserRatings,
+            )
         }
     }
 
