@@ -39,7 +39,7 @@ fun Route.category(categoryService: CategoryService) {
                 }
             }
         }
-        route("/{id]") {
+        route("/{id}") {
             get {
                 try {
                     val category = categoryService.getCategoryById(

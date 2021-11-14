@@ -1,6 +1,8 @@
 package bziembanski
 
 import bziembanski.ServiceHelper.dbQuery
+import bziembanski.annoucementType.AnnouncementTypes
+import bziembanski.category.Categories
 import bziembanski.plugins.configureHTTP
 import bziembanski.plugins.configureRouting
 import bziembanski.plugins.configureSecurity
@@ -39,10 +41,19 @@ fun initDB(environment: ApplicationEnvironment) {
     Database.connect(ds)
     runBlocking {
         dbQuery {
+            SchemaUtils.drop(
+                Users,
+                UserRatingTypes,
+                UserRatings,
+                Categories,
+                AnnouncementTypes
+            )
             SchemaUtils.create(
                 Users,
                 UserRatingTypes,
                 UserRatings,
+                Categories,
+                AnnouncementTypes
             )
         }
     }

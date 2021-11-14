@@ -52,5 +52,4 @@ class CategoryService {
         id = row[Categories.id].value,
         name = row[Categories.name]
     )
-
 }
