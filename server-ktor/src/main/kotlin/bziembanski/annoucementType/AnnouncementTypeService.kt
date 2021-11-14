@@ -5,7 +5,7 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
 
 
-object AnnouncementTypes : IntIdTable() {
+object AnnouncementTypes : IntIdTable(name="announcement_types") {
     val name = varchar("name", 50).uniqueIndex()
 }
 

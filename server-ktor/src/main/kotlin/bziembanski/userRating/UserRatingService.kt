@@ -7,7 +7,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
 
-object UserRatings : IntIdTable() {
+object UserRatings : IntIdTable(name="user_ratings") {
     val value = float("value")
     val userRatingType = integer("user_rating_type_id")
         .references(UserRatingTypes.id)

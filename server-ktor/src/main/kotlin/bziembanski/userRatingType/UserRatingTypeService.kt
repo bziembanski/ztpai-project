@@ -6,7 +6,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
 
-object UserRatingTypes : IntIdTable() {
+object UserRatingTypes : IntIdTable(name="user_rating_types") {
     val name = varchar("name", 50)
 }
 
