@@ -46,14 +46,16 @@ fun initDB(environment: ApplicationEnvironment) {
                 UserRatingTypes,
                 UserRatings,
                 Categories,
-                AnnouncementTypes
+                AnnouncementTypes,
+                inBatch = true
             )
             SchemaUtils.create(
                 Users,
                 UserRatingTypes,
                 UserRatings,
                 Categories,
-                AnnouncementTypes
+                AnnouncementTypes,
+                inBatch = true
             )
         }
     }

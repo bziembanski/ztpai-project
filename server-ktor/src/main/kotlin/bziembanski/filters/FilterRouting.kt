@@ -10,7 +10,6 @@ import kotlinx.serialization.json.Json
 fun Route.filters() {
     val data: List<Filter> = listOf(
         SelectFilter(
-            typeName = "select",
             name = "Sortowanie",
             data = listOf(
                 "Odległość rosnącą",
@@ -20,7 +19,6 @@ fun Route.filters() {
             )
         ),
         SliderFilter(
-            typeName = "slider",
             name = "Wynagrodzenie za godzinę",
             data = SliderDataType(
                 min = 0,
@@ -30,7 +28,6 @@ fun Route.filters() {
             )
         ),
         CheckboxFilter(
-            typeName = "checkbox",
             name = "Kategoria",
             data = listOf(
                 "mechanika",

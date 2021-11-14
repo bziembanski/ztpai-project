@@ -1,5 +1,6 @@
 package bziembanski.filters
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -11,8 +12,8 @@ data class SliderDataType(
 )
 
 @Serializable
+@SerialName("slider")
 data class SliderFilter(
-    override val typeName: String,
     override val name: String,
     override val data: SliderDataType
 ) : Filter()
