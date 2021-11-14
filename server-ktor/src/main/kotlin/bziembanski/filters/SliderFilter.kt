@@ -12,7 +12,7 @@ data class SliderDataType(
 
 @Serializable
 data class SliderFilter(
-    override val type: String,
+    override val typeName: String,
     override val name: String,
     override val data: SliderDataType
-): Filter()
+) : Filter()

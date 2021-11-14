@@ -6,7 +6,7 @@ typealias CheckboxDataType = List<String>
 
 @Serializable
 data class CheckboxFilter(
-    override val type: String,
+    override val typeName: String,
     override val name: String,
     override val data: CheckboxDataType
-): Filter()
+) : Filter()

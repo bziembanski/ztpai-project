@@ -68,16 +68,18 @@ fun Route.announcementType(announcementTypeService: AnnouncementTypeService) {
                 }
             }
             delete {
-                val wasRemoved = announcementTypeService.deleteAnnouncementTypeById(
-                    Integer.parseInt(
-                        call.parameters["id"]
+                val wasRemoved =
+                    announcementTypeService.deleteAnnouncementTypeById(
+                        Integer.parseInt(
+                            call.parameters["id"]
+                        )
                     )
-                )
                 if (wasRemoved) {
                     call.respond(HttpStatusCode.OK)
                 } else {
                     call.respond(
-                        HttpStatusCode.NotFound, "Nie znaleziono typu ogłoszenia"
+                        HttpStatusCode.NotFound,
+                        "Nie znaleziono typu ogłoszenia"
                     )
                 }
             }

@@ -6,7 +6,7 @@ typealias SelectDataType = List<String>
 
 @Serializable
 data class SelectFilter(
-    override val type: String,
+    override val typeName: String,
     override val name: String,
     override val data: SelectDataType
-): Filter()
+) : Filter()

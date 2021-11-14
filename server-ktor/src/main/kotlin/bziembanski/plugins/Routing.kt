@@ -5,6 +5,7 @@ import bziembanski.annoucementType.AnnouncementTypeService
 import bziembanski.annoucementType.announcementType
 import bziembanski.category.CategoryService
 import bziembanski.category.category
+import bziembanski.filters.filters
 import bziembanski.user.UserService
 import bziembanski.user.user
 import bziembanski.userRating.UserRatingService
@@ -22,6 +23,7 @@ fun Application.configureRouting() {
         userRatingType(UserRatingTypeService())
         category(CategoryService())
         announcementType(AnnouncementTypeService())
+        filters()
     }
 }
 
