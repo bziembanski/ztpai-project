@@ -1,4 +1,4 @@
-package bziembanski.user
+package bziembanski.category
 
 import io.ktor.application.*
 import io.ktor.http.*
@@ -6,51 +6,53 @@ import io.ktor.request.*
 import io.ktor.response.*
 import io.ktor.routing.*
 
-fun Route.user(userService: UserService) {
-    route("/users") {
+fun Route.category(categoryService: CategoryService) {
+    route("/categories") {
         route("") {
             get {
-                call.respond(HttpStatusCode.OK, userService.getAllUsers())
+                call.respond(
+                    HttpStatusCode.OK,
+                    categoryService.getAllCategories()
+                )
             }
             post {
+                val category = categoryService.createCategory(call.receive())
 
-                val user = userService.createUser(call.receive())
-
-                if (user != null) {
-                    call.respond(HttpStatusCode.Created, user)
+                if (category != null) {
+                    call.respond(HttpStatusCode.OK, category)
                 } else {
                     call.respond(
                         HttpStatusCode.InternalServerError,
-                        "Wystąpił problem w trakcie tworzenia użytkownika"
+                        "Wystąpił problem w trakcie tworzenia kategorii"
                     )
                 }
             }
             put {
-                val user = userService.updateUser(call.receive())
-                if (user != null) {
-                    call.respond(HttpStatusCode.OK, user)
+                val category = categoryService.updateCategory(call.receive())
+                if (category != null) {
+                    call.respond(HttpStatusCode.OK, category)
                 } else {
                     call.respond(
                         HttpStatusCode.BadRequest,
-                        "Wystąpił problem w trakcie edycji użytkownika"
+                        "Wystąpił problem w trakcie edycji kategorii"
                     )
                 }
             }
         }
-        route("/{id}") {
+        route("/{id]") {
             get {
                 try {
-                    val user = userService.getUserById(
+                    val category = categoryService.getCategoryById(
                         Integer.parseInt(
                             call.parameters["id"]
                         )
                     )
-                    if (user != null) {
-                        call.respond(HttpStatusCode.OK, user)
+                    if (category != null) {
+                        call.respond(HttpStatusCode.OK, category)
                     } else {
                         call.respond(
                             HttpStatusCode.NotFound,
-                            "Nie znaleziono użytkownika"
+                            "Nie znaleziono kategorii"
                         )
                     }
                 } catch (e: Throwable) {
@@ -58,7 +60,7 @@ fun Route.user(userService: UserService) {
                 }
             }
             delete {
-                val wasRemoved = userService.deleteUserById(
+                val wasRemoved = categoryService.deleteCategoryById(
                     Integer.parseInt(
                         call.parameters["id"]
                     )
@@ -67,7 +69,7 @@ fun Route.user(userService: UserService) {
                     call.respond(HttpStatusCode.OK)
                 } else {
                     call.respond(
-                        HttpStatusCode.NotFound, "Nie znaleziono użytkownika"
+                        HttpStatusCode.NotFound, "Nie znaleziono kategorii"
                     )
                 }
             }

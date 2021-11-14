@@ -5,7 +5,7 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.statements.UpdateBuilder
 
-object Users: IntIdTable() {
+object Users : IntIdTable() {
     val username = varchar("username", 50).uniqueIndex()
     val email = varchar("email", 255)
     val password = varchar("password", 255)

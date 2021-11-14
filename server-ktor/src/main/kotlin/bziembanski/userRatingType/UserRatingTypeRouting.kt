@@ -23,8 +23,7 @@ fun Route.userRatingType(userRatingTypeService: UserRatingTypeService) {
 
                 if (userRatingType != null) {
                     call.respond(HttpStatusCode.Created, userRatingType)
-                }
-                else {
+                } else {
                     call.respond(
                         HttpStatusCode.InternalServerError,
                         "Wystąpił problem w trakcie tworzenia typu oceny użytkownika"
@@ -32,11 +31,11 @@ fun Route.userRatingType(userRatingTypeService: UserRatingTypeService) {
                 }
             }
             put {
-                val userRatingType = userRatingTypeService.updateUserRatingType(call.receive())
+                val userRatingType =
+                    userRatingTypeService.updateUserRatingType(call.receive())
                 if (userRatingType != null) {
                     call.respond(HttpStatusCode.OK, userRatingType)
-                }
-                else {
+                } else {
                     call.respond(
                         HttpStatusCode.BadRequest,
                         "Wystąpił problem w trakcie edycji typu oceny użytkownika"
@@ -47,15 +46,15 @@ fun Route.userRatingType(userRatingTypeService: UserRatingTypeService) {
         route("/{id}") {
             get {
                 try {
-                    val userRatingType = userRatingTypeService.getUserRatingTypeById(
-                        Integer.parseInt(
-                            call.parameters["id"]
+                    val userRatingType =
+                        userRatingTypeService.getUserRatingTypeById(
+                            Integer.parseInt(
+                                call.parameters["id"]
+                            )
                         )
-                    )
                     if (userRatingType != null) {
                         call.respond(HttpStatusCode.OK, userRatingType)
-                    }
-                    else {
+                    } else {
                         call.respond(
                             HttpStatusCode.NotFound,
                             "Nie znaleziono typu oceny użytkownika"
@@ -75,10 +74,10 @@ fun Route.userRatingType(userRatingTypeService: UserRatingTypeService) {
                 )
                 if (wasRemoved) {
                     call.respond(HttpStatusCode.OK)
-                }
-                else {
+                } else {
                     call.respond(
-                        HttpStatusCode.NotFound, "Nie znaleziono typu oceny użytkownika"
+                        HttpStatusCode.NotFound,
+                        "Nie znaleziono typu oceny użytkownika"
                     )
                 }
             }

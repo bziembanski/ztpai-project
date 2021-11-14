@@ -1,6 +1,8 @@
 package bziembanski.plugins
 
 
+import bziembanski.category.CategoryService
+import bziembanski.category.category
 import bziembanski.user.UserService
 import bziembanski.user.user
 import bziembanski.userRating.UserRatingService
@@ -16,5 +18,6 @@ fun Application.configureRouting() {
         user(UserService())
         userRating(UserRatingService())
         userRatingType(UserRatingTypeService())
+        category(CategoryService())
     }
 }

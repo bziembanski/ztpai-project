@@ -23,8 +23,7 @@ fun Route.userRating(userRatingService: UserRatingService) {
 
                 if (userRating != null) {
                     call.respond(HttpStatusCode.Created, userRating)
-                }
-                else {
+                } else {
                     call.respond(
                         HttpStatusCode.InternalServerError,
                         "Wystąpił problem w trakcie tworzenia oceny użytkownika"
@@ -32,11 +31,11 @@ fun Route.userRating(userRatingService: UserRatingService) {
                 }
             }
             put {
-                val userRating = userRatingService.updateUserRating(call.receive())
+                val userRating =
+                    userRatingService.updateUserRating(call.receive())
                 if (userRating != null) {
                     call.respond(HttpStatusCode.OK, userRating)
-                }
-                else {
+                } else {
                     call.respond(
                         HttpStatusCode.BadRequest,
                         "Wystąpił problem w trakcie edycji oceny użytkownika"
@@ -54,8 +53,7 @@ fun Route.userRating(userRatingService: UserRatingService) {
                     )
                     if (userRating != null) {
                         call.respond(HttpStatusCode.OK, userRating)
-                    }
-                    else {
+                    } else {
                         call.respond(
                             HttpStatusCode.NotFound,
                             "Nie znaleziono oceny użytkownika"
@@ -75,10 +73,10 @@ fun Route.userRating(userRatingService: UserRatingService) {
                 )
                 if (wasRemoved) {
                     call.respond(HttpStatusCode.OK)
-                }
-                else {
+                } else {
                     call.respond(
-                        HttpStatusCode.NotFound, "Nie znaleziono oceny użytkownika"
+                        HttpStatusCode.NotFound,
+                        "Nie znaleziono oceny użytkownika"
                     )
                 }
             }

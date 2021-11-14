@@ -2,14 +2,11 @@ package bziembanski.userRatingType
 
 
 import bziembanski.ServiceHelper
-import bziembanski.user.User
-import bziembanski.user.Users
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.statements.UpdateBuilder
 
-object UserRatingTypes: IntIdTable() {
+object UserRatingTypes : IntIdTable() {
     val name = varchar("name", 50)
 }
 
@@ -17,7 +14,7 @@ class UserRatingTypeService {
     suspend fun createUserRatingType(userRatingType: UserRatingTypes): UserRatingType? {
         lateinit var userRatingTypeId: EntityID<Int>
         ServiceHelper.dbQuery {
-            userRatingTypeId =  UserRatingTypes.insert {
+            userRatingTypeId = UserRatingTypes.insert {
                 it[name] = userRatingType.name
             } get UserRatingTypes.id
         }
