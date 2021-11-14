@@ -31,3 +31,8 @@ fun Application.configureRouting() {
 data class ErrorResponse(
     val message: String
 )
+
+@Serializable
+data class ErrorResponses(
+    val message: List<String>
+)
