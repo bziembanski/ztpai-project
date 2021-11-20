@@ -55,9 +55,12 @@ class AnnouncementTypeService {
             } > 0
         }
 
-    private fun toAnnouncementType(row: ResultRow): AnnouncementType =
-        AnnouncementType(
-            id = row[AnnouncementTypes.id].value,
-            name = row[AnnouncementTypes.name]
-        )
+    companion object{
+        fun toAnnouncementType(row: ResultRow): AnnouncementType =
+            AnnouncementType(
+                id = row[AnnouncementTypes.id].value,
+                name = row[AnnouncementTypes.name]
+            )
+    }
+
 }

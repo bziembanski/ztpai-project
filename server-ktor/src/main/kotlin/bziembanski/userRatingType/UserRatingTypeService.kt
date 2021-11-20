@@ -6,7 +6,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
 
-object UserRatingTypes : IntIdTable(name="user_rating_types") {
+object UserRatingTypes : IntIdTable(name = "user_rating_types") {
     val name = varchar("name", 50)
 }
 
@@ -51,10 +51,11 @@ class UserRatingTypeService {
             UserRatingTypes.deleteWhere { UserRatingTypes.id eq userRatingTypeId } > 0
         }
 
-
-    private fun toUserRatingType(row: ResultRow): UserRatingType =
-        UserRatingType(
-            id = row[UserRatingTypes.id].value,
-            name = row[UserRatingTypes.name],
-        )
+    companion object {
+        fun toUserRatingType(row: ResultRow): UserRatingType =
+            UserRatingType(
+                id = row[UserRatingTypes.id].value,
+                name = row[UserRatingTypes.name],
+            )
+    }
 }

@@ -1,4 +1,13 @@
-import {Avatar, Button, Card, CardActions, CardContent, CardHeader, makeStyles, Typography} from "@material-ui/core";
+import {
+    Avatar,
+    Button,
+    Card,
+    CardActions,
+    CardContent,
+    CardHeader,
+    makeStyles,
+    Typography
+} from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import PanToolIcon from "@material-ui/icons/PanTool";
 import ModeCommentIcon from "@material-ui/icons/ModeComment";
@@ -34,17 +43,22 @@ function Announcement(props) {
     const classes = useStyles();
     const {loading = false} = props;
 
+    console.log(props)
+
     return (
         <Card className={classes.root} elevation={2}>
             <CardHeader disableTypography={true}
                         avatar={
                             loading ? (
-                                <Skeleton width={40} height={40} animation="wave" variant="rect"/>
+                                <Skeleton width={40} height={40}
+                                          animation="wave" variant="rect"/>
                             ) : (
-                                <NavLink className={classes.profileLink} to={`/profile/${props.user.id}`}>
+                                <NavLink className={classes.profileLink}
+                                         to={`/profile/${props.user.id}`}>
                                     <Avatar variant="square">
-                                        {props.user.avatar
-                                            ? <img alt="avatar" src={props.user.avatar}/>
+                                        {props.user.avatar && props.user.avatar.trim().length !== 0
+                                            ? <img alt="avatar"
+                                                   src={props.user.avatar}/>
                                             : props.user.name[0]
                                         }
                                     </Avatar>
@@ -52,10 +66,12 @@ function Announcement(props) {
                             )
                         }
                         title={
-                            <Typography variant="body1" color="primary" component="p">
+                            <Typography variant="body1" color="primary"
+                                        component="p">
                                 {
                                     loading ? (
-                                        <Skeleton animation="wave" variant="rect"/>
+                                        <Skeleton animation="wave"
+                                                  variant="rect"/>
                                     ) : (
                                         props.title
                                     )
@@ -64,7 +80,9 @@ function Announcement(props) {
                         }
                         subheader={
                             loading ? (
-                                <Skeleton width={100} animation="wave" variant="rect" style={{marginTop: 5}}/>
+                                <Skeleton width={100} animation="wave"
+                                          variant="rect"
+                                          style={{marginTop: 5}}/>
                             ) : (
                                 props.date
                             )
@@ -72,12 +90,17 @@ function Announcement(props) {
                         }
             />
             <CardContent className={classes.descContainer}>
-                <Typography className={classes.desc} variant="body2" color="textPrimary" component="p">
+                <Typography className={classes.desc} variant="body2"
+                            color="textPrimary" component="p">
                     {
                         loading ? (
                             <>
                                 <Skeleton animation="wave" variant="rect"/>
-                                <Skeleton animation="wave" variant="rect" style={{marginTop: 10, marginBottom: 10}}/>
+                                <Skeleton animation="wave" variant="rect"
+                                          style={{
+                                              marginTop: 10,
+                                              marginBottom: 10
+                                          }}/>
                                 <Skeleton animation="wave" variant="rect"/>
                             </>
 

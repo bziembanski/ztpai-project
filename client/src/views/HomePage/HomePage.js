@@ -147,6 +147,7 @@ function HomePage() {
                             })
                         ) : (
                             announcements.map((ann, key) => {
+                                console.log(ann)
                                 return (
                                     <Grid
                                         xs={12}

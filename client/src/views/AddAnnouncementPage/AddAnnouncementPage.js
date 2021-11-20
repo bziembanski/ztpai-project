@@ -64,6 +64,9 @@ function AddAnnouncementPage(props) {
         axios.post('/api/announcements', {
             ...form,
             category_id: form.category_id + 1,
+            announcementType:{
+                id: 1
+            }
         })
             .then(data => {
                 if (!data.data.hasOwnProperty('message')) {
@@ -75,9 +78,10 @@ function AddAnnouncementPage(props) {
             })
             .catch(err => {
                 setTitle("Problem z dodaniem ogłoszenia");
-                setText(err.response.data.message.map(message => {
-                    return message + "\n"
-                }));
+                if(err.response.data.hasOwnProperty("message"))
+                    setText(err.response.data.message.map(message => {
+                        return message + "\n"
+                    }));
                 setAction('/add-announcement');
                 setOpen(true);
             });

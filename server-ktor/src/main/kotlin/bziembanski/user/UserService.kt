@@ -1,6 +1,8 @@
 package bziembanski.user
 
 import bziembanski.ServiceHelper.dbQuery
+import bziembanski.announcement.Announcement
+import bziembanski.announcement.Announcements
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.statements.UpdateBuilder
@@ -32,11 +34,12 @@ class UserService {
                 .singleOrNull()
         }
 
+
     suspend fun getUserByUsername(username: String): User? =
         dbQuery {
             Users
                 .select { (Users.username eq username) }
-                .mapNotNull { toUser(it) }
+                .mapNotNull { toUser(it, true) }
                 .singleOrNull()
         }
 
@@ -64,26 +67,25 @@ class UserService {
     private fun userToUsersInQuery(it: UpdateBuilder<Int>, user: User) {
         it[Users.username] = user.username
         it[Users.email] = user.email
-        it[Users.password] = user.password
+        it[Users.password] = user.pass
         it[Users.name] = user.name
         it[Users.surname] = user.surname
-        it[Users.avatar] =
-            if (user.avatar.isNotBlank() and user.avatar.isNotEmpty()) user.avatar
-            else if (user.name.isNotBlank() and user.name.isNotEmpty()) user.name
-                .first()
-                .toString()
-            else user.username
-                .first()
-                .toString()
+        it[Users.avatar] = user.avatar
     }
 
-    private fun toUser(row: ResultRow): User =
-        User(
-            id = row[Users.id].value,
-            username = row[Users.username],
-            email = row[Users.email],
-            name = row[Users.name],
-            surname = row[Users.surname],
-            avatar = row[Users.avatar]
-        )
+    companion object {
+        fun toUser(
+            row: ResultRow,
+            withPassword: Boolean = false,
+        ): User =
+            User(
+                id = row[Users.id].value,
+                username = row[Users.username],
+                email = row[Users.email],
+                name = row[Users.name],
+                surname = row[Users.surname],
+                avatar = row[Users.avatar],
+                _password = if (withPassword) row[Users.password] else ""
+            )
+    }
 }

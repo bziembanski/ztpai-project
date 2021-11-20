@@ -100,7 +100,6 @@ function ProfilePage(props) {
                 }
             })
             .finally(() => {
-
                 setIsAnnsLoading(false);
             });
 

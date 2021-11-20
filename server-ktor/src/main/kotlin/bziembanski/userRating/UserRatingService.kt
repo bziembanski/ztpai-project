@@ -1,17 +1,18 @@
 package bziembanski.userRating
 
 import bziembanski.ServiceHelper
+import bziembanski.user.UserService
 import bziembanski.user.Users
+import bziembanski.userRatingType.UserRatingTypeService
 import bziembanski.userRatingType.UserRatingTypes
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
 
-object UserRatings : IntIdTable(name="user_ratings") {
+object UserRatings : IntIdTable(name = "user_ratings") {
     val value = float("value")
-    val userRatingType = integer("user_rating_type_id")
-        .references(UserRatingTypes.id)
-    val user = integer("user_id").references(Users.id)
+    val userRatingType = reference("user_rating_type_id", UserRatingTypes)
+    val user = reference("user_id", Users)
 }
 
 class UserRatingService {
@@ -20,8 +21,8 @@ class UserRatingService {
         ServiceHelper.dbQuery {
             userRatingId = UserRatings.insert {
                 it[value] = userRating.value
-                it[userRatingType] = userRating.userRatingType
-                it[user] = userRating.user
+                it[userRatingType] = userRating.userRatingType.id
+                it[user] = userRating.user.id
             } get UserRatings.id
         }
         return getUserRatingById(userRatingId.value)
@@ -30,6 +31,8 @@ class UserRatingService {
     suspend fun getUserRatingById(userRatingId: Int): UserRating? =
         ServiceHelper.dbQuery {
             UserRatings
+                .innerJoin(UserRatingTypes)
+                .innerJoin(Users)
                 .select { (UserRatings.id eq userRatingId) }
                 .mapNotNull { toUserRating(it) }
                 .singleOrNull()
@@ -38,7 +41,25 @@ class UserRatingService {
     suspend fun getAllUserRatings(): List<UserRating> =
         ServiceHelper.dbQuery {
             UserRatings
+                .slice(
+                    UserRatings.value.avg(),
+                    UserRatings.user,
+                )
                 .selectAll()
+                .groupBy(UserRatings.user)
+                .mapNotNull { toUserRating(it) }
+        }
+
+    suspend fun getAllUserRatings(userId: Int): List<UserRating> =
+        ServiceHelper.dbQuery {
+            UserRatings
+                .slice(
+                    UserRatings.value.avg(),
+                    UserRatings.user,
+                    UserRatings.userRatingType
+                )
+                .select { UserRatings.user eq userId }
+                .groupBy(UserRatings.userRatingType)
                 .mapNotNull { toUserRating(it) }
         }
 
@@ -46,8 +67,8 @@ class UserRatingService {
         ServiceHelper.dbQuery {
             UserRatings.update({ UserRatings.id eq userRating.id }) {
                 it[value] = userRating.value
-                it[userRatingType] = userRating.userRatingType
-                it[user] = userRating.user
+                it[userRatingType] = userRating.userRatingType.id
+                it[user] = userRating.user.id
             }
         }
         return getUserRatingById(userRating.id)
@@ -62,6 +83,7 @@ class UserRatingService {
         UserRating(
             id = row[UserRatings.id].value,
             value = row[UserRatings.value],
-            user = row[UserRatings.user]
+            userRatingType = UserRatingTypeService.toUserRatingType(row),
+            user = UserService.toUser(row)
         )
 }

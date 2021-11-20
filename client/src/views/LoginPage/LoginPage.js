@@ -52,6 +52,8 @@ function LoginPage(props) {
         event.preventDefault();
         UserService.login(username, password)
             .then(data => {
+                console.log(data)
+                console.log("logowanie")
                 if (!data.hasOwnProperty('message')) {
                     props.setAuthorized(true);
                 }

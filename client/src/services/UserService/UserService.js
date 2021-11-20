@@ -8,7 +8,7 @@ function signin(name, surname, username, email, password, password2) {
 }
 
 function login(username, password) {
-    return axios.post('/api/users/login', {username, password})
+    return axios.post('/api/login', {username, password})
         .then(data => data.data);
 }
 

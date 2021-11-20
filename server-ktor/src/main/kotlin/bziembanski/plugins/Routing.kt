@@ -3,6 +3,8 @@ package bziembanski.plugins
 
 import bziembanski.annoucementType.AnnouncementTypeService
 import bziembanski.annoucementType.announcementType
+import bziembanski.announcement.AnnouncementService
+import bziembanski.announcement.announcement
 import bziembanski.category.CategoryService
 import bziembanski.category.category
 import bziembanski.filters.filters
@@ -18,12 +20,16 @@ import kotlinx.serialization.Serializable
 
 fun Application.configureRouting() {
     routing {
-        user(UserService())
-        userRating(UserRatingService())
-        userRatingType(UserRatingTypeService())
-        category(CategoryService())
-        announcementType(AnnouncementTypeService())
-        filters()
+        route("/api") {
+            user(UserService(), AnnouncementService(), environment)
+            userRating(UserRatingService())
+            userRatingType(UserRatingTypeService())
+            category(CategoryService())
+            announcementType(AnnouncementTypeService())
+            announcement(AnnouncementService())
+            filters()
+        }
+
     }
 }
 

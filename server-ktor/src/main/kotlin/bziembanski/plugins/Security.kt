@@ -9,22 +9,21 @@ import io.ktor.auth.jwt.*
 fun Application.configureSecurity() {
 
     authentication {
-        jwt {
+        jwt("auth-jwt") {
             val jwtAudience = environment.config
                 .property("jwt.audience")
                 .getString()
-            realm = environment.config
-                .property("jwt.realm")
+            val jwtIssuer = environment.config
+                .property("jwt.domain")
+                .getString()
+            val secret = environment.config
+                .property("jwt.secret")
                 .getString()
             verifier(
                 JWT
-                    .require(Algorithm.HMAC256("secret"))
+                    .require(Algorithm.HMAC256(secret))
                     .withAudience(jwtAudience)
-                    .withIssuer(
-                        environment.config
-                            .property("jwt.domain")
-                            .getString()
-                    )
+                    .withIssuer(jwtIssuer)
                     .build()
             )
             validate { credential ->
@@ -35,5 +34,4 @@ fun Application.configureSecurity() {
             }
         }
     }
-
 }

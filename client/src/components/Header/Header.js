@@ -36,7 +36,7 @@ function Header(props) {
     };
 
     const logout = () => {
-        axios.post('/api/users/logout', {})
+        axios.post('/api/logout', {})
             .then(() => {
                 setAuthorized(false);
             })
@@ -57,7 +57,7 @@ function Header(props) {
                 },
                 {
                     menuTitle: 'Profil',
-                    pageUrl: `/profile/${JSON.parse(getCookie("user").substr(2)).id}`
+                    pageUrl: `/profile/${JSON.parse(getCookie("user")).id}`
                 },
                 {
                     menuTitle: 'Dodaj ogłoszenie',

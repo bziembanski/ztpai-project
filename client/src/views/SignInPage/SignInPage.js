@@ -62,9 +62,10 @@ function SignInPage(props) {
             })
             .catch(err => {
                 setTitle("Problem z rejestracją");
-                setText(err.response.data.message.map(message => {
-                    return message + "\n"
-                }));
+                if(err.response.data.hasOwnProperty("message"))
+                    setText(err.response.data.message.map(message => {
+                        return message + "\n"
+                    }));
                 setAction('');
                 setOpen(true);
             })
