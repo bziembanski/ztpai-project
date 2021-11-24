@@ -8,6 +8,8 @@ import bziembanski.announcement.announcement
 import bziembanski.category.CategoryService
 import bziembanski.category.category
 import bziembanski.filters.filters
+import bziembanski.location.LocationService
+import bziembanski.location.location
 import bziembanski.user.UserService
 import bziembanski.user.user
 import bziembanski.userRating.UserRatingService
@@ -28,6 +30,7 @@ fun Application.configureRouting() {
             announcementType(AnnouncementTypeService())
             announcement(AnnouncementService())
             filters()
+            location(LocationService())
         }
 
     }
