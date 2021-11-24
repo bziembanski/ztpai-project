@@ -17,7 +17,7 @@ data class User(
     val name: String = "",
     val surname: String = "",
     var avatar: String = "",
-    @Required var announcements: List<Announcement> = emptyList()
+    var announcements: List<Announcement> = emptyList()
 ) {
     var pass: String
         get() = _password

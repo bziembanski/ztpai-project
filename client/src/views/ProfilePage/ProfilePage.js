@@ -75,7 +75,7 @@ function ProfilePage(props) {
                 if(_profile === ""){
                     history.replace('/404')
                 }
-                setAnnouncements(_profile.announcements);
+                setAnnouncements(_profile.announcements ?? []);
                 setProfile(() => {
                     return (({announcements, ...us}) => us)(_profile);
                 });

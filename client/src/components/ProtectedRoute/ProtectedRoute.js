@@ -16,7 +16,7 @@ function ProtectedRoute(props) {
             .catch(() => {
                 setAuthorized(false);
             })
-    }, []);
+    }, [setAuthorized]);
 
     return authorized ? (
         <Route {...props} authorized={authorized} setAuthorized={setAuthorized}/>
