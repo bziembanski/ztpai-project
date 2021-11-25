@@ -61,7 +61,7 @@ function LoginPage(props) {
             .catch(err => {
                 console.log(err);
                 setTitle("Problem z logowaniem");
-                setText(err.response.data.message.map(message => {
+                setText(err.response.data.message && err.response.data.message.map(message => {
                     return message + "\n"
                 }));
                 setAction('/login');

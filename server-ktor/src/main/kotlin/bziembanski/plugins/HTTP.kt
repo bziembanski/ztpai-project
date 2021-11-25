@@ -13,8 +13,8 @@ fun Application.configureHTTP() {
         header(HttpHeaders.Authorization)
         header(HttpHeaders.ContentType)
         header("MyCustomHeader")
-        allowCredentials = true
-        host("localhost:3000", schemes = listOf("http", "https"))
+        //allowCredentials = true
+        host("*", schemes = listOf("http", "https"))
     }
 
 }
