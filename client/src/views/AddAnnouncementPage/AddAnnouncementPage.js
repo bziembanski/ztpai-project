@@ -31,12 +31,32 @@ function AddAnnouncementPage(props) {
         history.push('/login');
     }
     const classes = useStyles();
-    const [categories, setCategories] = useState({data: [], name: ""});
+    const [categories, setCategories] = useState({data: [], name: "Kategoria"});
+    const [voivodeship, setVoivodeships] = useState({
+        data: [],
+        name: "Województwo"
+    });
+    const [county, setCounties] = useState({
+        data: [],
+        name: "Powiat"
+    });
+    const [commune, setCommunes] = useState({
+        data: [],
+        name: "Gmina"
+    });
+    const [locality, setLocality] = useState({
+        data: [],
+        name: "Miejscowość"
+    });
     const [form, setForm] = useState({
         title: "",
         description: "",
         category_id: 0,
-        wage: ""
+        wage: "",
+        voivodeship: "",
+        county: "",
+        commune: "",
+        locality: ""
     });
     const maxDescLength = 240;
     const [open, setOpen] = useState(false);
@@ -49,22 +69,127 @@ function AddAnnouncementPage(props) {
             setForm({
                 ...form,
                 [event.target.name]: event.target.value
-            })
+            });
         } else if (event.target.name !== "description") {
             setForm({
                 ...form,
                 [event.target.name]: event.target.value
             })
+        } else if (event.target.name === "voivodeship") {
+            setForm({
+                ...form,
+                [event.target.name]: event.target.value,
+                county: "",
+                commune: "",
+                locality: ""
+            });
+        } else if (event.target.name === "county") {
+            setForm({
+                ...form,
+                [event.target.name]: event.target.value,
+                commune: "",
+                locality: ""
+            });
+        } else if (event.target.name === "commune") {
+            setForm({
+                ...form,
+                [event.target.name]: event.target.value,
+                locality: ""
+            });
         }
-
+        if (event.target.name === "voivodeship") {
+            setCounties({
+                ...county,
+                data: []
+            });
+            setCommunes({
+                ...commune,
+                data: []
+            });
+            setLocality({
+                ...locality,
+                data: []
+            });
+        }
+        if (event.target.name === "county") {
+            setCommunes({
+                ...commune,
+                data: []
+            });
+            setLocality({
+                ...locality,
+                data: []
+            });
+        }
+        if (event.target.name === "commune") {
+            setLocality({
+                ...locality,
+                data: []
+            });
+        }
     };
+
+    const handleOpenVoivodeships = event => {
+        event.preventDefault()
+        if (voivodeship.data.length === 0)
+            axios.get('/api/locations')
+                .then(voivodeships => {
+                    setVoivodeships({
+                        name: "Województwo", data: voivodeships.data ?? []
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+    }
+    const handleOpenCounties = event => {
+        event.preventDefault()
+        if (county.data.length === 0)
+            axios.get(`/api/locations/${form.voivodeship}`)
+                .then(counties => {
+                    setCounties({
+                        name: "Powiat", data: counties.data ?? []
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+    }
+
+    const handleOpenCommunes = event => {
+        event.preventDefault()
+        if (commune.data.length === 0)
+            axios.get(`/api/locations/${form.voivodeship}/${form.county}`)
+                .then(communes => {
+                    setCommunes({
+                        name: "Gmina", data: communes.data ?? []
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+    }
+
+    const handleOpenLocalities = event => {
+        event.preventDefault()
+        if (locality.data.length === 0)
+            axios.get(`/api/locations/${form.voivodeship}/${form.county}/${form.commune}`)
+                .then(localities => {
+                    setLocality({
+                        name: "Miejscowość", data: localities.data ?? []
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+    }
 
     const handleSubmit = event => {
         event.preventDefault();
         axios.post('/api/announcements', {
             ...form,
             category_id: form.category_id + 1,
-            announcementType:{
+            announcementType: {
                 id: 1
             }
         })
@@ -78,7 +203,7 @@ function AddAnnouncementPage(props) {
             })
             .catch(err => {
                 setTitle("Problem z dodaniem ogłoszenia");
-                if(err.response.data.hasOwnProperty("message"))
+                if (err.response.data.hasOwnProperty("message"))
                     setText(err.response.data.message.map(message => {
                         return message + "\n"
                     }));
@@ -199,6 +324,57 @@ function AddAnnouncementPage(props) {
                             <Grid
                                 item
                                 xs={12}
+                                md={3}
+                            >
+                                <FilterSelect control={{
+                                    name: "voivodeship",
+                                    value: form.voivodeship,
+                                    handler: handleChange,
+                                    onOpen: handleOpenVoivodeships
+                                }} {...voivodeship}/>
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                md={3}
+                            >
+                                <FilterSelect control={{
+                                    name: "county",
+                                    value: form.county,
+                                    handler: handleChange,
+                                    onOpen: handleOpenCounties,
+                                    disabled: form.voivodeship === ""
+                                }} {...county}/>
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                md={3}
+                            >
+                                <FilterSelect control={{
+                                    name: "commune",
+                                    value: form.commune,
+                                    handler: handleChange,
+                                    onOpen: handleOpenCommunes,
+                                    disabled: form.county === ""
+                                }} {...commune}/>
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
+                                md={3}
+                            >
+                                <FilterSelect control={{
+                                    name: "locality",
+                                    value: form.locality,
+                                    handler: handleChange,
+                                    onOpen: handleOpenLocalities,
+                                    disabled: form.commune === ""
+                                }} {...locality}/>
+                            </Grid>
+                            <Grid
+                                item
+                                xs={12}
                                 md={5}
                             >
                                 <Button
@@ -214,7 +390,8 @@ function AddAnnouncementPage(props) {
                     </Box>
                 </Paper>
             </Grid>
-            <RedirectDialog title={title} text={text} open={open} setOpen={setOpen} action={action}/>
+            <RedirectDialog title={title} text={text} open={open}
+                            setOpen={setOpen} action={action}/>
         </Grid>
     );
 }

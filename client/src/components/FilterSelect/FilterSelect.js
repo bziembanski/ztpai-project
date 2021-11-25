@@ -15,12 +15,15 @@ function FilterSelect(props) {
                 name={props.control.name}
                 value={props.control.value}
                 onChange={props.control.handler}
+                onOpen={props.control.onOpen}
                 color="secondary"
+                autoWidth
+                disabled={props.control.disabled}
             >
                 {
                     props.data.map((item, key) => {
                         return (
-                            <MenuItem key={key} value={key}>{item}</MenuItem>
+                            <MenuItem key={item.first ?? key} value={item.first ?? key}>{item.second ?? item}</MenuItem>
                         );
                     })
                 }
