@@ -76,12 +76,12 @@ class LocationService {
         communeId: String
     ): List<Pair<String, String>> {
         val ids = compileAndEvaluateXPath(
-            """//row[WOJ="$voivodeshipId" and POW="$countyId" and GMI="$communeId"]/SYM/text()""",
+            """//row[RM!=00 and RM!=04 and RM!=07 and WOJ="$voivodeshipId" and POW="$countyId" and GMI="$communeId"]/SYM/text()""",
             simc
         ).toList()
 
         return compileAndEvaluateXPath(
-            """//row[WOJ="$voivodeshipId" and POW="$countyId" and GMI="$communeId"]/NAZWA/text()""",
+            """//row[RM!=00 and RM!=04 and RM!=07 and WOJ="$voivodeshipId" and POW="$countyId" and GMI="$communeId"]/NAZWA/text()""",
             simc
         ).toListOfPairs(ids)
     }
