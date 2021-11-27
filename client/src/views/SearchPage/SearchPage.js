@@ -68,7 +68,7 @@ function SearchPage() {
     useEffect(() => {
         AnnouncementService.announcements(form.searchBox)
             .then(_announcements => {
-                setAnnouncements(_announcements);
+                setAnnouncements(_announcements ?? []);
             })
             .catch(() => {
             })

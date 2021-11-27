@@ -52,7 +52,7 @@ function AddAnnouncementPage(props) {
     const [form, setForm] = useState({
         title: "",
         description: "",
-        category_id: 0,
+        category_id: undefined,
         wage: "",
         voivodeship: "",
         county: "",
@@ -304,7 +304,7 @@ function AddAnnouncementPage(props) {
                                     name: "category_id",
                                     value: form.category_id,
                                     handler: handleChange
-                                }} {...categories}/>
+                                }} {...categories} required/>
                             </Grid>
                             <Grid
                                 item

@@ -1,6 +1,7 @@
 package bziembanski.annoucementType
 
-import bziembanski.plugins.ErrorResponse
+
+import bziembanski.plugins.InfoResponse
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.request.*
@@ -60,7 +61,7 @@ fun Route.announcementType(announcementTypeService: AnnouncementTypeService) {
                     } else {
                         call.respond(
                             HttpStatusCode.NotFound,
-                            ErrorResponse("Nie znaleziono typu ogłoszenia")
+                            InfoResponse(listOf("Nie znaleziono typu ogłoszenia"))
                         )
                     }
                 } catch (e: Throwable) {

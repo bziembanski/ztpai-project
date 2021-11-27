@@ -8,6 +8,8 @@ import bziembanski.user.Users
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.javatime.CurrentDateTime
+import org.jetbrains.exposed.sql.javatime.datetime
 
 object Announcements : IntIdTable() {
     val title = varchar("title", 50)
@@ -15,6 +17,7 @@ object Announcements : IntIdTable() {
     val wage = float("wage")
     val announcementType = reference("announcement_type_id", AnnouncementTypes)
     val user = reference("user_id", Users)
+    val date = datetime("date").defaultExpression(CurrentDateTime())
 }
 
 class AnnouncementService {
