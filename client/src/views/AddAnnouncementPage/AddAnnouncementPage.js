@@ -52,7 +52,7 @@ function AddAnnouncementPage(props) {
     const [form, setForm] = useState({
         title: "",
         description: "",
-        category_id: undefined,
+        category_id: "",
         wage: "",
         voivodeship: "",
         county: "",

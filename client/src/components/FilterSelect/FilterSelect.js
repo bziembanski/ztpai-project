@@ -26,6 +26,7 @@ function FilterSelect(props) {
                 disabled={props.control.disabled}
             >
                 <MenuItem value="">
+                    <em>{"⁬"}</em>
                 </MenuItem>
                 {
                     props.data.map((item, key) => {

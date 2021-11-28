@@ -83,8 +83,9 @@ function SearchPage() {
     useEffect(() => {
         if (filters) {
             const checkboxes = Object.fromEntries(
-                filters && filters[2] && filters[2].data.map(name => [name, true])
+                filters && filters[2] && filters[2].data.map(name => [name.second, {id: name.first, checked: true}])
             );
+            console.log(checkboxes)
             setForm({
                 searchBox: "",
                 sort: 0,

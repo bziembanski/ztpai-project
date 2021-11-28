@@ -51,18 +51,19 @@ function FilterCheckboxGroup(props) {
                 in={expanded}
             >
                 <FormGroup>
-                    {props.data.map((checkBox, key) => {
+                    {props.data.map((checkBox) => {
                         return (
                             <FormControlLabel
-                                key={key}
+                                key={checkBox.first}
                                 control={
                                     <Checkbox
-                                        name={checkBox}
-                                        checked={props.control.value[checkBox]}
+                                        value={checkBox.first}
+                                        name={checkBox.second}
+                                        checked={props.control.value[checkBox.second].checked}
                                         onChange={props.control.handler}
                                     />
                                 }
-                                label={checkBox}
+                                label={checkBox.second}
                             />
                         );
                     })}

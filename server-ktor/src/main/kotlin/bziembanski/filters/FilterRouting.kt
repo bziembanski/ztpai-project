@@ -1,13 +1,15 @@
 package bziembanski.filters
 
+import bziembanski.category.CategoryService
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.response.*
 import io.ktor.routing.*
 
-fun Route.filters() {
+fun Route.filters(categoryService: CategoryService) {
     route("/filters") {
         get {
+            val categories = categoryService.getAllCategories().map { Pair(it.id, it.name) }
             call.respond(
                 HttpStatusCode.OK,
                 listOf(
@@ -31,12 +33,7 @@ fun Route.filters() {
                     ),
                     CheckboxFilter(
                         name = "Kategoria",
-                        data = listOf(
-                            "mechanika",
-                            "ogrodnictwo",
-                            "elektryka",
-                            "budownictwo",
-                        )
+                        data = categories
                     )
                 )
             )

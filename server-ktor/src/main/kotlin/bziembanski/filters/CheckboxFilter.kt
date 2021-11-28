@@ -3,7 +3,7 @@ package bziembanski.filters
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-typealias CheckboxDataType = List<String>
+typealias CheckboxDataType = List<Pair<Int, String>>
 
 @Serializable
 @SerialName("checkbox")

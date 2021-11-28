@@ -7,7 +7,15 @@ function announcements(searchPhrase, limit = undefined) {
         .then(data => {
             let announcements = data.data
             announcements.forEach(announcement =>{
-                announcement.date = (new Date(announcement.date)).toLocaleDateString()
+                announcement.date = (new Date(announcement.date)).toLocaleDateString(
+                    "pl-pl",
+                    {
+                        weekday:"long",
+                        year:"numeric",
+                        month:"long",
+                        day:"numeric"
+                    }
+                )
             });
             return announcements
         });

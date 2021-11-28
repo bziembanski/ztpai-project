@@ -1,4 +1,12 @@
-import {Drawer, Grid, IconButton, makeStyles, Paper, TextField, Typography,} from "@material-ui/core";
+import {
+    Drawer,
+    Grid,
+    IconButton,
+    makeStyles,
+    Paper,
+    TextField,
+    Typography,
+} from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import FilterCheckboxGroup from "../FilterCheckboxGroup/FilterCheckboxGroup";
 import FilterSelect from "../FilterSelect/FilterSelect";
@@ -43,11 +51,15 @@ function FilterDrawer(props) {
                 [name]: value
             })
         } else if (event.target.type === "checkbox") {
+            console.log(form.category)
             setForm({
                 ...form,
                 category: {
                     ...form.category,
-                    [event.target.name]: !form.category[event.target.name]
+                    [event.target.name]: {
+                        ...form.category[event.target.name],
+                        checked: !form.category[event.target.name].checked
+                    }
                 }
             })
         } else {

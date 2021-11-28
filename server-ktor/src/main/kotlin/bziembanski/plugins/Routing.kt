@@ -43,7 +43,7 @@ fun Application.configureRouting() {
             announcementType(announcementTypeService)
             announcement(announcementService)
             location(locationService)
-            filters()
+            filters(categoryService)
         }
 
     }

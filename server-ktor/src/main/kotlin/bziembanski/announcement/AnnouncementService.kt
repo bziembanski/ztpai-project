@@ -54,6 +54,7 @@ class AnnouncementService {
                 .mapNotNull { toAnnouncement(it) }
         }
 
+
     suspend fun getAllAnnouncementsByUserId(userId: Int): List<Announcement> =
         ServiceHelper.dbQuery {
             Announcements

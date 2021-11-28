@@ -43,8 +43,6 @@ function Announcement(props) {
     const classes = useStyles();
     const {loading = false} = props;
 
-    console.log(props)
-
     return (
         <Card className={classes.root} elevation={2}>
             <CardHeader disableTypography={true}
