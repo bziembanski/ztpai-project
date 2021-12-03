@@ -3,6 +3,7 @@ package bziembanski.announcement
 import bziembanski.ServiceHelper
 import bziembanski.annoucementType.AnnouncementTypeService
 import bziembanski.annoucementType.AnnouncementTypes
+import bziembanski.user.User
 import bziembanski.user.UserService
 import bziembanski.user.Users
 import org.jetbrains.exposed.dao.id.EntityID
@@ -83,7 +84,7 @@ class AnnouncementService {
         }
 
     companion object {
-        fun toAnnouncement(row: ResultRow): Announcement =
+        fun toAnnouncement(row: ResultRow, withUser: Boolean = true): Announcement =
             Announcement(
                 id = row[Announcements.id].value,
                 title = row[Announcements.title],
@@ -92,7 +93,7 @@ class AnnouncementService {
                 announcementType = AnnouncementTypeService.toAnnouncementType(
                     row
                 ),
-                user = UserService.toUser(row),
+                user = if(withUser) UserService.toUser(row) else User(),
             )
     }
 

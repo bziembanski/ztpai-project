@@ -10,9 +10,10 @@ import bziembanski.category.category
 import bziembanski.filters.filters
 import bziembanski.location.LocationService
 import bziembanski.location.location
+import bziembanski.notifications.NotificationService
+import bziembanski.notifications.notification
 import bziembanski.security.SecurityService
 import bziembanski.security.security
-import bziembanski.user.User
 import bziembanski.user.UserService
 import bziembanski.user.user
 import bziembanski.userRating.UserRatingService
@@ -32,6 +33,7 @@ fun Application.configureRouting() {
     val announcementTypeService = AnnouncementTypeService()
     val categoryService = CategoryService()
     val locationService = LocationService()
+    val notificationService = NotificationService()
 
     routing {
         route("/api") {
@@ -42,6 +44,7 @@ fun Application.configureRouting() {
             category(categoryService)
             announcementType(announcementTypeService)
             announcement(announcementService)
+            notification(notificationService)
             location(locationService)
             filters(categoryService)
         }

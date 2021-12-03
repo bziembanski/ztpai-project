@@ -2,9 +2,9 @@ package bziembanski
 
 import bziembanski.ServiceHelper.dbQuery
 import bziembanski.annoucementType.AnnouncementTypes
-import bziembanski.announcement.Announcement
 import bziembanski.announcement.Announcements
 import bziembanski.category.Categories
+import bziembanski.notifications.Notifications
 import bziembanski.plugins.configureHTTP
 import bziembanski.plugins.configureRouting
 import bziembanski.plugins.configureSecurity
@@ -59,6 +59,7 @@ fun initDB(environment: ApplicationEnvironment) {
                 Categories,
                 AnnouncementTypes,
                 Announcements,
+                Notifications,
                 inBatch = true
             )
         }

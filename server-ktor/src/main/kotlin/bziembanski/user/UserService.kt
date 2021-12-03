@@ -1,8 +1,6 @@
 package bziembanski.user
 
 import bziembanski.ServiceHelper.dbQuery
-import bziembanski.announcement.Announcement
-import bziembanski.announcement.Announcements
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.statements.UpdateBuilder
@@ -86,6 +84,20 @@ class UserService {
                 surname = row[Users.surname],
                 avatar = row[Users.avatar],
                 _password = if (withPassword) row[Users.password] else ""
+            )
+
+        fun toUserFromAlias(
+            row: ResultRow,
+            alias: Alias<Users>
+        ): User =
+
+            User(
+                id = row[alias[Users.id]].value,
+                username = row[alias[Users.username]],
+                email = row[alias[Users.email]],
+                name = row[alias[Users.name]],
+                surname = row[alias[Users.surname]],
+                avatar = row[alias[Users.avatar]]
             )
     }
 }
