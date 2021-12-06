@@ -46,13 +46,13 @@ fun Route.userRating(userRatingService: UserRatingService) {
         route("/{id}") {
             get {
                 try {
-                    val userRating = userRatingService.getUserRatingById(
+                    val userRatings = userRatingService.getAllUserRatings(
                         Integer.parseInt(
                             call.parameters["id"]
                         )
                     )
-                    if (userRating != null) {
-                        call.respond(HttpStatusCode.OK, userRating)
+                    if (userRatings.isNotEmpty()) {
+                        call.respond(HttpStatusCode.OK, userRatings)
                     } else {
                         call.respond(
                             HttpStatusCode.NotFound,

@@ -54,7 +54,7 @@ class UserRatingTypeService {
     companion object {
         fun toUserRatingType(row: ResultRow): UserRatingType =
             UserRatingType(
-                id = row[UserRatingTypes.id].value,
+                id = row.getOrNull(UserRatingTypes.id)?.value ?: 0,
                 name = row[UserRatingTypes.name],
             )
     }

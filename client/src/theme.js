@@ -2,7 +2,7 @@ import {responsiveFontSizes, unstable_createMuiStrictModeTheme as createMuiTheme
 
 let customTheme = createMuiTheme({
     palette: {
-        type: 'dark',
+        type: 'light',
         primary: {
             main: '#9a6ccc'
         },

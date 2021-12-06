@@ -9,7 +9,7 @@ import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
 
-object UserRatings : IntIdTable(name = "user_ratings") {
+object UserRatings: IntIdTable(name = "user_ratings") {
     val value = float("value")
     val userRatingType = reference("user_rating_type_id", UserRatingTypes)
     val user = reference("user_id", Users)
@@ -41,25 +41,22 @@ class UserRatingService {
     suspend fun getAllUserRatings(): List<UserRating> =
         ServiceHelper.dbQuery {
             UserRatings
-                .slice(
-                    UserRatings.value.avg(),
-                    UserRatings.user,
-                )
                 .selectAll()
-                .groupBy(UserRatings.user)
                 .mapNotNull { toUserRating(it) }
         }
 
     suspend fun getAllUserRatings(userId: Int): List<UserRating> =
         ServiceHelper.dbQuery {
             UserRatings
+                .innerJoin(UserRatingTypes)
+                .innerJoin(Users)
                 .slice(
                     UserRatings.value.avg(),
-                    UserRatings.user,
-                    UserRatings.userRatingType
+                    UserRatings.userRatingType,
+                    UserRatingTypes.name
                 )
                 .select { UserRatings.user eq userId }
-                .groupBy(UserRatings.userRatingType)
+                .groupBy(UserRatings.userRatingType, UserRatingTypes.name)
                 .mapNotNull { toUserRating(it) }
         }
 
@@ -79,11 +76,14 @@ class UserRatingService {
             UserRatings.deleteWhere { UserRatings.id eq userRatingId } > 0
         }
 
-    private fun toUserRating(row: ResultRow): UserRating =
-        UserRating(
-            id = row[UserRatings.id].value,
-            value = row[UserRatings.value],
+    private fun toUserRating(row: ResultRow): UserRating{
+        val x = UserRatings.value.avg()
+        return UserRating(
+            id = row.getOrNull(UserRatings.id)?.value?:0,
+            value = row[x]!!.toFloat(),
             userRatingType = UserRatingTypeService.toUserRatingType(row),
-            user = UserService.toUser(row)
+            //user = UserService.toUser(row)
         )
+    }
+
 }

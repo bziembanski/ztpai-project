@@ -24,12 +24,16 @@ function RatingWithName(props) {
         >
             <Grid
                 item
+                xs={12}
+                sm={6}
                 className={classes.ratingLabel}
             >
-                <Typography variant="body1" align="left">{props.user_rating_type.name}</Typography>
+                <Typography variant="body1" align="left">{props.userRatingType.name}</Typography>
             </Grid>
             <Grid
                 item
+                xs={12}
+                sm={6}
             >
                 <StyledRating
                     color="primary"

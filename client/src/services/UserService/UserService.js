@@ -18,7 +18,7 @@ function user(userId) {
 }
 
 function userRatings(userId) {
-    return axios.get(`/api/userRatings?id=${userId}`)
+    return axios.get(`/api/userRatings/${userId}`)
         .then(data => data.data);
 }
 

@@ -219,7 +219,7 @@ function ProfilePage(props) {
                                 item
                                 container
                                 xs={12}
-                                lg={7}
+                                lg={9}
                                 direction="column"
                                 spacing={2}
                             >
