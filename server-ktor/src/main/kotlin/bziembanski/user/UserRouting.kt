@@ -1,7 +1,7 @@
 package bziembanski.user
 
 import bziembanski.announcement.AnnouncementService
-import bziembanski.plugins.InfoResponse
+import bziembanski.configuration.InfoResponse
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.http.*

@@ -1,4 +1,4 @@
-package bziembanski
+package bziembanski.core
 
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.withContext

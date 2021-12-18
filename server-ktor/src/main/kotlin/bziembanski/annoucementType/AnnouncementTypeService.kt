@@ -1,6 +1,6 @@
 package bziembanski.annoucementType
 
-import bziembanski.ServiceHelper
+import bziembanski.core.ServiceHelper
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
 

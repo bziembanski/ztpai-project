@@ -1,6 +1,6 @@
 package bziembanski.user
 
-import bziembanski.ServiceHelper.dbQuery
+import bziembanski.core.ServiceHelper.dbQuery
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.statements.UpdateBuilder

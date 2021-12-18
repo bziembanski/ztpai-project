@@ -1,7 +1,7 @@
 package bziembanski.userRatingType
 
 
-import bziembanski.ServiceHelper
+import bziembanski.core.ServiceHelper
 import org.jetbrains.exposed.dao.id.EntityID
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*

@@ -1,6 +1,6 @@
 package bziembanski.notifications
 
-import bziembanski.ServiceHelper.dbQuery
+import bziembanski.core.ServiceHelper.dbQuery
 import bziembanski.annoucementType.AnnouncementTypes
 import bziembanski.announcement.AnnouncementService
 import bziembanski.announcement.Announcements

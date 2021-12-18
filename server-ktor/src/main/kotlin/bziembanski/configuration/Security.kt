@@ -1,4 +1,4 @@
-package bziembanski.plugins
+package bziembanski.configuration
 
 import bziembanski.user.UserService
 import com.auth0.jwt.JWT
@@ -6,7 +6,6 @@ import com.auth0.jwt.algorithms.Algorithm
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.auth.jwt.*
-import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.http.auth.*
 

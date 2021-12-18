@@ -1,6 +1,6 @@
 package bziembanski.announcement
 
-import bziembanski.ServiceHelper
+import bziembanski.core.ServiceHelper
 import bziembanski.annoucementType.AnnouncementTypeService
 import bziembanski.annoucementType.AnnouncementTypes
 import bziembanski.user.User

@@ -1,7 +1,6 @@
 package bziembanski.userRating
 
-import bziembanski.ServiceHelper
-import bziembanski.user.UserService
+import bziembanski.core.ServiceHelper
 import bziembanski.user.Users
 import bziembanski.userRatingType.UserRatingTypeService
 import bziembanski.userRatingType.UserRatingTypes

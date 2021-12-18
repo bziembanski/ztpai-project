@@ -1,4 +1,4 @@
-package bziembanski.plugins
+package bziembanski.configuration
 
 
 import bziembanski.annoucementType.AnnouncementTypeService

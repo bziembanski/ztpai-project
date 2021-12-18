@@ -3,7 +3,7 @@ package bziembanski.security
 import bziembanski.user.User
 import bziembanski.user.UserService
 
-import bziembanski.plugins.InfoResponse
+import bziembanski.configuration.InfoResponse
 import io.ktor.application.*
 import io.ktor.auth.*
 import io.ktor.http.*

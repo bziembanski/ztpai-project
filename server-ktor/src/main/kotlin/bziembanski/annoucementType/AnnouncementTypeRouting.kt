@@ -1,7 +1,7 @@
 package bziembanski.annoucementType
 
 
-import bziembanski.plugins.InfoResponse
+import bziembanski.configuration.InfoResponse
 import io.ktor.application.*
 import io.ktor.http.*
 import io.ktor.request.*

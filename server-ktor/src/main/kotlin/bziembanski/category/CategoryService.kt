@@ -1,6 +1,6 @@
 package bziembanski.category
 
-import bziembanski.ServiceHelper.dbQuery
+import bziembanski.core.ServiceHelper.dbQuery
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.*
 

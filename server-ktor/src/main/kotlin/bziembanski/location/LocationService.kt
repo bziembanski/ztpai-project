@@ -12,10 +12,10 @@ class LocationService {
         .newInstance()
         .newDocumentBuilder()
     private val terc = documentBuilder.parse(
-        {}.javaClass.getResourceAsStream(TERC_FILE_NAME)
+        this.javaClass.getResourceAsStream(TERC_FILE_NAME)
     )
     private val simc = documentBuilder.parse(
-        {}.javaClass.getResourceAsStream(SIMC_FILE_NAME)
+        this.javaClass.getResourceAsStream(SIMC_FILE_NAME)
     )
 
     private val xPath = XPathFactory
