@@ -23,7 +23,6 @@ function ProtectedRoute(props) {
     ) : (
         <Redirect to={{pathname: "/login", state: {from: location}}}/>
     );
-
 }
 
 export default ProtectedRoute;

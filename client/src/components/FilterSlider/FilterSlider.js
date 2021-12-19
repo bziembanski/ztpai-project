@@ -21,7 +21,7 @@ ValueLabelComponent.propTypes = {
     value: PropTypes.number.isRequired,
 };
 
-function FilterSelect(props) {
+function FilterSlider(props) {
     return (
         <FormControl fullWidth color="primary">
             <FormLabel>
@@ -45,4 +45,4 @@ function FilterSelect(props) {
     );
 }
 
-export default FilterSelect;
+export default FilterSlider;
